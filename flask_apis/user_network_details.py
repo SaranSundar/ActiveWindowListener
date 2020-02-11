@@ -20,12 +20,7 @@ def get_wifi_info():
             print(wifi_info)
             return wifi_info
         elif sys.platform in ['Windows', 'win32', 'cygwin']:
-            process = subprocess.Popen(
-                ['Netsh WLAN show interfaces'],
-                stdout=subprocess.PIPE)
-            out, err = process.communicate()
-            process.wait()
-            wifi_info = "".join(map(chr, out))
+            wifi_info = os.popen("Netsh WLAN show interfaces").readlines()
             if "The Wireless AutoConfig Service (wlansvc) is not running." in wifi_info:
                 return None
             print(wifi_info)
