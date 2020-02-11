@@ -20,12 +20,7 @@ def get_wifi_info():
             print(wifi_info)
             return wifi_info
         elif sys.platform in ['Windows', 'win32', 'cygwin']:
-            process = subprocess.Popen(
-                ['netsh wlan show interfaces'],
-                stdout=subprocess.PIPE)
-            out, err = process.communicate()
-            process.wait()
-            wifi_info = "".join(map(chr, out))
+            wifi_info = os.popen("Netsh WLAN show interfaces").readlines()
             print(wifi_info)
             return wifi_info
         else:
