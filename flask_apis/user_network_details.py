@@ -20,11 +20,29 @@ def get_wifi_info():
             print(wifi_info)
             return wifi_info
         elif sys.platform in ['Windows', 'win32', 'cygwin']:
+            return_type = 0 # 0 for return None, 1 for return wifi_info, 2 for return ethernet_info
             wifi_info = os.popen("Netsh WLAN show interfaces").readlines()
-            if "The Wireless AutoConfig Service (wlansvc) is not running." in wifi_info:
-                return None
+            ethernet_info = os.popen("netsh interface show interface name=\"Ethernet\"").readlines()
             print(wifi_info)
-            return wifi_info
+            print(ethernet_info)
+            for line in wifi_info:
+                if line.startswith('    State'):
+                    print("Wifi Connection: " + (line.split(": ")[1]).split("\n")[0])
+                    if (line.split(": ")[1] == "connected\n"):
+                        return_type = 1
+                if line.startswith('    SSID'):
+                    print("Connected to Wifi: " + line.split(": ")[1].split("\n")[0])
+            for line in ethernet_info:
+                if line.startswith('   Connect state:'):
+                    print("Ethernet Connection: " + line.split(":        ")[1].split("\n")[0])
+                    if (line.split(":        ")[1] == "Connected\n"):
+                        return_type = 2
+            if return_type == 0:
+                return None
+            elif return_type == 1:
+                return wifi_info
+            elif return_type == 2:
+                return ethernet_info
         else:
             return None
     except Exception as e:
