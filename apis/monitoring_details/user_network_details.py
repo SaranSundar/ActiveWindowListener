@@ -17,14 +17,14 @@ def get_wifi_info():
             out, err = process.communicate()
             process.wait()
             wifi_info = "".join(map(chr, out))
-            print(wifi_info)
+            print("Wifi Info: " + str(wifi_info))
             return wifi_info
         elif sys.platform in ['Windows', 'win32', 'cygwin']:
             return_type = 0  # 0 for return None, 1 for return wifi_info, 2 for return ethernet_info
             wifi_info = os.popen("Netsh WLAN show interfaces").readlines()
             ethernet_info = os.popen("netsh interface show interface name=\"Ethernet\"").readlines()
-            print(wifi_info)
-            print(ethernet_info)
+            print("Wifi Info: " + str(wifi_info))
+            print("Ethernet Info: " + str(ethernet_info))
             for line in wifi_info:
                 if line.startswith('    State'):
                     print("Wifi Connection: " + (line.split(": ")[1]).split("\n")[0])
