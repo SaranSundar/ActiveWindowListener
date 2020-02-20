@@ -21,6 +21,8 @@ def get_wifi_info():
             return wifi_info
         elif sys.platform in ['Windows', 'win32', 'cygwin']:
             wifi_info = os.popen("Netsh WLAN show interfaces").readlines()
+            if "The Wireless AutoConfig Service (wlansvc) is not running." in wifi_info:
+                return None
             print(wifi_info)
             return wifi_info
         else:
@@ -113,7 +115,19 @@ def get_formatted_mac_address():
 
 
 def get_user_details():
-    get_wifi_info()
+    user_details = {
+        "wifi_info": get_wifi_info(),
+        "username": get_username(),
+        "homedir": get_homedir(),
+        "alt_homedir": get_alt_homedir(),
+        "hostname": get_hostname(),
+        "ip_address": get_ip_address(),
+        "mac_address": get_mac_address(),
+        "formatted_mac_address": get_formatted_mac_address(),
+        "hostname_by_address": get_host_name_by_address()
+    }
+    print(user_details)
+    return user_details
 
 
 if __name__ == '__main__':

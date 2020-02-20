@@ -1,12 +1,10 @@
 import platform
-import subprocess
 import time
 from http.client import HTTPConnection
 from threading import Thread
 
 import webview
 from app import run_app
-
 
 error = False
 status = False
