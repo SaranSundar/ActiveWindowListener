@@ -27,7 +27,7 @@ def log_window_details():
     global active_window_details
     global active_windows  # type: list
     global prev_event_type
-    time.sleep(0.1)
+    time.sleep(0.0001)
     # Updates closed and opened windows
     current_active_window_details = get_active_window()
     current_active_window_name = None
@@ -81,12 +81,14 @@ def set_event_type(event_type_input):
 
 def on_press(key):
     set_event_type(KEYBOARD)
+    # print("ON PRESS")
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
 
 
 def on_move(x, y):
     set_event_type(MOUSE)
+    # print("ON MOVE")
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
     # print("Mouse moved to ({0}, {1})".format(x, y))
 
@@ -94,12 +96,14 @@ def on_move(x, y):
 def on_click(x, y, button, pressed):
     if pressed:
         set_event_type(MOUSE)
+        # print("ON CLICK")
         # logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
         # print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
 
 
 def on_scroll(x, y, dx, dy):
     set_event_type(MOUSE)
+    # print("ON SCOLL")
     # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     # print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 
