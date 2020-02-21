@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Pie} from 'react-chartjs-2';
+import {HorizontalBar} from 'react-chartjs-2';
 import './PieChart.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,7 +31,7 @@ class PieChart extends Component {
 
     render() {
       return (
-        <Pie data={data} />
+        <HorizontalBar data={data} />
       );
     }
 }

@@ -10,18 +10,30 @@ import './ChartPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 var application_data = {
-    Chrome: {
+    "Chrome": {
         mouse_usage: 40, 
         keyboard_usage: 30, 
         idle: 10, 
         thinking: 20
     },
-    Visual_Studio: {
+    "Visual Studio": {
         mouse_usage: 20, 
         keyboard_usage: 50, 
         idle: 10, 
         thinking: 20
     }
+}
+
+var user_data = {
+    "wifi_info": "wifi info",
+    "username": "user name",
+    "homedir": "/user/home/dir",
+    "alt_homedir": "/alt/home/dir",
+    "hostname": "host name",
+    "ip_address": "127:000:000",
+    "mac_address": "MAC ADD",
+    "formatted_mac_address": "FOMATTED MAC ADD",
+    "hostname_by_address": "HOST NAME"
 }
 
 class ChartPage extends Component {
@@ -50,6 +62,9 @@ class ChartPage extends Component {
                             </Col>
                             <Col>
                                 <h2>User Stats</h2>
+                                { Object.keys(user_data).map((value, key) => {
+                                    return <p>{ value } : { user_data[value] }</p>
+                                }) }
                             </Col>
                         </Row>
                     </Container>
