@@ -17,25 +17,25 @@ def get_wifi_info():
             out, err = process.communicate()
             process.wait()
             wifi_info = "".join(map(chr, out))
-            print(wifi_info)
+            print("Wifi Info: " + str(wifi_info))
             return wifi_info
         elif sys.platform in ['Windows', 'win32', 'cygwin']:
-            return_type = 0 # 0 for return None, 1 for return wifi_info, 2 for return ethernet_info
+            return_type = 0  # 0 for return None, 1 for return wifi_info, 2 for return ethernet_info
             wifi_info = os.popen("Netsh WLAN show interfaces").readlines()
             ethernet_info = os.popen("netsh interface show interface name=\"Ethernet\"").readlines()
-            print(wifi_info)
-            print(ethernet_info)
+            print("Wifi Info: " + str(wifi_info))
+            print("Ethernet Info: " + str(ethernet_info))
             for line in wifi_info:
                 if line.startswith('    State'):
                     print("Wifi Connection: " + (line.split(": ")[1]).split("\n")[0])
-                    if (line.split(": ")[1] == "connected\n"):
+                    if line.split(": ")[1] == "connected\n":
                         return_type = 1
                 if line.startswith('    SSID'):
                     print("Connected to Wifi: " + line.split(": ")[1].split("\n")[0])
             for line in ethernet_info:
                 if line.startswith('   Connect state:'):
                     print("Ethernet Connection: " + line.split(":        ")[1].split("\n")[0])
-                    if (line.split(":        ")[1] == "Connected\n"):
+                    if line.split(":        ")[1] == "Connected\n":
                         return_type = 2
             if return_type == 0:
                 return None
@@ -133,7 +133,19 @@ def get_formatted_mac_address():
 
 
 def get_user_details():
-    get_wifi_info()
+    user_details = {
+        "wifi_info": get_wifi_info(),
+        "username": get_username(),
+        "homedir": get_homedir(),
+        "alt_homedir": get_alt_homedir(),
+        "hostname": get_hostname(),
+        "ip_address": get_ip_address(),
+        "mac_address": get_mac_address(),
+        "formatted_mac_address": get_formatted_mac_address(),
+        "hostname_by_address": get_host_name_by_address()
+    }
+    print(user_details)
+    return user_details
 
 
 if __name__ == '__main__':

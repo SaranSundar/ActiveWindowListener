@@ -8,7 +8,7 @@ REQUIRES_PYTHON = '>=3.0.0'
 REQUIRED_DEP = ['flask', 'flask_sockets', 'flask_cors',
                 'pythonnet ; sys_platform == "win32"',
                 'pyobjc ; sys_platform == "darwin"',
-                'PyQt5 ; sys_platform == "openbsd6"', ]
+                'PyQt5 ; sys_platform == "openbsd6"',]
 about = {}
 
 NAME = 'Flair'
@@ -30,7 +30,7 @@ APP = ['flair.py']
 OPTIONS = {
     'argv_emulation': False,
     'strip': True,
-    'packages': ['flask', 'werkzeug', 'jinja2', 'gevent', 'geventwebsocket', 'flask_cors', 'pynput'],
+    'packages': ['flask', 'werkzeug', 'jinja2', 'gevent', 'geventwebsocket', 'flask_cors', 'pynput', 'pymongo'],
     'includes': ['WebKit', 'Foundation', 'webview', 'sys', 'subprocess', 'os'],
     'resources': ['./templates', './static'],
 }

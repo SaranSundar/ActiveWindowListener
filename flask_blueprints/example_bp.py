@@ -2,8 +2,6 @@ import json
 
 from flask import Blueprint
 
-from flask_apis.example_api import long_method
-
 example_bp = Blueprint('example_bp', __name__)
 example_ws = Blueprint('example_ws', __name__)
 
@@ -25,7 +23,7 @@ def echo_example(socket):
 @example_bp.route("/get-long-example")
 def get_long_example():
     # Imports long method from api file to keep bp file clean and simple
-    long_method()
+    pass
 
 
 @example_bp.route("/get-example/<parameter>")

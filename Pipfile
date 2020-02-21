@@ -11,6 +11,9 @@ py2app = "*"
 flask-sockets = "*"
 flask-cors = "*"
 pynput = "*"
+pyqt5 = "*"
+pyqtwebkit = "*"
+pyqtwebengine = "*"
 
 [requires]
 python_version = "3.7"

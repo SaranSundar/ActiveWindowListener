@@ -4,11 +4,21 @@
 # https://inneka.com/programming/python/obtain-active-window-using-python/
 
 import logging
+import subprocess
 import sys
 
-logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
-                    level=logging.DEBUG,
-                    stream=sys.stdout)
+
+def get_open_windows_in_task_manager():
+    open_apps = []
+    if sys.platform in ['Windows', 'win32', 'cygwin']:
+        cmd = 'powershell "gps | where {$_.MainWindowTitle } | select Description,Id,Path'
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        for line in proc.stdout:
+            if not line.decode()[0].isspace():
+                app_name = line.decode().rstrip()
+                print(app_name)
+                open_apps.append(app_name)
+    return open_apps
 
 
 def get_active_window():
@@ -70,3 +80,4 @@ def get_active_window():
 
 if __name__ == '__main__':
     print("Active window: %s" % str(get_active_window()))
+    get_open_windows_in_task_manager()
