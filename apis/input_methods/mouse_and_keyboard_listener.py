@@ -39,39 +39,59 @@ def log_window_details():
             # On windows we want to use window name from task manager, but on mac we only have current window name
             if sys.platform in ['Windows', 'win32', 'cygwin']:
                 open_windows = get_open_windows_in_task_manager()
-                if len(open_windows) > 3:
-                    open_windows = open_windows[3:]
+                if len(open_windows) > 2:
+                    open_windows = open_windows[2:]
             else:
                 # On windows current_details is a lot more in depth, on mac its just the app name
                 open_windows.append(current_active_window_details)
             # Logs all windows that have been closed
+            print("OPEN WINDOWS IS")
+            print(open_windows)
             for i in range(len(active_windows) - 1, -1, -1):
-                if active_windows[i] not in open_windows:
+                found_window = False
+                for ow in open_windows:
+                    if active_windows[i] in ow:
+                        found_window = True
+                        break
+                if found_window is False:
+                    print(active_windows[i] + " is no longer open")
                     logging.info(active_windows[i] + " is no longer open")
                     del active_windows[i]
             # Adds any new windows to the list
             for w in range(len(open_windows)):
                 open_windows[w] = parse_window_name_from_task_manager(open_windows[w])
-                if open_windows[w] not in active_windows:
+                if open_windows[w] is None:
+                    continue
+                found_window = False
+                for aw in active_windows:
+                    if open_windows[w] in aw:
+                        found_window = True
+                        break
+                if found_window is False:
                     # print(window + " is now added to the list of open windows")
+                    print(open_windows[w] + " is now added to the list of open windows")
                     active_windows.append(open_windows[w])
                     logging.info(open_windows[w] + " is now added to the list of open windows")
+            print("ACTIVE WINDOWS IS")
+            print(active_windows)
 
         # This is for checking diff in events that can also contain different applications
         if current_event_type != prev_event_type or current_active_window_details != active_window_details:
             # if application is same but event is different, the name will be None
             current_active_window_name = parse_window_name_from_details(current_active_window_details)
-            json_log = {
-                 "Event Type": current_event_type,
-                "Window Name": current_active_window_name,
-                "Window Details": current_active_window_details,
-                "Time Stamp": datetime.now().isoformat(),
-            }
-            if len(current_active_window_details) > 0:
-                logging.info(json_log)
+            if current_active_window_name is not None:
+                json_log = {
+                     "Event Type": current_event_type,
+                    "Window Name": current_active_window_name,
+                    "Window Details": current_active_window_details,
+                    "Time Stamp": datetime.now().isoformat(),
+                }
+                if len(current_active_window_details) > 0:
+                    logging.info(json_log)
 
         active_window_details = current_active_window_details
         prev_event_type = current_event_type
+
 
 def parse_window_name_from_details(window_string):
     split_window_name = window_string.split(' - ')
@@ -80,8 +100,8 @@ def parse_window_name_from_details(window_string):
 
 
 def parse_window_name_from_task_manager(window_string):
-    print("WINDOW STRING IS")
-    print(window_string)
+    # print("WINDOW STRING IS")
+    # print(window_string)
     split_window_name = window_string.split(' ')
     split_window_name = " ".join(split_window_name[0:10]).strip()
     if len(split_window_name) > len("Microsoft Edge Content Process"):
@@ -93,8 +113,15 @@ def parse_window_name_from_task_manager(window_string):
                 split_window_name = split_window_name.strip()
             else:
                 break
-    print("PARSED STRING IS")
-    print(split_window_name)
+        if split_window_name == "":
+            if len(window_string) >= len("Microsoft Edge Content Process"):
+                split_window_name = window_string[0:len("Microsoft Edge Content Process")] + "..."
+            else:
+                split_window_name = window_string
+            # ignore above
+            split_window_name = None
+    # print("PARSED STRING IS")
+    # print(split_window_name)
     return split_window_name
 
 

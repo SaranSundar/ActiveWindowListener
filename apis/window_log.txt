@@ -1,69 +1,16 @@
-Google Chrome is now added to the list of open windows
+Application Frame Host is now added to the list of open windows
 Microsoft Edge is now added to the list of open windows
 Microsoft Edge Content Process is now added to the list of open windows
 PyCharm is now added to the list of open windows
 Settings is now added to the list of open windows
- is now added to the list of open windows
 Store is now added to the list of open windows
-{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Time Stamp': '2020-02-21T10:13:41.317777'}
-Store is no longer open
- is no longer open
-Settings is no longer open
-PyCharm is no longer open
-Microsoft Edge Content Process is no longer open
-Microsoft Edge is no longer open
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Time Stamp': '2020-02-21T11:16:50.110264'}
+Google Chrome is now added to the list of open windows
+{'Event Type': 0, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.651986'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.665783'}
+{'Event Type': 0, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.841782'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.861781'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'https://elearning.utdallas.edu/auth-saml/saml/login?apId=_130_1&redirectUrl=https%3A%2F%2Felearning.utdallas.edu%2Fwebapps%2Fportal%2Fexecute%2FdefaultTab - Google Chrome', 'Time Stamp': '2020-02-21T11:17:00.296850'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'UT Dallas SSO Login - Google Chrome', 'Time Stamp': '2020-02-21T11:17:01.004622'}
 Google Chrome is no longer open
-Google Chrome is now added to the list of open windows
-Microsoft Edge is now added to the list of open windows
-Microsoft Edge Content Process is now added to the list of open windows
-PyCharm is now added to the list of open windows
-Settings is now added to the list of open windows
- is now added to the list of open windows
-Store is now added to the list of open windows
-{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'Messenger - Google Chrome', 'Time Stamp': '2020-02-21T10:13:45.220119'}
-Store is no longer open
- is no longer open
-Settings is no longer open
-PyCharm is no longer open
-Microsoft Edge Content Process is no longer open
-Microsoft Edge is no longer open
-Google Chrome is no longer open
-Google Chrome is now added to the list of open windows
-Microsoft Edge is now added to the list of open windows
-Microsoft Edge Content Process is now added to the list of open windows
-PyCharm is now added to the list of open windows
-Settings is now added to the list of open windows
- is now added to the list of open windows
-Store is now added to the list of open windows
-Store is no longer open
- is no longer open
-Settings is no longer open
-PyCharm is no longer open
-Microsoft Edge Content Process is no longer open
-Microsoft Edge is no longer open
-Google Chrome is no longer open
-Google Chrome is now added to the list of open windows
-Microsoft Edge is now added to the list of open windows
-Microsoft Edge Content Process is now added to the list of open windows
-PyCharm is now added to the list of open windows
-Settings is now added to the list of open windows
- is now added to the list of open windows
-Store is now added to the list of open windows
-{'Event Type': 1, 'Window Name': 'File Explorer', 'Window Details': 'File Explorer', 'Time Stamp': '2020-02-21T10:13:47.742905'}
-{'Event Type': 0, 'Window Name': 'File Explorer', 'Window Details': 'File Explorer', 'Time Stamp': '2020-02-21T10:13:48.649703'}
-{'Event Type': 1, 'Window Name': 'File Explorer', 'Window Details': 'File Explorer', 'Time Stamp': '2020-02-21T10:13:48.774517'}
-Store is no longer open
- is no longer open
-Settings is no longer open
-PyCharm is no longer open
-Microsoft Edge Content Process is no longer open
-Microsoft Edge is no longer open
-Google Chrome is no longer open
-Google Chrome is now added to the list of open windows
-Microsoft Edge is now added to the list of open windows
-Microsoft Edge Content Process is now added to the list of open windows
-PyCharm is now added to the list of open windows
-Settings is now added to the list of open windows
- is now added to the list of open windows
-Store is now added to the list of open windows
-{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Time Stamp': '2020-02-21T10:13:49.430403'}
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Time Stamp': '2020-02-21T11:17:02.701739'}
