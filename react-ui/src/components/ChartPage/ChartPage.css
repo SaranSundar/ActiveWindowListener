@@ -13,7 +13,7 @@
     justify-content: flex-start;
 }
 
-.ChartPage-RowBegin{
+.ChartPage-RowBegin {
     display: flex;
     width: 250px;
     align-self: center;
@@ -27,18 +27,29 @@
     font-weight: bold;
 }
 
-.ChartPage-Scroll{
+.ChartPage-Scroll {
     overflow: auto;
-    height: 200px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: gray;
+    height: 185px;
+
 }
 
-.ChartPage-ItemPercentsParent{
-    width: 60%;
+/* Solid border */
+.ChartPage-Divider {
+    border-top: 1px solid black;
+    width: 100%;
+}
+
+.ChartPage-ItemPercentsParent {
+    width: 90%;
     height: 40px;
     display: flex;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+.ChartPage-UserDetails {
+
 }
 
 .ChartPage-ItemPercents {

@@ -1,21 +1,27 @@
 import logging
 import sys
 import time
+from datetime import datetime
 
 from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
 from apis.monitoring_details.active_window_details import get_active_window, get_open_windows_in_task_manager
-from datetime import datetime
 
 logging.basicConfig(filename="../window_log.txt", level=logging.DEBUG, format='%(message)s')
 
-MOUSE = "MOUSE"
-KEYBOARD = "KEYBOARD"
+MOUSE_MOVE = "MOUSE_MOVE"
+MOUSE_CLICK = "MOUSE_CLICK"
+MOUSE_SCROLL = "MOUSE_SCROLL"
+KEYBOARD_RELEASE = "KEYBOARD_RELEASE"
+KEYBOARD_PRESS = "KEYBOARD_PRESS"
 
 event_types = {
-    KEYBOARD: 0,
-    MOUSE: 1,
+    KEYBOARD_PRESS: 0,
+    KEYBOARD_RELEASE: 1,
+    MOUSE_MOVE: 2,
+    MOUSE_CLICK: 3,
+    MOUSE_SCROLL: 4,
 }
 
 current_event_type = None
@@ -81,7 +87,7 @@ def log_window_details():
             current_active_window_name = parse_window_name_from_details(current_active_window_details)
             if current_active_window_name is not None:
                 json_log = {
-                     "Event Type": current_event_type,
+                    "Event Type": current_event_type,
                     "Window Name": current_active_window_name,
                     "Window Details": current_active_window_details,
                     "Time Stamp": datetime.now().isoformat(),
@@ -132,14 +138,21 @@ def set_event_type(event_type_input):
 
 
 def on_press(key):
-    set_event_type(KEYBOARD)
+    set_event_type(KEYBOARD_PRESS)
+    # print("ON PRESS")
+    # logging.info("Key Press: " + str(key))
+    # print("Key Press: " + str(key))
+
+
+def on_release(key):
+    set_event_type(KEYBOARD_RELEASE)
     # print("ON PRESS")
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
 
 
 def on_move(x, y):
-    set_event_type(MOUSE)
+    set_event_type(MOUSE_MOVE)
     # print("ON MOVE")
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
     # print("Mouse moved to ({0}, {1})".format(x, y))
@@ -147,20 +160,20 @@ def on_move(x, y):
 
 def on_click(x, y, button, pressed):
     if pressed:
-        set_event_type(MOUSE)
+        set_event_type(MOUSE_CLICK)
         # print("ON CLICK")
         # logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
         # print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
 
 
 def on_scroll(x, y, dx, dy):
-    set_event_type(MOUSE)
+    set_event_type(MOUSE_SCROLL)
     # print("ON SCOLL")
     # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     # print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 
 
 with MouseListener(on_click=on_click, on_scroll=on_scroll, on_move=on_move) as m_listener:
-    with KeyboardListener(on_press=on_press) as k_listener:
+    with KeyboardListener(on_press=on_press, on_release=on_release) as k_listener:
         m_listener.join()
         k_listener.join()

@@ -1,16 +1,43 @@
-Application Frame Host is now added to the list of open windows
-Microsoft Edge is now added to the list of open windows
-Microsoft Edge Content Process is now added to the list of open windows
 PyCharm is now added to the list of open windows
-Settings is now added to the list of open windows
-Store is now added to the list of open windows
-{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Time Stamp': '2020-02-21T11:16:50.110264'}
+{'Event Type': 2, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:36.245560'}
+{'Event Type': 3, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:36.356887'}
+{'Event Type': 2, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:36.357691'}
+{'Event Type': 0, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.244017'}
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.418960'}
+{'Event Type': 0, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.423073'}
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.435863'}
+{'Event Type': 0, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.586098'}
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.689176'}
+{'Event Type': 0, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.846849'}
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.952963'}
+{'Event Type': 0, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:37.968845'}
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:38.001004'}
+{'Event Type': 2, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:38.054286'}
+{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:38.089092'}
+{'Event Type': 2, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:38.091525'}
+{'Event Type': 3, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:38.825146'}
+{'Event Type': 2, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:38.826334'}
+PyCharm is no longer open
 Google Chrome is now added to the list of open windows
-{'Event Type': 0, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.651986'}
-{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.665783'}
-{'Event Type': 0, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.841782'}
-{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'New Tab - Google Chrome', 'Time Stamp': '2020-02-21T11:16:58.861781'}
-{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'https://elearning.utdallas.edu/auth-saml/saml/login?apId=_130_1&redirectUrl=https%3A%2F%2Felearning.utdallas.edu%2Fwebapps%2Fportal%2Fexecute%2FdefaultTab - Google Chrome', 'Time Stamp': '2020-02-21T11:17:00.296850'}
-{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'UT Dallas SSO Login - Google Chrome', 'Time Stamp': '2020-02-21T11:17:01.004622'}
+{'Event Type': 2, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.064481'}
+{'Event Type': 0, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.323098'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.451527'}
+{'Event Type': 2, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.562265'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.615288'}
+{'Event Type': 2, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.616042'}
+{'Event Type': 3, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.694830'}
+{'Event Type': 2, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:39.696149'}
+{'Event Type': 3, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:40.576278'}
+{'Event Type': 0, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:40.665151'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:40.766353'}
+{'Event Type': 0, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:40.877884'}
+{'Event Type': 1, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:40.929153'}
+{'Event Type': 2, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:41.124571'}
+{'Event Type': 3, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:41.853772'}
+{'Event Type': 2, 'Window Name': 'Google Chrome', 'Window Details': 'Google Chrome', 'Time Stamp': '2020-02-21T13:59:41.854553'}
 Google Chrome is no longer open
-{'Event Type': 1, 'Window Name': 'PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Time Stamp': '2020-02-21T11:17:02.701739'}
+PyCharm is now added to the list of open windows
+{'Event Type': 2, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:42.146214'}
+{'Event Type': 3, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:42.480746'}
+{'Event Type': 2, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:42.729582'}
+{'Event Type': 3, 'Window Name': 'PyCharm', 'Window Details': 'PyCharm', 'Time Stamp': '2020-02-21T13:59:43.743745'}

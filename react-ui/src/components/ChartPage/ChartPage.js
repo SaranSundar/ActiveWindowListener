@@ -10,7 +10,7 @@ class ChartPage extends Component {
 
     createRow(iconName, iconURL, usagePercents) {
         return (
-            <Grid container direction="row">
+            <Grid container direction="row" style={{padding: "5px"}}>
                 <div className="ChartPage-RowBegin">
                     <img style={{width: "50px", height: "50px"}}
                          src={iconURL}/>
@@ -54,9 +54,11 @@ class ChartPage extends Component {
                     {this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}
                     {this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}
                 </div>
-                <div>
-                    User Details:
-                </div>
+                <Container>
+                    <div>
+                        User Details:
+                    </div>
+                </Container>
             </Container>
         );
     }
