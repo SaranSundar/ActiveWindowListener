@@ -42,13 +42,14 @@ def log_window_details():
                 # On windows current_details is a lot more in depth, on mac its just the app name
                 open_windows.append(current_active_window_details)
             # Logs all windows that have been closed
-            for active_window in active_windows:
-                if active_window not in open_windows:
-                    # print(active_window + " is no longer open")
-                    logging.info(active_window + " is no longer open")
+            for i in range(len(active_windows) - 1, -1, -1):
+                if active_windows[i] not in open_windows:
+                    logging.info(active_windows[i] + " is no longer open")
+                    del active_windows[i]
             # Adds any new windows to the list
             for window in open_windows:
                 if window not in active_windows:
+                    pass
                     # print(window + " is now added to the list of open windows")
                     active_windows.append(window)
                     logging.info(window + " is now added to the list of open windows")
@@ -62,12 +63,15 @@ def log_window_details():
             # if application is same but event is different, the name will be None
             if current_active_window_name is None:
                 current_active_window_name = current_active_window_details
-            print("Event type " + str(
-                current_event_type) + "{V}" + "Window Name " + current_active_window_name + "{V}" + "Window details " +
-                  str(current_active_window_details))
-            logging.info("Event type " + str(
-                current_event_type) + "{V}" + "Window Name " + current_active_window_name + "{V}" + "Window details " +
-                         str(current_active_window_details))
+            # print("Event type " + str(
+            #     current_event_type) + "{V}" + "Window Name " + current_active_window_name + "{V}" + "Window details " +
+            #       str(current_active_window_details))
+            json_log = {
+                 "Event Type": current_event_type,
+                "Window Name": current_active_window_name,
+                "Window Details": current_active_window_details
+            }
+            logging.info(json_log)
 
         active_window_details = current_active_window_details
         prev_event_type = current_event_type

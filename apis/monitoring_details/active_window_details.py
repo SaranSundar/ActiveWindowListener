@@ -16,7 +16,7 @@ def get_open_windows_in_task_manager():
         for line in proc.stdout:
             if not line.decode()[0].isspace():
                 app_name = line.decode().rstrip()
-                print(app_name)
+                # print(app_name)
                 open_apps.append(app_name)
     return open_apps
 
