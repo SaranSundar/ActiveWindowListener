@@ -94,7 +94,7 @@ def log_window_details():
                         'title': current_active_window_details
                     },
                     "inactive_windows": inactive_windows,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.utcnow().isoformat(),
                     "bitmap": ''
                 }
                 if len(current_active_window_details) > 0:

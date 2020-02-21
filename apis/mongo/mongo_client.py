@@ -58,7 +58,7 @@ def close_client():
         raise Exception('no existing or open client to close')
 
 
-def log_event(event):
+def log_event(event: dict):
     """
     Writes the given event to the MongoDB server.
 
@@ -68,32 +68,16 @@ def log_event(event):
 
     :param event: The dictionary containing data to write.
     :return: a MongoDB document object ID for the inserted event record
-    :raise: An Exception if the client cannot connect.
+    :raise: An Exception if the client cannot connect or the event is not a dict
     """
 
     # Raise exception if invalid event object is given
     if type(event) is not dict:
         raise Exception('event must be of type dict.')
 
-    # Define attributes
-    attributes = {'time': str, 'active': str, 'bitmap': str, 'idle': list, 'trigger': dict}
-    # Verify attribute existence
-    for attribute in attributes:
-        # Check if attribute is defined at all
-        if attribute not in event:
-            raise Exception('attribute {} is not defined'.format(attribute))
-        # Check if attribute has the correct typing
-        if type(event[attribute]) is not attributes[attribute]:
-            raise Exception('attribute {} is not of {}'.format(attribute, attributes[attribute]))
-
-    # TODO: Verify contents of time
-    # TODO: Verify contents of active
-    # TODO: Verify contents of bitmap
-    # TODO: Verify contents of idle
-    # TODO: Verify contents of trigger
-
     # extract date from time
-    date = event['time'].split('T')[0]
+    date = event['timestamp'].split('T')[0]
+
     # obtain handle on collection for the day
     collection_handle = _database_handle[date]
     # Insert the event as a document in the collection; return its ID
@@ -115,3 +99,6 @@ if __name__ == '__main__':
     })))
     close_client()
     close_server()
+else:
+    start_server()
+    open_client()
