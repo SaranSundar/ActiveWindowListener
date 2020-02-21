@@ -1,2 +1,51 @@
 .ChartPage {
+    width: 640px;
+    height: 480px;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+    padding: 20px;
+}
+
+.ChartPage-Row {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.ChartPage-RowBegin{
+    display: flex;
+    width: 250px;
+    align-self: center;
+    align-items: center;
+}
+
+.ChartPage-ItemTitle {
+    margin-left: 5px;
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ChartPage-Scroll{
+    overflow: auto;
+    height: 200px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+}
+
+.ChartPage-ItemPercentsParent{
+    width: 60%;
+    height: 40px;
+    display: flex;
+}
+
+.ChartPage-ItemPercents {
+    height: 100%;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
