@@ -38,6 +38,8 @@ def log_window_details():
             # On windows we want to use window name from task manager, but on mac we only have current window name
             if sys.platform in ['Windows', 'win32', 'cygwin']:
                 open_windows = get_open_windows_in_task_manager()
+                if len(open_windows) > 3:
+                    open_windows = open_windows[3:]
             else:
                 # On windows current_details is a lot more in depth, on mac its just the app name
                 open_windows.append(current_active_window_details)
@@ -63,9 +65,6 @@ def log_window_details():
             # if application is same but event is different, the name will be None
             if current_active_window_name is None:
                 current_active_window_name = current_active_window_details
-            # print("Event type " + str(
-            #     current_event_type) + "{V}" + "Window Name " + current_active_window_name + "{V}" + "Window details " +
-            #       str(current_active_window_details))
             json_log = {
                  "Event Type": current_event_type,
                 "Window Name": current_active_window_name,

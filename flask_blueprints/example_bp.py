@@ -16,6 +16,10 @@ def echo_example(socket):
         message = json.loads(message)
         print("Received", message)
         response = json.dumps(message, default=str)
+        response = {
+            "Chrome": {"mouse_usage": 40, "keyboard_usage": 30, "idle": 10, "thinking": 20},
+            "Visual Studio": {"mouse_usage": 20, "keyboard_usage": 50, "idle": 10, "thinking": 20}
+            }
         socket.send(response)
         print("Sent", message)
 

@@ -1,37 +1,54 @@
-2020-02-20 23:06:13,597: Description                                                           Id Path is now added to the list of open windows
-2020-02-20 23:06:13,597: -----------                                                           -- ---- is now added to the list of open windows
-2020-02-20 23:06:13,597: Application Frame Host                                              7828 C:\Windows\system32\ApplicationFrameHost.exe is now added to the list of open windows
-2020-02-20 23:06:13,597: Google Chrome                                                       1672 C:\Program Files (x86)\Google\Chrome\Applic... is now added to the list of open windows
-2020-02-20 23:06:13,597: Microsoft Edge                                                     12160 C:\Windows\SystemApps\Microsoft.MicrosoftEd... is now added to the list of open windows
-2020-02-20 23:06:13,597: Microsoft Edge Content Process                                      8372 C:\Windows\System32\MicrosoftEdgeCP.exe is now added to the list of open windows
-2020-02-20 23:06:13,597: PyCharm                                                             1680 C:\Program Files\JetBrains\PyCharm Communit... is now added to the list of open windows
-2020-02-20 23:06:13,597: Settings                                                            3444 C:\Windows\ImmersiveControlPanel\SystemSett... is now added to the list of open windows
-2020-02-20 23:06:13,597: WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyew... is now added to the list of open windows
-2020-02-20 23:06:13,597: Store                                                               2440 C:\Program Files\WindowsApps\Microsoft.Wind... is now added to the list of open windows
-2020-02-20 23:06:13,597: {'Event Type': 1, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Widnow Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
-2020-02-20 23:06:14,666: {'Event Type': 1, 'Window Name': '', 'Widnow Details': ''}
-2020-02-20 23:06:15,465: {'Event Type': 1, 'Window Name': 'New Tab - Google Chrome', 'Widnow Details': 'New Tab - Google Chrome'}
-2020-02-20 23:06:16,618: {'Event Type': 1, 'Window Name': '', 'Widnow Details': ''}
-2020-02-20 23:06:17,439: {'Event Type': 1, 'Window Name': 'File Explorer', 'Widnow Details': 'File Explorer'}
-2020-02-20 23:06:18,300: {'Event Type': 1, 'Window Name': '', 'Widnow Details': ''}
-2020-02-20 23:06:19,522: Store                                                               2440 C:\Program Files\WindowsApps\Microsoft.Wind... is no longer open
-2020-02-20 23:06:19,522: WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyew... is no longer open
-2020-02-20 23:06:19,522: Settings                                                            3444 C:\Windows\ImmersiveControlPanel\SystemSett... is no longer open
-2020-02-20 23:06:19,522: PyCharm                                                             1680 C:\Program Files\JetBrains\PyCharm Communit... is no longer open
-2020-02-20 23:06:19,522: Microsoft Edge Content Process                                      8372 C:\Windows\System32\MicrosoftEdgeCP.exe is no longer open
-2020-02-20 23:06:19,522: Microsoft Edge                                                     12160 C:\Windows\SystemApps\Microsoft.MicrosoftEd... is no longer open
-2020-02-20 23:06:19,522: Google Chrome                                                       1672 C:\Program Files (x86)\Google\Chrome\Applic... is no longer open
-2020-02-20 23:06:19,522: Application Frame Host                                              7828 C:\Windows\system32\ApplicationFrameHost.exe is no longer open
-2020-02-20 23:06:19,522: -----------                                                           -- ---- is no longer open
-2020-02-20 23:06:19,522: Description                                                           Id Path is no longer open
-2020-02-20 23:06:19,522: Description                       Id Path is now added to the list of open windows
-2020-02-20 23:06:19,522: -----------                       -- ---- is now added to the list of open windows
-2020-02-20 23:06:19,522: Application Frame Host          7828 C:\Windows\system32\ApplicationFrameHost.exe is now added to the list of open windows
-2020-02-20 23:06:19,522: Google Chrome                   1672 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe is now added to the list of open windows
-2020-02-20 23:06:19,526: Microsoft Edge                 12160 C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe is now added to the list of open windows
-2020-02-20 23:06:19,526: Microsoft Edge Content Process  8372 C:\Windows\System32\MicrosoftEdgeCP.exe is now added to the list of open windows
-2020-02-20 23:06:19,526: PyCharm                         1680 C:\Program Files\JetBrains\PyCharm Community Edition 2019.3.3\bin\pycharm64.exe is now added to the list of open windows
-2020-02-20 23:06:19,526: Settings                        3444 C:\Windows\ImmersiveControlPanel\SystemSettings.exe is now added to the list of open windows
-2020-02-20 23:06:19,526: WindowsInternal.ComposableS...  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyewy\WindowsInternal.ComposableShell... is now added to the list of open windows
-2020-02-20 23:06:19,526: Store                           2440 C:\Program Files\WindowsApps\Microsoft.WindowsStore_12002.1001.1.0_x64__8wek... is now added to the list of open windows
-2020-02-20 23:06:19,526: {'Event Type': 1, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Widnow Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
+2020-02-20 23:14:40,404: Microsoft Edge                                                     12160 C:\Windows\SystemApps\Microsoft.MicrosoftEd... is now added to the list of open windows
+2020-02-20 23:14:40,404: Microsoft Edge Content Process                                      8372 C:\Windows\System32\MicrosoftEdgeCP.exe is now added to the list of open windows
+2020-02-20 23:14:40,404: MSYS2 terminal                                                      9832 C:\Program Files\Git\usr\bin\mintty.exe is now added to the list of open windows
+2020-02-20 23:14:40,404: PyCharm                                                             1680 C:\Program Files\JetBrains\PyCharm Communit... is now added to the list of open windows
+2020-02-20 23:14:40,404: Settings                                                            3444 C:\Windows\ImmersiveControlPanel\SystemSett... is now added to the list of open windows
+2020-02-20 23:14:40,404: WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyew... is now added to the list of open windows
+2020-02-20 23:14:40,404: Store                                                               2440 C:\Program Files\WindowsApps\Microsoft.Wind... is now added to the list of open windows
+2020-02-20 23:14:40,404: {'Event Type': 1, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
+2020-02-20 23:14:41,498: {'Event Type': 0, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
+2020-02-20 23:14:41,498: {'Event Type': 0, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
+2020-02-20 23:14:41,560: {'Event Type': 1, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
+2020-02-20 23:14:41,701: {'Event Type': 0, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
+2020-02-20 23:14:42,029: {'Event Type': 1, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
+2020-02-20 23:14:43,310: {'Event Type': 1, 'Window Name': '', 'Window Details': ''}
+2020-02-20 23:14:48,252: Store                                                               2440 C:\Program Files\WindowsApps\Microsoft.Wind... is no longer open
+2020-02-20 23:14:48,252: WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyew... is no longer open
+2020-02-20 23:14:48,252: Settings                                                            3444 C:\Windows\ImmersiveControlPanel\SystemSett... is no longer open
+2020-02-20 23:14:48,252: PyCharm                                                             1680 C:\Program Files\JetBrains\PyCharm Communit... is no longer open
+2020-02-20 23:14:48,252: MSYS2 terminal                                                      9832 C:\Program Files\Git\usr\bin\mintty.exe is no longer open
+2020-02-20 23:14:48,252: Microsoft Edge Content Process                                      8372 C:\Windows\System32\MicrosoftEdgeCP.exe is no longer open
+2020-02-20 23:14:48,252: Microsoft Edge                                                     12160 C:\Windows\SystemApps\Microsoft.MicrosoftEd... is no longer open
+2020-02-20 23:14:48,252: Google Chrome                   8300 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe is now added to the list of open windows
+2020-02-20 23:14:48,252: Microsoft Edge                 12160 C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe is now added to the list of open windows
+2020-02-20 23:14:48,252: Microsoft Edge Content Process  8372 C:\Windows\System32\MicrosoftEdgeCP.exe is now added to the list of open windows
+2020-02-20 23:14:48,252: MSYS2 terminal                  9832 C:\Program Files\Git\usr\bin\mintty.exe is now added to the list of open windows
+2020-02-20 23:14:48,252: PyCharm                         1680 C:\Program Files\JetBrains\PyCharm Community Edition 2019.3.3\bin\pycharm64.exe is now added to the list of open windows
+2020-02-20 23:14:48,252: Settings                        3444 C:\Windows\ImmersiveControlPanel\SystemSettings.exe is now added to the list of open windows
+2020-02-20 23:14:48,252: WindowsInternal.ComposableS...  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyewy\WindowsInternal.ComposableShell... is now added to the list of open windows
+2020-02-20 23:14:48,252: Store                           2440 C:\Program Files\WindowsApps\Microsoft.WindowsStore_12002.1001.1.0_x64__8wek... is now added to the list of open windows
+2020-02-20 23:14:48,252: {'Event Type': 0, 'Window Name': 'New Tab - Google Chrome', 'Window Details': 'New Tab - Google Chrome'}
+2020-02-20 23:14:48,256: {'Event Type': 1, 'Window Name': 'New Tab - Google Chrome', 'Window Details': 'New Tab - Google Chrome'}
+2020-02-20 23:14:49,932: Store                           2440 C:\Program Files\WindowsApps\Microsoft.WindowsStore_12002.1001.1.0_x64__8wek... is no longer open
+2020-02-20 23:14:49,932: WindowsInternal.ComposableS...  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyewy\WindowsInternal.ComposableShell... is no longer open
+2020-02-20 23:14:49,932: PyCharm                         1680 C:\Program Files\JetBrains\PyCharm Community Edition 2019.3.3\bin\pycharm64.exe is no longer open
+2020-02-20 23:14:49,932: Google Chrome                   8300 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe is no longer open
+2020-02-20 23:14:49,932: PyCharm                         1680 C:\Program Files\JetBrains\PyCharm Community Edition 2019.3.3\bin\pycharm6... is now added to the list of open windows
+2020-02-20 23:14:49,932: WindowsInternal.ComposableS...  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyewy\WindowsInternal.ComposableShe... is now added to the list of open windows
+2020-02-20 23:14:49,932: Store                           2440 C:\Program Files\WindowsApps\Microsoft.WindowsStore_12002.1001.1.0_x64__8w... is now added to the list of open windows
+2020-02-20 23:14:49,932: {'Event Type': 1, 'Window Name': '', 'Window Details': ''}
+2020-02-20 23:14:50,636: Store                           2440 C:\Program Files\WindowsApps\Microsoft.WindowsStore_12002.1001.1.0_x64__8w... is no longer open
+2020-02-20 23:14:50,636: WindowsInternal.ComposableS...  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyewy\WindowsInternal.ComposableShe... is no longer open
+2020-02-20 23:14:50,636: PyCharm                         1680 C:\Program Files\JetBrains\PyCharm Community Edition 2019.3.3\bin\pycharm6... is no longer open
+2020-02-20 23:14:50,636: Settings                        3444 C:\Windows\ImmersiveControlPanel\SystemSettings.exe is no longer open
+2020-02-20 23:14:50,636: MSYS2 terminal                  9832 C:\Program Files\Git\usr\bin\mintty.exe is no longer open
+2020-02-20 23:14:50,636: Microsoft Edge Content Process  8372 C:\Windows\System32\MicrosoftEdgeCP.exe is no longer open
+2020-02-20 23:14:50,636: Microsoft Edge                 12160 C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe is no longer open
+2020-02-20 23:14:50,636: Microsoft Edge                                                     12160 C:\Windows\SystemApps\Microsoft.MicrosoftEd... is now added to the list of open windows
+2020-02-20 23:14:50,636: Microsoft Edge Content Process                                      8372 C:\Windows\System32\MicrosoftEdgeCP.exe is now added to the list of open windows
+2020-02-20 23:14:50,636: MSYS2 terminal                                                      9832 C:\Program Files\Git\usr\bin\mintty.exe is now added to the list of open windows
+2020-02-20 23:14:50,636: PyCharm                                                             1680 C:\Program Files\JetBrains\PyCharm Communit... is now added to the list of open windows
+2020-02-20 23:14:50,636: Settings                                                            3444 C:\Windows\ImmersiveControlPanel\SystemSett... is now added to the list of open windows
+2020-02-20 23:14:50,636: WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe  7224 C:\Windows\SystemApps\InputApp_cw5n1h2txyew... is now added to the list of open windows
+2020-02-20 23:14:50,636: Store                                                               2440 C:\Program Files\WindowsApps\Microsoft.Wind... is now added to the list of open windows
+2020-02-20 23:14:50,636: {'Event Type': 1, 'Window Name': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm', 'Window Details': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}
