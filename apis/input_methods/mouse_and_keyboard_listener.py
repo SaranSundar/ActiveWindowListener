@@ -51,7 +51,7 @@ def log_window_details():
                     del active_windows[i]
             # Adds any new windows to the list
             for w in range(len(open_windows)):
-                open_windows[w] = parse_window_name(open_windows[w])
+                open_windows[w] = parse_window_name_from_task_manager(open_windows[w])
                 if open_windows[w] not in active_windows:
                     # print(window + " is now added to the list of open windows")
                     active_windows.append(open_windows[w])
@@ -60,9 +60,7 @@ def log_window_details():
         # This is for checking diff in events that can also contain different applications
         if current_event_type != prev_event_type or current_active_window_details != active_window_details:
             # if application is same but event is different, the name will be None
-            if current_active_window_name is None:
-                current_active_window_name = current_active_window_details
-            current_active_window_name = parse_window_name(current_active_window_name)
+            current_active_window_name = parse_window_name_from_details(current_active_window_details)
             json_log = {
                  "Event Type": current_event_type,
                 "Window Name": current_active_window_name,
@@ -75,8 +73,13 @@ def log_window_details():
         active_window_details = current_active_window_details
         prev_event_type = current_event_type
 
+def parse_window_name_from_details(window_string):
+    split_window_name = window_string.split(' - ')
+    split_window_name = split_window_name[len(split_window_name) - 1]
+    return split_window_name
 
-def parse_window_name(window_string):
+
+def parse_window_name_from_task_manager(window_string):
     print("WINDOW STRING IS")
     print(window_string)
     split_window_name = window_string.split(' ')
