@@ -6,8 +6,9 @@ from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
 from apis.monitoring_details.active_window_details import get_active_window, get_open_windows_in_task_manager
+from datetime import datetime
 
-logging.basicConfig(filename="../window_log.txt", level=logging.DEBUG, format='%(asctime)s: %(message)s')
+logging.basicConfig(filename="../window_log.txt", level=logging.DEBUG, format='%(message)s')
 
 MOUSE = "MOUSE"
 KEYBOARD = "KEYBOARD"
@@ -49,31 +50,49 @@ def log_window_details():
                     logging.info(active_windows[i] + " is no longer open")
                     del active_windows[i]
             # Adds any new windows to the list
-            for window in open_windows:
-                if window not in active_windows:
-                    pass
+            for w in range(len(open_windows)):
+                open_windows[w] = parse_window_name(open_windows[w])
+                if open_windows[w] not in active_windows:
                     # print(window + " is now added to the list of open windows")
-                    active_windows.append(window)
-                    logging.info(window + " is now added to the list of open windows")
-
-            # On windows try to match this to closest name on open task manager apps
-            # On mac leave as is
-            current_active_window_name = current_active_window_details
+                    active_windows.append(open_windows[w])
+                    logging.info(open_windows[w] + " is now added to the list of open windows")
 
         # This is for checking diff in events that can also contain different applications
         if current_event_type != prev_event_type or current_active_window_details != active_window_details:
             # if application is same but event is different, the name will be None
             if current_active_window_name is None:
                 current_active_window_name = current_active_window_details
+            current_active_window_name = parse_window_name(current_active_window_name)
             json_log = {
                  "Event Type": current_event_type,
                 "Window Name": current_active_window_name,
-                "Window Details": current_active_window_details
+                "Window Details": current_active_window_details,
+                "Time Stamp": datetime.now().isoformat(),
             }
-            logging.info(json_log)
+            if len(current_active_window_details) > 0:
+                logging.info(json_log)
 
         active_window_details = current_active_window_details
         prev_event_type = current_event_type
+
+
+def parse_window_name(window_string):
+    print("WINDOW STRING IS")
+    print(window_string)
+    split_window_name = window_string.split(' ')
+    split_window_name = " ".join(split_window_name[0:10]).strip()
+    if len(split_window_name) > len("Microsoft Edge Content Process"):
+        new_name = split_window_name.split(" ")
+        split_window_name = ""
+        for word in new_name:
+            if len(split_window_name) + len(word) <= len("Microsoft Edge Content Process"):
+                split_window_name += " " + word
+                split_window_name = split_window_name.strip()
+            else:
+                break
+    print("PARSED STRING IS")
+    print(split_window_name)
+    return split_window_name
 
 
 def set_event_type(event_type_input):
