@@ -21,6 +21,18 @@ var application_data = {
         keyboard_usage: 50, 
         idle: 10, 
         thinking: 20
+    },
+    "Visual Studio Code": {
+        mouse_usage: 20, 
+        keyboard_usage: 50, 
+        idle: 10, 
+        thinking: 20
+    },
+    "Microsoft Word": {
+        mouse_usage: 20, 
+        keyboard_usage: 50, 
+        idle: 10, 
+        thinking: 20
     }
 }
 
@@ -49,7 +61,7 @@ class ChartPage extends Component {
                         <Row>
                             <Col>
                                 <h2>Time Breakdown</h2>
-                                <PieChart></PieChart>
+                                <PieChart data={application_data}></PieChart>
                             </Col>
                         </Row>
                     </Container>
