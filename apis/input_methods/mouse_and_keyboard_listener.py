@@ -86,11 +86,16 @@ def log_window_details():
             # if application is same but event is different, the name will be None
             current_active_window_name = parse_window_name_from_details(current_active_window_details)
             if current_active_window_name is not None:
+                inactive_windows = active_windows.copy().remove(current_active_window_name)
                 json_log = {
-                    "Event Type": current_event_type,
-                    "Window Name": current_active_window_name,
-                    "Window Details": current_active_window_details,
-                    "Time Stamp": datetime.now().isoformat(),
+                    "trigger": 'mouse' if current_event_type == 1 else 'keyboard',
+                    "active_window": {
+                        'name': current_active_window_name,
+                        'title': current_active_window_details
+                    },
+                    "inactive_windows": inactive_windows,
+                    "timestamp": datetime.now().isoformat(),
+                    "bitmap": ''
                 }
                 if len(current_active_window_details) > 0:
                     logging.info(json_log)
