@@ -84,6 +84,14 @@ def log_event(event: dict):
     return collection_handle.insert_one(event).inserted_id
 
 
+def get_database(database: str):
+    return open_client()[database]
+
+
+def get_collection(collection: str, database: str):
+    return open_client()[database][collection]
+
+
 if __name__ == '__main__':
     start_server()
     open_client(timeout=3000)
@@ -100,5 +108,8 @@ if __name__ == '__main__':
     close_client()
     close_server()
 else:
+    print('Starting MongoDB server...')
     start_server()
+    print('Opening MongoDB client...')
     open_client()
+    print('Client connected.')

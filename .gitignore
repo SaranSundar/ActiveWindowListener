@@ -2,3 +2,8 @@
 build/
 dist/
 react-ui/node_modules
+
+# Mongo folder
+apis/mongo/__pycache__/
+apis/mongo/db/
+apis/mongo/mongo.server.log
