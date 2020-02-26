@@ -1,3 +1,8 @@
+import win32api
+import win32con
+import win32gui
+import win32ui
+
 import logging
 import sys
 import time
@@ -6,7 +11,7 @@ from datetime import datetime
 from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
-from apis.monitoring_details.active_window_details import get_active_window, get_open_windows_in_task_manager
+from apis.monitoring_details.active_window_details import get_active_window, get_open_windows_in_task_manager, get_path_from_pid
 
 logging.basicConfig(filename="../window_log.txt", level=logging.DEBUG, format='%(message)s')
 
@@ -65,6 +70,9 @@ def log_window_details():
                     del active_windows[i]
             # Adds any new windows to the list
             for w in range(len(open_windows)):
+                process_ID = get_PID(open_windows[w])           #Gets PID from task manager
+                windows_path = get_path_from_pid(process_ID)    #Gets exe path of window
+                get_image_from_path(windows_path, process_ID)   #Gets image from exe path
                 open_windows[w] = parse_window_name_from_task_manager(open_windows[w])
                 if open_windows[w] is None:
                     continue
@@ -111,7 +119,6 @@ def parse_window_name_from_details(window_string):
     split_window_name = split_window_name[len(split_window_name) - 1]
     return split_window_name
 
-
 def parse_window_name_from_task_manager(window_string):
     # print("WINDOW STRING IS")
     # print(window_string)
@@ -137,6 +144,42 @@ def parse_window_name_from_task_manager(window_string):
     # print(split_window_name)
     return split_window_name
 
+def get_PID (window_string):
+    first_chars = window_string[0:72]
+    split_window_name = first_chars.split(' ')
+    process_ID = split_window_name[len(split_window_name) - 1]
+    return process_ID
+
+def get_image_from_path(path, process_ID):
+    if path == "Error: No path found":
+        return
+
+    path = path.replace("\\", "/")
+    try:
+        icoX = win32api.GetSystemMetrics(win32con.SM_CXICON)
+        icoY = win32api.GetSystemMetrics(win32con.SM_CXICON)
+
+        large, small = win32gui.ExtractIconEx(path, 0)
+        win32gui.DestroyIcon(small[0])
+
+        hdc = win32ui.CreateDCFromHandle(win32gui.GetDC(0))
+        hbmp = win32ui.CreateBitmap()
+        hbmp.CreateCompatibleBitmap(hdc, icoX, icoX)
+        hdc = hdc.CreateCompatibleDC()
+
+        hdc.SelectObject(hbmp)
+        hdc.DrawIcon((0,0), large[0])
+
+        from PIL import Image
+        bmpstr = hbmp.GetBitmapBits(True)
+        img = Image.frombuffer(
+            'RGBA',
+            (32, 32),
+            bmpstr, 'raw', 'BGRA', 0, 1
+        )
+        img.save(process_ID + '.png')
+    except: #Function will fail at 'hdc = win32ui.CreateDCFromHandle(win32gui.GetDC(0))' due to end of list error
+        pass
 
 def set_event_type(event_type_input):
     global current_event_type

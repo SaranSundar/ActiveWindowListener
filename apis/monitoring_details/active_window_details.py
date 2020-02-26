@@ -20,6 +20,22 @@ def get_open_windows_in_task_manager():
                 open_apps.append(app_name)
     return open_apps
 
+def get_path_from_pid(process_ID):
+    #cmd = 'Get-CimInstance Win32_Process -Filter "ProcessID=3616" | Select-Object ProcessId, CommandLine'
+    #'Get-CimInstance' command not working
+    cmd = 'wmic process get processid,commandline'
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        if not line.decode()[0].isspace():
+            input_string = line.decode().rstrip()
+            split_window_name = input_string.split(' ')
+            in_process_ID = split_window_name[len(split_window_name) - 1]
+            if in_process_ID == process_ID:
+                pathname = input_string.split('\"')
+                if len(pathname) > 1:
+                    #print(pathname[1]) #Prints path
+                    return pathname[1]
+    return "Error: No path found"
 
 def get_active_window():
     """
