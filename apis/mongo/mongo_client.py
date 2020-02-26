@@ -110,6 +110,7 @@ if __name__ == '__main__':
 else:
     print('Starting MongoDB server...')
     start_server()
-    print('Opening MongoDB client...')
-    open_client()
+    t = 10000
+    print('Opening MongoDB client (Timeout = {} seconds)...'.format(t/1000))
+    open_client(timeout=t)
     print('Client connected.')

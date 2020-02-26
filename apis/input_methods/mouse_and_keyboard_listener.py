@@ -10,6 +10,7 @@ import win32ui
 from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
+from apis.mongo.mongo_client import log_event
 from apis.monitoring_details.active_window_details import \
     get_active_window, get_open_windows_in_task_manager, get_path_from_pid
 
@@ -107,6 +108,10 @@ def log_window_details():
                     "timestamp": datetime.utcnow().isoformat(),
                     "bitmap": ''
                 }
+                if log_event(json_log):
+                    print('Successfully logged event')
+                else:
+                    print('Unsuccessfully logged event')
                 if len(current_active_window_details) > 0:
                     logging.info(json_log)
 
