@@ -127,6 +127,21 @@ def process_events(events: list, active_buffer: int = 5, idle_buffer: int = 300,
     return stats
 
 
+def stats_between_times(start: str, end: str, active_buf: int = 5, idle_buf: int = 300, thinking_buf: int = 900):
+    """
+   Obtains all events logged in MongoDB between the start and end time given, inclusive.
+   :param start: an ISO-8601 string in UTC time
+   :param end: an ISO-8601 string in UTC time
+   :param active_buf: number of seconds defining maximum window of inactivity still counted as "active" time
+   :param idle_buf: number of seconds defining maximum window of inactivity still counted as "idle" time
+   :param thinking_buf: number of seconds defining maximum window of inactivity still counted as "thinking" time
+   :return: a dict with stats for each window in the time span
+   """
+    events = read_events(start, end)
+    stats = process_events(events, active_buf, idle_buf, thinking_buf)
+    return stats
+
+
 if __name__ == '__main__':
     # now = datetime.utcnow() - timedelta(days=10)
     # tmrw = datetime.utcnow()
