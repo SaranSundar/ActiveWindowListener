@@ -42,12 +42,14 @@ def log_window_details():
     global active_windows  # type: list
     global prev_event_type
     time.sleep(0.0001)
+
     # Updates closed and opened windows
     current_active_window_details = get_active_window()
     current_active_window_name = None
     if current_active_window_details is not None:
         # This is for checking diff in applications but not events
         if current_active_window_details != active_window_details:
+            start_time = time.time()
             open_windows = []
             # On windows we want to use window name from task manager, but on mac we only have current window name
             if sys.platform in ['Windows', 'win32', 'cygwin']:
@@ -57,6 +59,8 @@ def log_window_details():
             else:
                 # On windows current_details is a lot more in depth, on mac its just the app name
                 open_windows.append(current_active_window_details)
+            end_time = time.time()
+            print("--- %s seconds for getting open windows ---" % (end_time - start_time))
             # Logs all windows that have been closed
             print("OPEN WINDOWS IS")
             print(open_windows)
@@ -70,6 +74,7 @@ def log_window_details():
                     print(active_windows[i] + " is no longer open")
                     logging.info(active_windows[i] + " is no longer open")
                     del active_windows[i]
+            start_time = time.time()
             # Adds any new windows to the list
             for w in range(len(open_windows)):
                 process_ID = get_PID(open_windows[w])  # Gets PID from task manager
@@ -90,6 +95,8 @@ def log_window_details():
                     logging.info(open_windows[w] + " is now added to the list of open windows")
             print("ACTIVE WINDOWS IS")
             print(active_windows)
+            end_time = time.time()
+            print("--- %s seconds for getting active windows ---" % (end_time - start_time))
 
         # This is for checking diff in events that can also contain different applications
         if current_event_type != prev_event_type or current_active_window_details != active_window_details:
