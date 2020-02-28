@@ -1,6 +1,6 @@
 .ChartPage {
     width: 640px;
-    height: 480px;
+    height: 500px;
     border-style: solid;
     border-width: 5px;
     border-color: black;
@@ -49,7 +49,16 @@
 }
 
 .ChartPage-UserDetails {
+    margin-top: 20px;
+}
 
+.ChartPage-UserDetails-Text {
+    font-size: 20px;
+}
+
+.ChartPage-UserDetails-Title {
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .ChartPage-ItemPercents {

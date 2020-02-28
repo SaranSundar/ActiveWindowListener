@@ -8,6 +8,32 @@ class ChartPage extends Component {
         super(props);
     }
 
+    createLegend() {
+        return (
+            <Grid container direction="row" style={{padding: "5px", marginBottom: "5px"}}>
+                <div className="ChartPage-RowBegin">
+                    <div className="ChartPage-ItemTitle">Legend</div>
+                </div>
+                <div className="ChartPage-Row">
+                    <div className="ChartPage-ItemPercentsParent">
+                        <div className="ChartPage-ItemPercents"
+                             style={{width: "25%", backgroundColor: "#29B6F6"}}>Mouse Usage %
+                        </div>
+                        <div className="ChartPage-ItemPercents"
+                             style={{width: "25%", backgroundColor: "#F9A825"}}>Keyboard Usage %
+                        </div>
+                        <div className="ChartPage-ItemPercents"
+                             style={{width: "25%", backgroundColor: "#4CAF50"}}>Idle Time %
+                        </div>
+                        <div className="ChartPage-ItemPercents"
+                             style={{width: "25%", backgroundColor: "#f44336"}}>Thinking Time %
+                        </div>
+                    </div>
+                </div>
+            </Grid>
+        );
+    }
+
     createRow(iconName, iconURL, usagePercents) {
         return (
             <Grid container direction="row" style={{padding: "5px"}}>
@@ -43,6 +69,7 @@ class ChartPage extends Component {
         // }
         return (
             <Container className="ChartPage">
+                {this.createLegend()}
                 <div className="ChartPage-Scroll">
                     {this.createRow("Google Chrome", "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [40, 30, 10, 20])}
                     {this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}
@@ -54,9 +81,27 @@ class ChartPage extends Component {
                     {this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}
                     {this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}
                 </div>
-                <Container>
-                    <div>
+                <Container className="ChartPage-UserDetails">
+                    <div className="ChartPage-UserDetails-Title">
                         User Details:
+                    </div>
+                    <div className="ChartPage-UserDetails-Text">
+                        Username: saran
+                    </div>
+                    <div className="ChartPage-UserDetails-Text">
+                        Home Directory: /Users/saran
+                    </div>
+                    <div className="ChartPage-UserDetails-Text">
+                        Wifi SSID: CometNet
+                    </div>
+                    <div className="ChartPage-UserDetails-Text">
+                        Hostname: cometnet-10-21-79-245.utdallas.edu
+                    </div>
+                    <div className="ChartPage-UserDetails-Text">
+                        IP Address: IP Address: 10.21.79.245
+                    </div>
+                    <div className="ChartPage-UserDetails-Text">
+                        Mac Address: 82:b9:15:84:94:01
                     </div>
                 </Container>
             </Container>

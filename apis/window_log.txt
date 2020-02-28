@@ -3683,3 +3683,22 @@ Steam Client Bootstrapper is now added to the list of open windows
 Settings is now added to the list of open windows
 {'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'ActiveWindowListener [C:\\Users\\docto\\Desktop\\2020 Spring\\SE 4485 - Software Engineering Project\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py [ActiveWindowListener_Flair] - PyCharm'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Notepad', 'Steam Client Bootstrapper', 'Settings'], 'timestamp': '2020-02-26T05:29:19.265708', 'bitmap': ''}
 {'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'ActiveWindowListener [C:\\Users\\docto\\Desktop\\2020 Spring\\SE 4485 - Software Engineering Project\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py [ActiveWindowListener_Flair] - PyCharm'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Notepad', 'Steam Client Bootstrapper', 'Settings'], 'timestamp': '2020-02-26T05:29:20.831191', 'bitmap': ''}
+PyCharm is now added to the list of open windows
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:31.859830', 'bitmap': '', '_id': ObjectId('5e5968b3b339ed849daa966e')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:32.229272', 'bitmap': '', '_id': ObjectId('5e5968b4b339ed849daa966f')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:34.332193', 'bitmap': '', '_id': ObjectId('5e5968b6b339ed849daa9670')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:34.335504', 'bitmap': '', '_id': ObjectId('5e5968b6b339ed849daa9671')}
+PyCharm is no longer open
+Unity Hub is now added to the list of open windows
+{'trigger': 'keyboard', 'active_window': {'name': 'Unity Hub', 'title': 'Unity Hub'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:34.918295', 'bitmap': '', '_id': ObjectId('5e5968b6b339ed849daa9672')}
+{'trigger': 'keyboard', 'active_window': {'name': 'Unity Hub', 'title': 'Unity Hub'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:35.669289', 'bitmap': '', '_id': ObjectId('5e5968b7b339ed849daa9673')}
+Unity Hub is no longer open
+PyCharm is now added to the list of open windows
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:36.407330', 'bitmap': '', '_id': ObjectId('5e5968b8b339ed849daa9674')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:36.921695', 'bitmap': '', '_id': ObjectId('5e5968b8b339ed849daa9675')}
+{'trigger': 'mouse', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:36.965653', 'bitmap': '', '_id': ObjectId('5e5968b8b339ed849daa9676')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:36.969715', 'bitmap': '', '_id': ObjectId('5e5968b8b339ed849daa9677')}
+{'trigger': 'mouse', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:36.985886', 'bitmap': '', '_id': ObjectId('5e5968b8b339ed849daa9678')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:37.581046', 'bitmap': '', '_id': ObjectId('5e5968b9b339ed849daa9679')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:37.583740', 'bitmap': '', '_id': ObjectId('5e5968b9b339ed849daa967a')}
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'PyCharm'}, 'inactive_windows': [], 'timestamp': '2020-02-28T19:23:39.787682', 'bitmap': '', '_id': ObjectId('5e5968bbb339ed849daa967b')}

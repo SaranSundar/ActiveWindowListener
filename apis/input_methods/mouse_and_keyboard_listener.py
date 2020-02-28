@@ -3,10 +3,11 @@ import sys
 import time
 from datetime import datetime
 
-import win32api
-import win32con
-import win32gui
-import win32ui
+if sys.platform in ['Windows', 'win32', 'cygwin']:
+    import win32api
+    import win32con
+    import win32gui
+    import win32ui
 from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
@@ -101,6 +102,7 @@ def log_window_details():
                 json_log = {
                     "trigger": 'mouse' if current_event_type == 1 else 'keyboard',
                     "active_window": {
+                        'name': current_active_window_name,
                         'name': current_active_window_name,
                         'title': current_active_window_details
                     },
