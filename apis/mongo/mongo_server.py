@@ -1,3 +1,5 @@
+import os
+import pathlib
 import subprocess
 import sys
 
@@ -5,8 +7,8 @@ import sys
 _windows = sys.platform in ['Windows', 'win32', 'cygwin']
 # Find location of MongoDB daemon process
 _daemon_path = subprocess.check_output(['where' if _windows else 'which', 'mongod']).decode().strip()
-# Define location of configuration file
-_config_file = './mongoServer.config'
+# Define location of configuration file within this folder
+_config_file = os.path.join(pathlib.Path(__file__).parent.absolute(), 'mongoServer.config')
 # Current handle server instance's process
 _server = None
 
@@ -19,8 +21,19 @@ def start_server():
     """
 
     global _server
+
+    # Check if the 'db' directory exists. If not, make it, so MongoDB starts properly.
+    db_path = os.path.join(pathlib.Path(__file__).parent.absolute(), 'db')
+    if not os.path.isdir(db_path):
+        try:
+            os.mkdir(path=db_path)
+        except OSError:
+            raise Exception('Database directory creation failed.')
+
     if not _server:
-        _server = subprocess.Popen([_daemon_path, '--config', _config_file], text=True)
+        log_path = os.path.join(pathlib.Path(__file__).parent.absolute(), 'mongo.server.log')
+        _server = subprocess.Popen([_daemon_path, '--config', _config_file, '--dbpath', db_path, '--logpath', log_path],
+                                   text=True)
 
 
 def close_server():
