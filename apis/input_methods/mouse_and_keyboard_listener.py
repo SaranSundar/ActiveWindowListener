@@ -2,6 +2,7 @@ import logging
 import sys
 import time
 from datetime import datetime
+from threading import Thread
 
 if sys.platform in ['Windows', 'win32', 'cygwin']:
     import win32api
@@ -128,6 +129,12 @@ def log_window_details():
         prev_event_type = current_event_type
 
 
+def set_event_type(event_type_input):
+    global current_event_type
+    current_event_type = event_types[event_type_input]
+    log_window_details()
+
+
 def parse_window_name_from_details(window_string):
     split_window_name = window_string.split(' - ')
     split_window_name = split_window_name[len(split_window_name) - 1]
@@ -199,13 +206,9 @@ def get_image_from_path(path, process_ID):
         pass
 
 
-def set_event_type(event_type_input):
-    global current_event_type
-    current_event_type = event_types[event_type_input]
-    log_window_details()
-
-
 def on_press(key):
+    # t = Thread(target=set_event_type, args=(KEYBOARD_PRESS,))
+    # t.start()
     set_event_type(KEYBOARD_PRESS)
     # print("ON PRESS")
     # logging.info("Key Press: " + str(key))
@@ -213,6 +216,8 @@ def on_press(key):
 
 
 def on_release(key):
+    # t = Thread(target=set_event_type, args=(KEYBOARD_RELEASE,))
+    # t.start()
     set_event_type(KEYBOARD_RELEASE)
     # print("ON PRESS")
     # logging.info("Key Press: " + str(key))
@@ -220,7 +225,10 @@ def on_release(key):
 
 
 def on_move(x, y):
-    set_event_type(MOUSE_MOVE)
+    pass
+    # t = Thread(target=set_event_type, args=(MOUSE_MOVE,))
+    # t.start()
+    # set_event_type(MOUSE_MOVE)
     # print("ON MOVE")
     # time.sleep(5)
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
@@ -229,6 +237,8 @@ def on_move(x, y):
 
 def on_click(x, y, button, pressed):
     if pressed:
+        # t = Thread(target=set_event_type, args=(MOUSE_CLICK,))
+        # t.start()
         set_event_type(MOUSE_CLICK)
         # print("ON CLICK")
         # logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
@@ -236,8 +246,11 @@ def on_click(x, y, button, pressed):
 
 
 def on_scroll(x, y, dx, dy):
-    set_event_type(MOUSE_SCROLL)
-    # print("ON SCOLL")
+    pass
+    # t = Thread(target=set_event_type, args=(MOUSE_SCROLL,))
+    # t.start()
+    # set_event_type(MOUSE_SCROLL)
+    # print("ON SCROLL")
     # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     # print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 
