@@ -222,6 +222,7 @@ def on_release(key):
 def on_move(x, y):
     set_event_type(MOUSE_MOVE)
     # print("ON MOVE")
+    # time.sleep(5)
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
     # print("Mouse moved to ({0}, {1})".format(x, y))
 
