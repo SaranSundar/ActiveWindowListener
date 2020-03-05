@@ -1,7 +1,10 @@
-import logging
-import sys
+import os
 import time
-from datetime import datetime
+
+import win32api
+import win32con
+import win32gui
+import win32ui
 
 from apis.input_methods.mouse_and_keyboard_listener import parse_window_name_from_task_manager, \
     parse_window_name_from_details
@@ -31,6 +34,46 @@ def log_window_details():
     print("")
     print("")
     print("")
+
+
+def save_icon(icon_path, save_path):
+    if icon_path == "Error: No path found":
+        return
+
+    icon_path = icon_path.replace("\\", "/")
+    try:
+        iconX = win32api.GetSystemMetrics(win32con.SM_CXICON)
+        iconY = win32api.GetSystemMetrics(win32con.SM_CXICON)
+
+        large, small = win32gui.ExtractIconEx(icon_path, 0)
+        win32gui.DestroyIcon(small[0])
+
+        hdc = win32ui.CreateDCFromHandle(win32gui.GetDC(0))
+        hbmp = win32ui.CreateBitmap()
+        hbmp.CreateCompatibleBitmap(hdc, iconX, iconX)
+        hdc = hdc.CreateCompatibleDC()
+
+        hdc.SelectObject(hbmp)
+        hdc.DrawIcon((0, 0), large[0])
+
+        from PIL import Image
+        bmpstr = hbmp.GetBitmapBits(True)
+        img = Image.frombuffer(
+            'RGBA',
+            (32, 32),
+            bmpstr, 'raw', 'BGRA', 0, 1
+        )
+        img.save(save_path)
+    except Exception as e:
+        print("Error:")
+        print(e)
+
+
+def find_all_icons():  # Create a function for later.
+    for name in os.listdir("C://Program Files//7-Zip"):
+        if name.lower().endswith('.exe'):
+            print(name)
+            save_icon("C://Program Files//7-Zip//" + name, name)
 
 
 if __name__ == '__main__':

@@ -75,7 +75,7 @@ def kill_port(port):
         os.kill(int(data[1]), signal.SIGKILL)
 
 
-def run_app(url, port, start_redis):
+def run_app(url, port):
     if "darwin" in operating_system:
         kill_port(port)
     server = pywsgi.WSGIServer((url, port), app, handler_class=WebSocketHandler)
@@ -90,4 +90,4 @@ if __name__ == '__main__':
         Can be useful for chrome tools debugging. Make sure port number
         is the same as in flair.py
     """
-    run_app('localhost', port=43968, start_redis=False)
+    run_app('localhost', port=43968)

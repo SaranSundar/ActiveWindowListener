@@ -2,11 +2,44 @@ import React, {Component} from 'react';
 import './ChartPage.css';
 import Grid from '@material-ui/core/Grid';
 import Container from "@material-ui/core/Container";
+import WebSocketWrapper from "../WebSocketWrapper/WebSocketWrapper";
 
 class ChartPage extends Component {
     constructor(props) {
         super(props);
+        this.SERVER_URL = "ws://localhost:43968/example_ws/echo-example";
+        this.state = {
+            data: {}
+        }
     }
+
+    handleData = (data) => {
+        console.log("Data received");
+        data = JSON.parse(data);
+        console.log(data);
+        this.setState({data: data});
+    };
+
+    processData = (data) => {
+        let rows = [];
+        for (let [key, value] of Object.entries(data)) {
+            rows.push(this.createRow(key, "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [value["mouse_usage"], value["keyboard_usage"], value["idle"], value["thinking"]]));
+        }
+        return rows;
+    };
+
+    handleOpen = () => {
+        console.log("Connected to Server");
+        this.sendMessage("Hello World!");
+    };
+
+    handleClose = () => {
+        console.log("Disconnected from Server");
+    };
+
+    sendMessage = (message) => {
+        this.refWebSocket.sendMessage(message);
+    };
 
     createLegend() {
         return (
@@ -36,7 +69,7 @@ class ChartPage extends Component {
 
     createRow(iconName, iconURL, usagePercents) {
         return (
-            <Grid container direction="row" style={{padding: "5px"}}>
+            <Grid container direction="row" style={{padding: "5px"}} key={iconName}>
                 <div className="ChartPage-RowBegin">
                     <img style={{width: "50px", height: "50px"}}
                          src={iconURL}/>
@@ -71,15 +104,16 @@ class ChartPage extends Component {
             <Container className="ChartPage">
                 {this.createLegend()}
                 <div className="ChartPage-Scroll">
-                    {this.createRow("Google Chrome", "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [40, 30, 10, 20])}
-                    {this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}
-                    {this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}
-                    {this.createRow("Google Chrome", "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [40, 30, 10, 20])}
-                    {this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}
-                    {this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}
-                    {this.createRow("Google Chrome", "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [40, 30, 10, 20])}
-                    {this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}
-                    {this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}
+                    {this.processData(this.state.data)}
+                    {/*{this.createRow("Google Chrome", "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [40, 30, 10, 20])}*/}
+                    {/*{this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}*/}
+                    {/*{this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}*/}
+                    {/*{this.createRow("Google Chrome", "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [40, 30, 10, 20])}*/}
+                    {/*{this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}*/}
+                    {/*{this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}*/}
+                    {/*{this.createRow("Google Chrome", "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [40, 30, 10, 20])}*/}
+                    {/*{this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}*/}
+                    {/*{this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}*/}
                 </div>
                 <Container className="ChartPage-UserDetails">
                     <div className="ChartPage-UserDetails-Title">
@@ -104,6 +138,14 @@ class ChartPage extends Component {
                         Mac Address: 82:b9:15:84:94:01
                     </div>
                 </Container>
+                {/*<button onClick={() => this.sendMessage("Hello World!")}>Send Message</button>*/}
+                <WebSocketWrapper
+                    url={this.SERVER_URL} onMessage={this.handleData}
+                    onOpen={this.handleOpen} onClose={this.handleClose}
+                    reconnect={true} debug={true}
+                    ref={Websocket => {
+                        this.refWebSocket = Websocket;
+                    }}/>
             </Container>
         );
     }
