@@ -111,13 +111,14 @@ def log_window_details():
                     "trigger": 'mouse' if current_event_type == 1 else 'keyboard',
                     "active_window": {
                         'name': current_active_window_name,
-                        'name': current_active_window_name,
                         'title': current_active_window_details
                     },
                     "inactive_windows": inactive_windows,
                     "timestamp": datetime.utcnow().isoformat(),
                     "bitmap": ''
                 }
+                print("CURRENT ACTIVE WINDOW IS")
+                print(current_active_window_name)
                 if log_event(json_log):
                     print('Successfully logged event')
                 else:
@@ -209,8 +210,9 @@ def get_image_from_path(path, process_ID):
 def on_press(key):
     # t = Thread(target=set_event_type, args=(KEYBOARD_PRESS,))
     # t.start()
-    set_event_type(KEYBOARD_PRESS)
-    # print("ON PRESS")
+    # set_event_type(KEYBOARD_PRESS)
+    print("ON PRESS")
+    print(time.time())
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
 
@@ -218,8 +220,9 @@ def on_press(key):
 def on_release(key):
     # t = Thread(target=set_event_type, args=(KEYBOARD_RELEASE,))
     # t.start()
-    set_event_type(KEYBOARD_RELEASE)
-    # print("ON PRESS")
+    # set_event_type(KEYBOARD_RELEASE)
+    print("ON PRESS")
+    print(time.time())
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
 
@@ -229,7 +232,8 @@ def on_move(x, y):
     # t = Thread(target=set_event_type, args=(MOUSE_MOVE,))
     # t.start()
     # set_event_type(MOUSE_MOVE)
-    # print("ON MOVE")
+    print("ON MOVE")
+    print(time.time())
     # time.sleep(5)
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
     # print("Mouse moved to ({0}, {1})".format(x, y))
@@ -239,23 +243,29 @@ def on_click(x, y, button, pressed):
     if pressed:
         # t = Thread(target=set_event_type, args=(MOUSE_CLICK,))
         # t.start()
-        set_event_type(MOUSE_CLICK)
-        # print("ON CLICK")
+        # set_event_type(MOUSE_CLICK)
+        print("ON CLICK")
+        print(time.time())
         # logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
         # print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
 
 
 def on_scroll(x, y, dx, dy):
-    pass
     # t = Thread(target=set_event_type, args=(MOUSE_SCROLL,))
     # t.start()
     # set_event_type(MOUSE_SCROLL)
-    # print("ON SCROLL")
+    print("ON SCROLL")
+    print(time.time())
     # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     # print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 
 
-with MouseListener(on_click=on_click, on_scroll=on_scroll, on_move=on_move) as m_listener:
-    with KeyboardListener(on_press=on_press, on_release=on_release) as k_listener:
-        m_listener.join()
-        k_listener.join()
+def start_listeners():
+    with MouseListener(on_click=on_click, on_scroll=on_scroll, on_move=on_move) as m_listener:
+        with KeyboardListener(on_press=on_press, on_release=on_release) as k_listener:
+            m_listener.join()
+            k_listener.join()
+
+
+if __name__ == '__main__':
+    start_listeners()

@@ -202,3 +202,22 @@ Store is now added to the list of open windows
 {'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Microsoft Edge', 'Microsoft Edge Content Process', 'Settings', 'Store'], 'timestamp': '2020-03-05T05:44:54.283916', 'bitmap': '', '_id': ObjectId('5e6091d67df36d636570ebbc')}
 {'trigger': 'keyboard', 'active_window': {'name': 'Google Chrome', 'title': 'New Tab - Google Chrome'}, 'inactive_windows': ['Application Frame Host', 'Microsoft Edge', 'Microsoft Edge Content Process', 'PyCharm', 'Settings', 'Store'], 'timestamp': '2020-03-05T05:45:06.519915', 'bitmap': '', '_id': ObjectId('5e6091e27df36d636570ebbd')}
 {'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Microsoft Edge', 'Microsoft Edge Content Process', 'Settings', 'Store'], 'timestamp': '2020-03-05T05:45:13.662002', 'bitmap': '', '_id': ObjectId('5e6091e97df36d636570ebbe')}
+Application Frame Host is now added to the list of open windows
+Microsoft Edge is now added to the list of open windows
+Microsoft Edge Content Process is now added to the list of open windows
+PyCharm is now added to the list of open windows
+Settings is now added to the list of open windows
+Store is now added to the list of open windows
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\mouse_and_keyboard_listener.py - PyCharm'}, 'inactive_windows': ['Application Frame Host', 'Microsoft Edge', 'Microsoft Edge Content Process', 'Settings', 'Store'], 'timestamp': '2020-03-05T19:39:27.229568', 'bitmap': '', '_id': ObjectId('5e61556fecca4749df6c1f92')}
+Google Chrome is now added to the list of open windows
+{'trigger': 'keyboard', 'active_window': {'name': 'Google Chrome', 'title': 'New Tab - Google Chrome'}, 'inactive_windows': ['Application Frame Host', 'Microsoft Edge', 'Microsoft Edge Content Process', 'PyCharm', 'Settings', 'Store'], 'timestamp': '2020-03-05T19:39:40.803567', 'bitmap': '', '_id': ObjectId('5e61557cecca4749df6c1f93')}
+Application Frame Host is now added to the list of open windows
+Google Chrome is now added to the list of open windows
+Microsoft Edge is now added to the list of open windows
+Microsoft Edge Content Process is now added to the list of open windows
+PyCharm is now added to the list of open windows
+Settings is now added to the list of open windows
+Store is now added to the list of open windows
+{'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\test.py - PyCharm'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Microsoft Edge', 'Microsoft Edge Content Process', 'Settings', 'Store'], 'timestamp': '2020-03-05T19:47:08.669686', 'bitmap': '', '_id': ObjectId('5e61573c474a80fa91e5489e')}
+WindowsInternal.ComposableS... is now added to the list of open windows
+{'trigger': 'keyboard', 'active_window': {'name': 'File Explorer', 'title': 'File Explorer'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Microsoft Edge', 'Microsoft Edge Content Process', 'PyCharm', 'Settings', 'Store', 'WindowsInternal.ComposableS...'], 'timestamp': '2020-03-05T19:47:22.778912', 'bitmap': '', '_id': ObjectId('5e61574a474a80fa91e5489f')}
