@@ -1,5 +1,6 @@
 import os
 import time
+from threading import Thread
 
 import win32api
 import win32con
@@ -45,37 +46,12 @@ def parse_window_name_from_task_manager(window_string):
     # print(split_window_name)
     return split_window_name
 
+
 def get_PID(window_string):
     first_chars = window_string[0:72]
     split_window_name = first_chars.split(' ')
     process_ID = split_window_name[len(split_window_name) - 1]
     return process_ID
-
-def log_window_details():
-    start_time = time.time()
-    current_active_window_details = get_active_window()
-    end_time = time.time()
-    print("Active window is")
-    current_active_window_name = parse_window_name_from_details(current_active_window_details)
-    if current_active_window_name == "" or len(current_active_window_name) <= 2:
-        current_active_window_name = current_active_window_details
-    print(current_active_window_name)
-    print("--- %s seconds for getting active window ---" % (end_time - start_time))
-    start_time = time.time()
-    open_windows = get_open_windows_in_task_manager()
-    print(open_windows)
-    if len(open_windows) >= 2:
-        open_windows = open_windows[2:]
-    for i in range(len(open_windows)):
-        open_windows[i] = parse_window_name_from_task_manager(open_windows[i])
-    end_time = time.time()
-    print("Open windows is")
-    print(open_windows)
-    print("--- %s seconds for getting windows in task manager ---" % (end_time - start_time))
-    print("")
-    print("")
-    print("")
-
 
 def save_icon(icon_path, save_path):
     if icon_path == "Error: No path found":
@@ -123,19 +99,21 @@ def find__and_save_all_icons():
         for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
             name = parse_exe_name(filename)
             encoded_file_path = filename.replace("\\", "-'backslash'-")
-            encoded_file_path = encoded_file_path.replace(":", "-'colon'-")    # "Encodes" the filepath so that it can be saved and decoded later
+            # "Encodes" the file_path so that it can be saved and decoded later
+            encoded_file_path = encoded_file_path.replace(":", "-'colon'-")
             result = save_icon(filename, "./icons/" + encoded_file_path + ".png")
             if result:
-                pass
                 print("Saved " + name, " path: " + filename)
-                print("")
             else:
                 print("Error on " + name, " path: " + filename)
+            print(filename)
         print("********************")
+        print("")
     search_path("C:\\Program Files\\")
     search_path("C:\\Program Files (x86)\\")
     end_time = time.time()
     print("--- %s seconds for finding and saving all icons ---" % (end_time - start_time))
+
 
 def find_icon_from_path(path):
     path = path[:-3]
@@ -147,15 +125,12 @@ def find_icon_from_path(path):
             return file # Returns png filename
     print("EXE icon not found")
 
+
 def parse_exe_name(exe_name):
     exe_split = exe_name.split("\\")
     return exe_split[2] + " " + exe_split[-1].split(".exe")[0]
 
 
-def test_windows():
-    while True:
-        log_window_details()
-        time.sleep(0.5)
 
 def get_path_from_pid(process_ID):
     # cmd = 'Get-CimInstance Win32_Process -Filter "ProcessID=3616" | Select-Object ProcessId, CommandLine'
@@ -174,6 +149,7 @@ def get_path_from_pid(process_ID):
                     return pathname[1]
     return "Error: No path found"
 
+
 def get_active_pid():
     import win32gui
     import win32process
@@ -183,10 +159,56 @@ def get_active_pid():
     pid = win32process.GetWindowThreadProcessId(window)
     return pid
 
-if __name__ == '__main__':
-    #find__and_save_all_icons()
-    while(True):
+
+def run_test2():
+    find__and_save_all_icons()
+    while True:
         pid = get_active_pid()
         windows_path = get_path_from_pid(str(pid[1]))
-        print(windows_path)
-        find_icon_from_path(windows_path)
+        # print(windows_path)
+        result = find_icon_from_path(windows_path)
+        print(result)
+
+
+def log_active_window():
+    while True:
+        start_time = time.time()
+        current_active_window_details = get_active_window()
+        end_time = time.time()
+        print("Active window is")
+        current_active_window_name = parse_window_name_from_details(current_active_window_details)
+        if current_active_window_name == "" or len(current_active_window_name) <= 2:
+            current_active_window_name = current_active_window_details
+        print(current_active_window_name)
+        print("--- %s seconds for getting active window ---" % (end_time - start_time))
+        print("")
+        time.sleep(5)
+
+
+def log_open_windows():
+    while True:
+        start_time = time.time()
+        open_windows = get_open_windows_in_task_manager()
+        if len(open_windows) >= 2:
+            open_windows = open_windows[2:]
+        for i in range(len(open_windows)):
+            open_windows[i] = parse_window_name_from_task_manager(open_windows[i])
+        end_time = time.time()
+        print("Open windows is")
+        print(open_windows)
+        print("--- %s seconds for getting windows in task manager ---" % (end_time - start_time))
+        print("")
+        time.sleep(5)
+
+
+def test_windows():
+    t = Thread(target=log_active_window, args=())
+    t.start()
+    t2 = Thread(target=log_open_windows, args=())
+    t2.start()
+    t.join()
+    t2.join()
+
+
+if __name__ == '__main__':
+    test_windows()
