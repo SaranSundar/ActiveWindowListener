@@ -7,6 +7,10 @@ import win32gui
 import win32ui
 import glob
 
+import logging
+import subprocess
+import sys
+
 from apis.monitoring_details.active_window_details import get_active_window, get_open_windows_in_task_manager
 
 
@@ -41,6 +45,11 @@ def parse_window_name_from_task_manager(window_string):
     # print(split_window_name)
     return split_window_name
 
+def get_PID(window_string):
+    first_chars = window_string[0:72]
+    split_window_name = first_chars.split(' ')
+    process_ID = split_window_name[len(split_window_name) - 1]
+    return process_ID
 
 def log_window_details():
     start_time = time.time()
@@ -54,6 +63,7 @@ def log_window_details():
     print("--- %s seconds for getting active window ---" % (end_time - start_time))
     start_time = time.time()
     open_windows = get_open_windows_in_task_manager()
+    print(open_windows)
     if len(open_windows) >= 2:
         open_windows = open_windows[2:]
     for i in range(len(open_windows)):
@@ -112,8 +122,11 @@ def find__and_save_all_icons():
     def search_path(pathname):
         for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
             name = parse_exe_name(filename)
-            result = save_icon(filename, "./icons/" + name + ".png")
+            encoded_file_path = filename.replace("\\", "-'backslash'-")
+            encoded_file_path = encoded_file_path.replace(":", "-'colon'-")    # "Encodes" the filepath so that it can be saved and decoded later
+            result = save_icon(filename, "./icons/" + encoded_file_path + ".png")
             if result:
+                pass
                 print("Saved " + name, " path: " + filename)
                 print("")
             else:
@@ -124,6 +137,15 @@ def find__and_save_all_icons():
     end_time = time.time()
     print("--- %s seconds for finding and saving all icons ---" % (end_time - start_time))
 
+def find_icon_from_path(path):
+    path = path[:-3]
+    path = path.replace("\\", "-'backslash'-")
+    path = path.replace(":", "-'colon'-")
+    for file in os.listdir("./icons"):
+        if file.startswith(path):
+            print(file)
+            return file # Returns png filename
+    print("EXE icon not found")
 
 def parse_exe_name(exe_name):
     exe_split = exe_name.split("\\")
@@ -135,6 +157,36 @@ def test_windows():
         log_window_details()
         time.sleep(0.5)
 
+def get_path_from_pid(process_ID):
+    # cmd = 'Get-CimInstance Win32_Process -Filter "ProcessID=3616" | Select-Object ProcessId, CommandLine'
+    # 'Get-CimInstance' command not working
+    cmd = 'wmic process get processid,commandline'
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        if not line.decode()[0].isspace():
+            input_string = line.decode().rstrip()
+            split_window_name = input_string.split(' ')
+            in_process_ID = split_window_name[len(split_window_name) - 1]
+            if in_process_ID == process_ID:
+                pathname = input_string.split('\"')
+                if len(pathname) > 1:
+                    # print(pathname[1]) #Prints path
+                    return pathname[1]
+    return "Error: No path found"
+
+def get_active_pid():
+    import win32gui
+    import win32process
+    import wmi
+    c = wmi.WMI()
+    window = win32gui.GetForegroundWindow()
+    pid = win32process.GetWindowThreadProcessId(window)
+    return pid
 
 if __name__ == '__main__':
-    find__and_save_all_icons()
+    #find__and_save_all_icons()
+    while(True):
+        pid = get_active_pid()
+        windows_path = get_path_from_pid(str(pid[1]))
+        print(windows_path)
+        find_icon_from_path(windows_path)
