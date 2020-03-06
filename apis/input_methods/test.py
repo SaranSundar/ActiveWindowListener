@@ -5,10 +5,41 @@ import win32api
 import win32con
 import win32gui
 import win32ui
+import glob
 
-from apis.input_methods.mouse_and_keyboard_listener import parse_window_name_from_task_manager, \
-    parse_window_name_from_details
 from apis.monitoring_details.active_window_details import get_active_window, get_open_windows_in_task_manager
+
+
+def parse_window_name_from_details(window_string):
+    split_window_name = window_string.split(' - ')
+    split_window_name = split_window_name[len(split_window_name) - 1]
+    return split_window_name
+
+
+def parse_window_name_from_task_manager(window_string):
+    # print("WINDOW STRING IS")
+    # print(window_string)
+    split_window_name = window_string.split(' ')
+    split_window_name = " ".join(split_window_name[0:10]).strip()
+    if len(split_window_name) > len("Microsoft Edge Content Process"):
+        new_name = split_window_name.split(" ")
+        split_window_name = ""
+        for word in new_name:
+            if len(split_window_name) + len(word) <= len("Microsoft Edge Content Process"):
+                split_window_name += " " + word
+                split_window_name = split_window_name.strip()
+            else:
+                break
+        if split_window_name == "":
+            if len(window_string) >= len("Microsoft Edge Content Process"):
+                split_window_name = window_string[0:len("Microsoft Edge Content Process")] + "..."
+            else:
+                split_window_name = window_string
+            # ignore above
+            split_window_name = None
+    # print("PARSED STRING IS")
+    # print(split_window_name)
+    return split_window_name
 
 
 def log_window_details():
@@ -38,7 +69,7 @@ def log_window_details():
 
 def save_icon(icon_path, save_path):
     if icon_path == "Error: No path found":
-        return
+        return False
 
     icon_path = icon_path.replace("\\", "/")
     try:
@@ -63,20 +94,47 @@ def save_icon(icon_path, save_path):
             (32, 32),
             bmpstr, 'raw', 'BGRA', 0, 1
         )
-        img.save(save_path)
+        extrema = img.convert("L").getextrema()
+        if "Chrome" in icon_path:
+            print("TEST")
+        if extrema[1] < 250:
+            img.save(save_path)
+        return True
     except Exception as e:
-        print("Error:")
-        print(e)
+        return False
+        # print("Error:")
+        # print(e)
 
 
-def find_all_icons():  # Create a function for later.
-    for name in os.listdir("C://Program Files//7-Zip"):
-        if name.lower().endswith('.exe'):
-            print(name)
-            save_icon("C://Program Files//7-Zip//" + name, name)
+def find__and_save_all_icons():
+    start_time = time.time()
+
+    def search_path(pathname):
+        for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
+            name = parse_exe_name(filename)
+            result = save_icon(filename, "./icons/" + name + ".png")
+            if result:
+                print("Saved " + name, " path: " + filename)
+                print("")
+            else:
+                print("Error on " + name, " path: " + filename)
+        print("********************")
+    search_path("C:\\Program Files\\")
+    search_path("C:\\Program Files (x86)\\")
+    end_time = time.time()
+    print("--- %s seconds for finding and saving all icons ---" % (end_time - start_time))
 
 
-if __name__ == '__main__':
+def parse_exe_name(exe_name):
+    exe_split = exe_name.split("\\")
+    return exe_split[2] + " " + exe_split[-1].split(".exe")[0]
+
+
+def test_windows():
     while True:
         log_window_details()
         time.sleep(0.5)
+
+
+if __name__ == '__main__':
+    find__and_save_all_icons()
