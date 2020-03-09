@@ -10,3 +10,5 @@ react-ui/node_modules
 apis/mongo/db/
 apis/mongo/mongo.server.log
 **/db/**
+
+apis/input_methods/icons/

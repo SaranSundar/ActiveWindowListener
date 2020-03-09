@@ -109,14 +109,26 @@ def computer_snapshot(with_title=True, blacklist: list or set = None):
     :return: A dict for the information above.
     """
 
-    return {
-        'active': active_window_process(),
-        'all': all_open_windows(with_title=with_title, blacklist=blacklist),
-        'timestamp': datetime.utcnow()
-    }
+    try:
+        return {
+            'active': active_window_process(),
+            'all': all_open_windows(with_title=with_title, blacklist=blacklist),
+            'timestamp': datetime.utcnow()
+        }
+    except Exception as e:
+        print(e)
+        return None
 
 
 if __name__ == '__main__':
-    s = time.time()
-    pprint(computer_snapshot())
-    print('\ntime taken: {}'.format(time.time() - s))
+    while True:
+        s = time.time()
+        snapshot = computer_snapshot()
+        if snapshot is None:
+            continue
+        print("Active: " + snapshot['active']['process_obj']['name'])
+        for key, value in snapshot['all'].items():
+            print("Window Title: " + value['process_obj']['name'])
+        # pprint(snapshot)
+        print('time taken: {}'.format(time.time() - s))
+        print("")
