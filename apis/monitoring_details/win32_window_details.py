@@ -67,6 +67,9 @@ def all_open_windows(with_title=True, blacklist: list or set = None):
     :return: A dict of the described information
     """
 
+    # TODO: add ability for a whitelist to override blacklist.
+    # TODO: first item for whitelist: explorer.exe
+
     # Add additional blacklisted processes/directories if defined
     exe_blacklist = {'C:\\Windows', 'C:\\Program Files\\WindowsApps'}
     if blacklist:

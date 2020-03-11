@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from apis.mongo.mongo_client import get_database
+from apis.mongo.mongo_client import EVENT_DATABASE_NAME, get_collection
 
 
 def read_events(start: str, end: str):
@@ -19,23 +19,20 @@ def read_events(start: str, end: str):
         return []
 
     # Base case: start date is after current time
-    if start > datetime.utcnow():
+    if start >= datetime.utcnow():
         return []
-
-    # Database with all events stored under the the day they occurred on
-    database = get_database('timesheet')
 
     events = []
     # Get events for start date, where time needs to be considered
-    events += database[str(start.date())].find({'timestamp': {'$gte': start.isoformat()}})
+    events += get_collection(EVENT_DATABASE_NAME, str(start.date())).find({'timestamp': {'$gte': start}})
     # Get events for all intermediate dates
     start += timedelta(days=1)
     while start.date() < end.date():
-        print(start.date())
-        events += database[str(start.date())].find({})
-        start = start + timedelta(days=1)
+        # print(start.date())
+        events += get_collection(EVENT_DATABASE_NAME, str(start.date())).find({})
+        start += timedelta(days=1)
     # Get events for end date, where time needs to be considered
-    events += database[str(end.date())].find({'timestamp': {'$lte': end.isoformat()}})
+    events += get_collection(EVENT_DATABASE_NAME, str(start.date())).find({'timestamp': {'$lte': end}})
 
     return events
 

@@ -4,8 +4,8 @@ import pymongo
 
 from apis.mongo.mongo_server import start_server, close_server
 
-_DATABASE_NAME = 'timesheet'
-_database_handle = None
+EVENT_DATABASE_NAME = 'events'
+WINDOWS_DATABASE_NAME = 'windows'
 _client_connection = None
 
 
@@ -19,7 +19,6 @@ def open_client(port=27017, timeout=30000):
     :raise: An Exception if the client cannot connect.
     """
 
-    global _database_handle
     global _client_connection
 
     # If client was not already made
@@ -30,8 +29,6 @@ def open_client(port=27017, timeout=30000):
         try:
             # Causes this thread to block until client has connected or not
             client.server_info()
-            # Get handle on the database to be used
-            _database_handle = client[_DATABASE_NAME]
             # Return client instance
             return client
         except Exception as e:
@@ -68,27 +65,29 @@ def log_event(event: dict):
 
     :param event: The dictionary containing data to write.
     :return: a MongoDB document object ID for the inserted event record
-    :raise: An Exception if the client cannot connect or the event is not a dict
+    :raise: An Exception if the client fails to log the event
     """
 
-    # Raise exception if invalid event object is given
-    if type(event) is not dict:
-        raise Exception('event must be of type dict.')
+    # Assume timestamp is right now if unspecified
+    if 'timestamp' not in event:
+        event['timestamp'] = datetime.datetime.utcnow()
 
-    # extract date from time
-    date = event['timestamp'].split('T')[0]
+    # Get handle on collection for the day
+    date = str(event['timestamp'].date())
+    collection_handle = get_database(EVENT_DATABASE_NAME)[date]
 
-    # obtain handle on collection for the day
-    collection_handle = _database_handle[date]
     # Insert the event as a document in the collection; return its ID
     return collection_handle.insert_one(event).inserted_id
+
+
+# TODO: function to log information about just all open windows; not mouse/kb event
 
 
 def get_database(database: str):
     return open_client()[database]
 
 
-def get_collection(collection: str, database: str):
+def get_collection(database: str, collection: str):
     return open_client()[database][collection]
 
 
