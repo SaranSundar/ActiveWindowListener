@@ -53,7 +53,7 @@ def _get_all_open_windows(with_title=True):
     return windows
 
 
-def all_open_windows(with_title=True, blacklist: list or set = None):
+def all_open_windows(with_title=True, blacklist: list or set = None, whitelist: list or set = None):
     """
     Returns information regarding all processes containing an
     open window on the system.
@@ -62,24 +62,37 @@ def all_open_windows(with_title=True, blacklist: list or set = None):
     associated via their window handles and window titles. Process
     information is also provided in the process' PID, name, executable
     path, and owner's username.
-    :param blacklist: A list of processes or process directories to ignore
+
+    Individual processes can be blacklisted via their executable file paths,
+    preventing matching processes from monitoring. Directories can be
+    blacklisted as well, in which case the entirety of its contents and
+    any subdirectories is blacklisted as well.
+
+    Exceptions to the blacklist mentioned above can be given in the whitelist.
+    Processes can be specified via their specific executable file paths or a
+    directory under which they appear, as with the blacklist.
+
     :param with_title: Boolean indicating whether windows without titles should be ignored.
+    :param blacklist: A list of processes or process directories to ignore
+    :param whitelist: A list of processes or process directories to include despite blacklist
     :return: A dict of the described information
     """
-
-    # TODO: add ability for a whitelist to override blacklist.
-    # TODO: first item for whitelist: explorer.exe
 
     # Add additional blacklisted processes/directories if defined
     exe_blacklist = {'C:\\Windows', 'C:\\Program Files\\WindowsApps'}
     if blacklist:
-        if type(blacklist) is list:
-            blacklist = set(blacklist)
+        blacklist = set(blacklist) if isinstance(blacklist, list) else blacklist
         exe_blacklist = set.union(exe_blacklist, blacklist)
+
+    # Add additional whitelisted processes/directories if defined
+    exe_whitelist = {'C:\\Windows\\explorer.exe'}
+    if whitelist:
+        whitelist = set(whitelist) if isinstance(whitelist, list) else whitelist
+        exe_whitelist = set.union(exe_whitelist, whitelist)
 
     # Obtain all windows' PIDs, HWNDs, and titles
     open_windows = _get_all_open_windows(with_title=with_title)
-    # Pair PIDs with processes and windows
+    # Pair PIDs with their processes and all discrete windows
     processes = {}
     for pid, hwnd, title in open_windows:
         if pid in processes:
@@ -92,30 +105,34 @@ def all_open_windows(with_title=True, blacklist: list or set = None):
 
     # Remove any processes that match an entry in the blacklist
     for pid in list(processes.keys()):
-        for exe in exe_blacklist:
-            proc_exe = os.path.realpath(processes[pid]['process_obj']['exe'])
-            if os.path.commonprefix([proc_exe, exe]) == exe:
+        # Get process executable path
+        process_exe = os.path.realpath(processes[pid]['process_obj']['exe'])
+        # Check if it is included in the blacklist
+        if any(os.path.commonprefix([process_exe, exe]) == exe for exe in exe_blacklist):
+            # If in blacklist, check if not whitelisted
+            if not any(os.path.commonprefix([process_exe, exe]) == exe for exe in exe_whitelist):
+                # Blacklisted and not whitelisted? Then this process can be ignored from detection
                 del processes[pid]
-                break
 
     return processes
 
 
-def computer_snapshot(with_title=True, blacklist: list or set = None):
+def computer_snapshot(with_title=True, blacklist: list or set = None, whitelist: list or set = None):
     """
     Convenience function that returns information for both the
     currently active window and all open windows.
 
     Additionally adds the timestamp at which this information was taken.
-    :param blacklist: A list of processes or process directories to ignore
     :param with_title: Boolean indicating whether windows without titles should be ignored.
+    :param blacklist: A list of processes or process directories to ignore
+    :param whitelist: A list of processes or process directories to include despite blacklist
     :return: A dict for the information above.
     """
 
     try:
         return {
             'active': active_window_process(),
-            'all': all_open_windows(with_title=with_title, blacklist=blacklist),
+            'all': all_open_windows(with_title=with_title, blacklist=blacklist, whitelist=whitelist),
             'timestamp': datetime.utcnow()
         }
     except Exception as e:
