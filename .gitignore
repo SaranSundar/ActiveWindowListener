@@ -1,14 +1,15 @@
 *.app
 build/
 dist/
-react-ui/node_modules
-
-# pycache
-**/__pycache__/**
+node_modules/
+__pycache__/
+bin/
+out/
+db/
+.idea/
+.vscode/
 
 # Mongo folder
-apis/mongo/db/
 apis/mongo/mongo.server.log
-**/db/**
 
 apis/input_methods/icons/
