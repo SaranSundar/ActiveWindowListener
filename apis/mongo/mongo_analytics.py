@@ -1,18 +1,15 @@
 from datetime import datetime, timedelta
 
-from apis.mongo.mongo_client import EVENT_DATABASE_NAME, get_collection
+from apis.mongo.mongo_client import EVENT_DATABASE_NAME, WINDOWS_DATABASE_NAME, get_collection
 
 
-def read_events(start: str, end: str):
+def read_events(start: datetime, end: datetime):
     """
     Obtains all events logged in MongoDB between the start and end time given, inclusive.
-    :param start: an ISO-8601 string in UTC time
-    :param end: an ISO-8601 string in UTC time
+    :param start: a datetime instance in UTC time
+    :param end: a datetime instance in UTC time
     :return: a List of MongoDB event documents
     """
-
-    start = datetime.fromisoformat(start)
-    end = datetime.fromisoformat(end)
 
     # Base case: no valid range given
     if end <= start:
@@ -35,6 +32,37 @@ def read_events(start: str, end: str):
     events += get_collection(EVENT_DATABASE_NAME, str(start.date())).find({'timestamp': {'$lte': end}})
 
     return events
+
+
+def read_processes(start: datetime, end: datetime):
+    """
+    Obtains all process snapshots logged in MongoDB between the start and end time given, inclusive.
+    :param start: a datetime instance in UTC time
+    :param end: a datetime instance in UTC time
+    :return: a List of MongoDB process logs
+    """
+
+    # Base case: no valid range given
+    if end <= start:
+        return []
+
+    # Base case: start date is after current time
+    if start >= datetime.utcnow():
+        return []
+
+    processes = []
+    # Get processes for start date, where time needs to be considered
+    processes += get_collection(WINDOWS_DATABASE_NAME, str(start.date())).find({'timestamp': {'$gte': start}})
+    # Get processes for all intermediate dates
+    start += timedelta(days=1)
+    while start.date() < end.date():
+        # print(start.date())
+        processes += get_collection(WINDOWS_DATABASE_NAME, str(start.date())).find({})
+        start += timedelta(days=1)
+    # Get processes for end date, where time needs to be considered
+    processes += get_collection(WINDOWS_DATABASE_NAME, str(start.date())).find({'timestamp': {'$lte': end}})
+
+    return processes
 
 
 def process_events(events: list, active_buffer: int = 5, idle_buffer: int = 300, thinking_buffer: int = 900):
@@ -143,4 +171,10 @@ if __name__ == '__main__':
     # now = datetime.utcnow() - timedelta(days=10)
     # tmrw = datetime.utcnow()
     # print(read_events(now.isoformat(), tmrw.isoformat()))
+    from pprint import pprint
+    events = read_events(datetime.utcnow() - timedelta(days=2), datetime.utcnow() - timedelta(days=1))
+    pprint(events)
+    print('\n')
+    processes = read_processes(datetime.utcnow() - timedelta(days=1), datetime.utcnow())
+    pprint(processes)
     pass
