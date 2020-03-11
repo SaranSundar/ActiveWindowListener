@@ -60,7 +60,7 @@ def log_event(event: dict):
     Writes the given event to the MongoDB server.
 
     Saves the provided event as a document under a collection named with
-    today's date in ISO-8601 format. This collection is stored under a
+    the event's date in ISO-8601 format. This collection is stored under a
     database within MongoDB with the name of _DATABASE_NAME.
 
     :param event: The dictionary containing data to write.
@@ -71,6 +71,8 @@ def log_event(event: dict):
     # Assume timestamp is right now if unspecified
     if 'timestamp' not in event:
         event['timestamp'] = datetime.datetime.utcnow()
+    if isinstance(event['timestamp'], str):
+        event['timestamp'] = datetime.datetime.fromisoformat(event['timestamp'])
 
     # Get handle on collection for the day
     date = str(event['timestamp'].date())
@@ -80,7 +82,37 @@ def log_event(event: dict):
     return collection_handle.insert_one(event).inserted_id
 
 
-# TODO: function to log information about just all open windows; not mouse/kb event
+def log_processes(processes: dict):
+    """
+    Writes the given event to the MongoDB server.
+
+    Saves the provided event as a document under a collection named with
+    the log's date in ISO-8601 format. This collection is stored under a
+    database within MongoDB with the name of _DATABASE_NAME.
+
+    :param processes: The dictionary containing data to write.
+    :return: a MongoDB document object ID for the inserted event record
+    :raise: An Exception if the client fails to log the event
+    """
+
+    # Stringify all PIDs
+    for key in list(processes.keys()):
+        if isinstance(key, int):
+            processes[str(key)] = processes[key]
+            del processes[key]
+
+    # Assume timestamp is right now if unspecified
+    if 'timestamp' not in processes:
+        processes['timestamp'] = datetime.datetime.utcnow()
+    if isinstance(processes['timestamp'], str):
+        processes['timestamp'] = datetime.datetime.fromisoformat(processes['timestamp'])
+
+    # Get handle on collection for the day
+    date = str(processes['timestamp'].date())
+    collection_handle = get_database(WINDOWS_DATABASE_NAME)[date]
+
+    # Insert the event as a document in the collection; return its ID
+    return collection_handle.insert_one(processes).inserted_id
 
 
 def get_database(database: str):
@@ -92,24 +124,36 @@ def get_collection(database: str, collection: str):
 
 
 if __name__ == '__main__':
+    import random
+
     start_server()
     open_client(timeout=3000)
-    print('Inserted object with ID ' + str(log_event({
-        'time': datetime.datetime.today().isoformat(),
-        'active': 'placeholder',
-        'bitmap': 'placeholder',
-        'idle': ['placeholder'],
-        'trigger': {
-            'reason': 'placeholder',
-            'field': 'placeholder'
-        }
-    })))
+    pid = random.randint(10000, 65000)
+    hwnd = random.randint(100000000, 199999999)
+    print('Inserted new mouse event: {}'.format(
+        log_event({
+            'process_obj': {'pid': pid, 'name': 'UnnamedProcess64.exe',
+                            'exe': '/path/to/exe/UnnamedProcess64.exe', 'username': 'Current User'},
+            'window': {'hwnd': hwnd, 'title': 'Process Window Title'},
+            'event': 'mouse'
+        })
+    ))
+    print('Inserted window event: {}'.format(
+        log_processes({
+            str(pid): {
+                'process_obj': {'pid': pid, 'name': 'UnnamedProcess64.exe',
+                            'exe': '/path/to/exe/UnnamedProcess64.exe', 'username': 'Current User'},
+                'windows': [{'hwnd': hwnd, 'title': 'Process Window Title'}]
+            }
+        })
+    ))
     close_client()
+    input('Waiting for signal to close db server...')
     close_server()
 else:
     print('Starting MongoDB server...')
     start_server()
     t = 10000
-    print('Opening MongoDB client (Timeout = {} seconds)...'.format(t/1000))
+    print('Opening MongoDB client (Timeout = {} seconds)...'.format(t / 1000))
     open_client(timeout=t)
     print('Client connected.')
