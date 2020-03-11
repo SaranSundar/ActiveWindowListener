@@ -95,13 +95,12 @@ def all_open_windows(with_title=True, blacklist: list or set = None, whitelist: 
     # Pair PIDs with their processes and all discrete windows
     processes = {}
     for pid, hwnd, title in open_windows:
-        if pid in processes:
-            processes[pid]['windows'].append((hwnd, title))
-        else:
+        if pid not in processes:
             processes[pid] = {
                 'process_obj': psutil.Process(pid=pid).as_dict(attrs=['pid', 'name', 'exe', 'username']),
-                'windows': [{'hwnd': hwnd, 'title': title}]
+                'windows': []
             }
+        processes[pid]['windows'].append({'hwnd': hwnd, 'title': title})
 
     # Remove any processes that match an entry in the blacklist
     for pid in list(processes.keys()):
