@@ -207,6 +207,54 @@ def get_image_from_path(path, process_ID):
         pass
 
 
+def export_bitmap_current_window(): #Returns bytes which can be stored in the JSON
+    import win32gui
+    import win32ui
+    import win32con
+    from PIL import Image
+    import numpy
+    import cv2
+    import pickle
+    hwnd = win32gui.GetForegroundWindow()
+    wDC = win32gui.GetWindowDC(hwnd)
+    dcObj = win32ui.CreateDCFromHandle(wDC)
+    cDC = dcObj.CreateCompatibleDC()
+    dataBitMap = win32ui.CreateBitmap() #Creates bitmap of current active window
+
+    _left, _top, _right, _bottom = win32gui.GetWindowRect(hwnd)
+    w = _right - _left
+    h = _bottom - _top
+
+    dataBitMap.CreateCompatibleBitmap(dcObj, w, h)
+    cDC.SelectObject(dataBitMap)
+    cDC.BitBlt((0,0),(w, h) , dcObj, (0,0), win32con.SRCCOPY)
+    #dataBitMap.SaveBitmapFile(cDC, cur_time+".bmp") #Saves the bitmap image
+    bmpinfo = dataBitMap.GetInfo()
+    bmparray = numpy.asarray(dataBitMap.GetBitmapBits(), dtype=numpy.uint8)
+    pil_im = Image.frombuffer('RGB', (bmpinfo['bmWidth'], bmpinfo['bmHeight']), bmparray, 'raw', 'RGBX', 0, 1)
+    pil_array = numpy.array(pil_im)
+    cv_im = cv2.cvtColor(pil_array, cv2.COLOR_RGB2BGR) #Converts bitmap to ndarray
+    bitmapPickle = pickle.dumps(cv_im) #Converts ndarray to bytes
+    # Free Resources, this step is required
+    dcObj.DeleteDC()
+    cDC.DeleteDC()
+    win32gui.ReleaseDC(hwnd, wDC)
+    win32gui.DeleteObject(dataBitMap.GetHandle())
+    return bitmapPickle #Returns bytes which we can store
+
+
+def read_bitmap_image(bitmapPickle): #Takes in bytes
+    from PIL import Image
+    from datetime import datetime
+    import pickle
+    ndarray = pickle.loads(bitmapPickle) #Converts bytes back to ndarray
+    im = Image.fromarray(ndarray).convert('RGB') #Converts ndarray to a PIL image, which can be saved with any file extension
+    #cur_time = datetime.utcnow().isoformat()
+    #cur_time = cur_time.replace(":", "'-'")
+    #im.save("bob.bmp")
+    return im #Returns image object
+
+
 def on_press(key):
     # t = Thread(target=set_event_type, args=(KEYBOARD_PRESS,))
     # t.start()
