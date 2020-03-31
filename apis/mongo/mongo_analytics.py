@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from apis.mongo.mongo_client import EVENT_DATABASE_NAME, WINDOWS_DATABASE_NAME, get_collection
+from apis.mongo.mongo_server import close_server
 
 
 def read_events(start: datetime, end: datetime):
@@ -167,14 +168,41 @@ def stats_between_times(start: str, end: str, active_buf: int = 5, idle_buf: int
     return stats
 
 
+def business_process_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
+    user_events = read_events(start, end)  # Tells us what the active process/window is
+    window_log = read_processes(start, end)  # Tells us what all processes/windows are
+    intervals = {}  # TODO: use a custom dict that auto-initializes nonexistent entries?
+
+    # Iterate through events in order of timestamps
+    user_event_index, window_log_index = 0, 0
+    while user_event_index < len(user_events) and window_log_index < len(window_log):
+        if user_events[user_event_index]['timestamp'] <= window_log[window_log_index]['timestamp']:
+            # TODO: process user event w/ active window
+            user_event_index += 1
+        else:
+            # TODO: process window log event w/ open window information
+            window_log_index += 1
+    # Iterate through remaining of user events
+    while user_event_index < len(user_events):
+        # TODO: process user event w/ active window
+        user_event_index += 1
+    # Iterate through remaining of window log events
+    while window_log_index < len(window_log):
+        # TODO: process window log event w/ open window information
+        window_log_index += 1
+
+    # Finalize all events and determine stats
+    [interval.finalize() for interval in intervals]
+
+    # Return results of analysis in the time range provided
+    # TODO: What exactly to return
+    return None
+
+
 if __name__ == '__main__':
     # now = datetime.utcnow() - timedelta(days=10)
     # tmrw = datetime.utcnow()
     # print(read_events(now.isoformat(), tmrw.isoformat()))
-    from pprint import pprint
-    events = read_events(datetime.utcnow() - timedelta(days=2), datetime.utcnow() - timedelta(days=1))
-    pprint(events)
-    print('\n')
-    processes = read_processes(datetime.utcnow() - timedelta(days=1), datetime.utcnow())
-    pprint(processes)
+    business_process_info(datetime.utcnow() - timedelta(days=30), datetime.utcnow() - timedelta(days=1), 5, 5, 5)
+    close_server()
     pass
