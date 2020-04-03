@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from apis.mongo.ApplicationTimeLog import ApplicationTimeLog
+from apis.mongo.DefaultDict import DefaultDict
 from apis.mongo.mongo_client import EVENT_DATABASE_NAME, WINDOWS_DATABASE_NAME, get_collection
 from apis.mongo.mongo_server import close_server
 
@@ -171,32 +173,35 @@ def stats_between_times(start: str, end: str, active_buf: int = 5, idle_buf: int
 def business_process_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
     user_events = read_events(start, end)  # Tells us what the active process/window is
     window_log = read_processes(start, end)  # Tells us what all processes/windows are
-    intervals = {}  # TODO: use a custom dict that auto-initializes nonexistent entries?
+    intervals = DefaultDict(lambda _: ApplicationTimeLog(active_buf, idle_buf, think_buf))
 
     # Iterate through events in order of timestamps
     user_event_index, window_log_index = 0, 0
     while user_event_index < len(user_events) and window_log_index < len(window_log):
         if user_events[user_event_index]['timestamp'] <= window_log[window_log_index]['timestamp']:
-            # TODO: process user event w/ active window
+            intervals[user_events[user_event_index]['process_obj']['name']].update_active(
+                user_events[user_event_index]['timestamp'])
             user_event_index += 1
         else:
-            # TODO: process window log event w/ open window information
+            intervals[window_log[window_log_index]['process_obj']['name']].update_active(
+                window_log[window_log_index]['timestamp'])
             window_log_index += 1
     # Iterate through remaining of user events
     while user_event_index < len(user_events):
-        # TODO: process user event w/ active window
+        intervals[user_events[user_event_index]['process_obj']['name']].update_active(
+            user_events[user_event_index]['timestamp'])
         user_event_index += 1
     # Iterate through remaining of window log events
     while window_log_index < len(window_log):
-        # TODO: process window log event w/ open window information
+        intervals[window_log[window_log_index]['process_obj']['name']].update_active(
+            window_log[window_log_index]['timestamp'])
         window_log_index += 1
 
-    # Finalize all events and determine stats
-    [interval.finalize() for interval in intervals]
-
     # Return results of analysis in the time range provided
-    # TODO: What exactly to return
-    return None
+    return {
+        process: intervals[process].finalize()
+        for process in intervals.as_dict().keys()
+    }
 
 
 if __name__ == '__main__':

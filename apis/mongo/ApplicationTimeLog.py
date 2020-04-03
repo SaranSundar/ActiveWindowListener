@@ -65,3 +65,4 @@ class ApplicationTimeLog:
         self.final_stats['idle_time'] = sum(t2 - t1 for t1, t2 in self.idle_times)
         self.final_stats['thinking_time'] = sum(t2 - t1 for t1, t2 in self.thinking_times)
         self.final_stats['open_time'] = sum(t2 - t1 for t1, t2 in self.open_times)
+        return self.final_stats
