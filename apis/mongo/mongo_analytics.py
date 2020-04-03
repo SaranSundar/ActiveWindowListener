@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from pprint import pprint
 
 from apis.mongo.ApplicationTimeLog import ApplicationTimeLog
 from apis.mongo.DefaultDict import DefaultDict
@@ -173,7 +174,7 @@ def stats_between_times(start: str, end: str, active_buf: int = 5, idle_buf: int
 def business_process_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
     user_events = read_events(start, end)  # Tells us what the active process/window is
     window_log = read_processes(start, end)  # Tells us what all processes/windows are
-    intervals = DefaultDict(lambda _: ApplicationTimeLog(active_buf, idle_buf, think_buf))
+    intervals = DefaultDict(lambda: ApplicationTimeLog(active_buf, idle_buf, think_buf))
 
     # Iterate through events in order of timestamps
     user_event_index, window_log_index = 0, 0
@@ -208,6 +209,9 @@ if __name__ == '__main__':
     # now = datetime.utcnow() - timedelta(days=10)
     # tmrw = datetime.utcnow()
     # print(read_events(now.isoformat(), tmrw.isoformat()))
-    business_process_info(datetime.utcnow() - timedelta(days=30), datetime.utcnow() - timedelta(days=1), 5, 5, 5)
+    info = business_process_info(datetime.utcnow() - timedelta(days=30),
+                                 datetime.utcnow() + timedelta(days=1),
+                                 5, 15, 60)
+    pprint(info)
     close_server()
     pass

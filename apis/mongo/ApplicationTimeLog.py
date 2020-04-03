@@ -56,13 +56,22 @@ class ApplicationTimeLog:
             self.open_times[-1][1] = timestamp
 
     def finalize(self):
+        # Close cases where arrays are empty
+        if len(self.active_times) == 0:
+            self.active_times.append([self.open_times[-1][0], self.open_times[-1][0]])
+        if len(self.idle_times) == 0:
+            self.idle_times.append([self.open_times[-1][0], self.open_times[-1][0]])
+        if len(self.thinking_times) == 0:
+            self.thinking_times.append([self.open_times[-1][0], self.open_times[-1][0]])
+
         # Terminate open status if necessary
         if self.open_times[-1][1] is None:
             self.open_times[-1][1] = max(self.active_times[-1][1], self.idle_times[-1][1], self.thinking_times[-1][1])
 
         # Calculate total amounts of time among categories by summing intervals
-        self.final_stats['active_time'] = sum(t2 - t1 for t1, t2 in self.active_times)
-        self.final_stats['idle_time'] = sum(t2 - t1 for t1, t2 in self.idle_times)
-        self.final_stats['thinking_time'] = sum(t2 - t1 for t1, t2 in self.thinking_times)
-        self.final_stats['open_time'] = sum(t2 - t1 for t1, t2 in self.open_times)
+        self.final_stats['active_time'] = sum([t2 - t1 for t1, t2 in self.active_times], timedelta()).total_seconds()
+        self.final_stats['idle_time'] = sum([t2 - t1 for t1, t2 in self.idle_times], timedelta()).total_seconds()
+        self.final_stats['thinking_time'] = sum([t2 - t1 for t1, t2 in self.thinking_times],
+                                                timedelta()).total_seconds()
+        self.final_stats['open_time'] = sum([t2 - t1 for t1, t2 in self.open_times], timedelta()).total_seconds()
         return self.final_stats
