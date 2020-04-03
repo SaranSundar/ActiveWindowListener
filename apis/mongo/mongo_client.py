@@ -76,7 +76,7 @@ def log_event(event: dict):
 
     # Get handle on collection for the day
     date = str(event['timestamp'].date())
-    collection_handle = get_database(EVENT_DATABASE_NAME)[date]
+    collection_handle = get_collection(EVENT_DATABASE_NAME, date)
 
     # Insert the event as a document in the collection; return its ID
     return collection_handle.insert_one(event).inserted_id

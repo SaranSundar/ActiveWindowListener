@@ -2,7 +2,8 @@ import logging
 import sys
 import time
 from datetime import datetime
-from threading import Thread
+
+from apis.monitoring_details.win32_window_details import active_window_process
 
 if sys.platform in ['Windows', 'win32', 'cygwin']:
     import win32api
@@ -78,9 +79,9 @@ def log_window_details():
             start_time = time.time()
             # Adds any new windows to the list
             for w in range(len(open_windows)):
-                process_ID = get_PID(open_windows[w])  # Gets PID from task manager
-                windows_path = get_path_from_pid(process_ID)  # Gets exe path of window
-                get_image_from_path(windows_path, process_ID)  # Gets image from exe path
+                process_id = get_PID(open_windows[w])  # Gets PID from task manager
+                windows_path = get_path_from_pid(process_id)  # Gets exe path of window
+                get_image_from_path(windows_path, process_id)  # Gets image from exe path
                 open_windows[w] = parse_window_name_from_task_manager(open_windows[w])
                 if open_windows[w] is None:
                     continue
@@ -171,11 +172,11 @@ def parse_window_name_from_task_manager(window_string):
 def get_PID(window_string):
     first_chars = window_string[0:72]
     split_window_name = first_chars.split(' ')
-    process_ID = split_window_name[len(split_window_name) - 1]
-    return process_ID
+    process_id = split_window_name[len(split_window_name) - 1]
+    return process_id
 
 
-def get_image_from_path(path, process_ID):
+def get_image_from_path(path, process_id):
     if path == "Error: No path found":
         return
 
@@ -196,18 +197,18 @@ def get_image_from_path(path, process_ID):
         hdc.DrawIcon((0, 0), large[0])
 
         from PIL import Image
-        bmpstr = hbmp.GetBitmapBits(True)
+        bmp_str = hbmp.GetBitmapBits(True)
         img = Image.frombuffer(
             'RGBA',
             (32, 32),
-            bmpstr, 'raw', 'BGRA', 0, 1
+            bmp_str, 'raw', 'BGRA', 0, 1
         )
-        img.save(process_ID + '.png')
+        img.save(process_id + '.png')
     except:  # Function will fail at 'hdc = win32ui.CreateDCFromHandle(win32gui.GetDC(0))' due to end of list error
         pass
 
 
-def export_bitmap_current_window(): #Returns bytes which can be stored in the JSON
+def export_bitmap_current_window():  # Returns bytes which can be stored in the JSON
     import win32gui
     import win32ui
     import win32con
@@ -219,7 +220,7 @@ def export_bitmap_current_window(): #Returns bytes which can be stored in the JS
     wDC = win32gui.GetWindowDC(hwnd)
     dcObj = win32ui.CreateDCFromHandle(wDC)
     cDC = dcObj.CreateCompatibleDC()
-    dataBitMap = win32ui.CreateBitmap() #Creates bitmap of current active window
+    dataBitMap = win32ui.CreateBitmap()  # Creates bitmap of current active window
 
     _left, _top, _right, _bottom = win32gui.GetWindowRect(hwnd)
     w = _right - _left
@@ -227,40 +228,40 @@ def export_bitmap_current_window(): #Returns bytes which can be stored in the JS
 
     dataBitMap.CreateCompatibleBitmap(dcObj, w, h)
     cDC.SelectObject(dataBitMap)
-    cDC.BitBlt((0,0),(w, h) , dcObj, (0,0), win32con.SRCCOPY)
-    #dataBitMap.SaveBitmapFile(cDC, cur_time+".bmp") #Saves the bitmap image
-    bmpinfo = dataBitMap.GetInfo()
-    bmparray = numpy.asarray(dataBitMap.GetBitmapBits(), dtype=numpy.uint8)
-    pil_im = Image.frombuffer('RGB', (bmpinfo['bmWidth'], bmpinfo['bmHeight']), bmparray, 'raw', 'RGBX', 0, 1)
+    cDC.BitBlt((0, 0), (w, h), dcObj, (0, 0), win32con.SRCCOPY)
+    # dataBitMap.SaveBitmapFile(cDC, cur_time+".bmp") #Saves the bitmap image
+    bmp_info = dataBitMap.GetInfo()
+    bmp_array = numpy.asarray(dataBitMap.GetBitmapBits(), dtype=numpy.uint8)
+    pil_im = Image.frombuffer('RGB', (bmp_info['bmWidth'], bmp_info['bmHeight']), bmp_array, 'raw', 'RGBX', 0, 1)
     pil_array = numpy.array(pil_im)
-    cv_im = cv2.cvtColor(pil_array, cv2.COLOR_RGB2BGR) #Converts bitmap to ndarray
-    bitmapPickle = pickle.dumps(cv_im) #Converts ndarray to bytes
+    cv_im = cv2.cvtColor(pil_array, cv2.COLOR_RGB2BGR)  # Converts bitmap to ndarray
+    bitmap_pickle = pickle.dumps(cv_im)  # Converts ndarray to bytes
     # Free Resources, this step is required
     dcObj.DeleteDC()
     cDC.DeleteDC()
     win32gui.ReleaseDC(hwnd, wDC)
     win32gui.DeleteObject(dataBitMap.GetHandle())
-    return bitmapPickle #Returns bytes which we can store
+    return bitmap_pickle  # Returns bytes which we can store
 
 
-def read_bitmap_image(bitmapPickle): #Takes in bytes
+def read_bitmap_image(bitmap_pickle):  # Takes in bytes
     from PIL import Image
-    from datetime import datetime
     import pickle
-    ndarray = pickle.loads(bitmapPickle) #Converts bytes back to ndarray
-    im = Image.fromarray(ndarray).convert('RGB') #Converts ndarray to a PIL image, which can be saved with any file extension
-    #cur_time = datetime.utcnow().isoformat()
-    #cur_time = cur_time.replace(":", "'-'")
-    #im.save("bob.bmp")
-    return im #Returns image object
+    ndarray = pickle.loads(bitmap_pickle)  # Converts bytes back to ndarray
+    im = Image.fromarray(ndarray).convert(
+        'RGB')  # Converts ndarray to a PIL image, which can be saved with any file extension
+    # cur_time = datetime.utcnow().isoformat()
+    # cur_time = cur_time.replace(":", "'-'")
+    # im.save("bob.bmp")
+    return im  # Returns image object
 
 
 def on_press(key):
     # t = Thread(target=set_event_type, args=(KEYBOARD_PRESS,))
     # t.start()
     # set_event_type(KEYBOARD_PRESS)
-    print("ON PRESS")
-    print(time.time())
+    print("ON PRESS:", datetime.utcnow())
+    log_event(active_window_process())
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
 
@@ -269,8 +270,7 @@ def on_release(key):
     # t = Thread(target=set_event_type, args=(KEYBOARD_RELEASE,))
     # t.start()
     # set_event_type(KEYBOARD_RELEASE)
-    print("ON PRESS")
-    print(time.time())
+    print("ON RELEASE:", datetime.utcnow())
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
 
@@ -280,8 +280,9 @@ def on_move(x, y):
     # t = Thread(target=set_event_type, args=(MOUSE_MOVE,))
     # t.start()
     # set_event_type(MOUSE_MOVE)
-    print("ON MOVE")
-    print(time.time())
+    print("ON MOVE:", datetime.utcnow())
+    # TODO: Limit this to maybe one trigger per second; no reason for 100+ logged events per second
+    log_event(active_window_process())
     # time.sleep(5)
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
     # print("Mouse moved to ({0}, {1})".format(x, y))
@@ -292,8 +293,8 @@ def on_click(x, y, button, pressed):
         # t = Thread(target=set_event_type, args=(MOUSE_CLICK,))
         # t.start()
         # set_event_type(MOUSE_CLICK)
-        print("ON CLICK")
-        print(time.time())
+        print("ON CLICK:", datetime.utcnow())
+        log_event(active_window_process())
         # logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
         # print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
 
@@ -302,8 +303,8 @@ def on_scroll(x, y, dx, dy):
     # t = Thread(target=set_event_type, args=(MOUSE_SCROLL,))
     # t.start()
     # set_event_type(MOUSE_SCROLL)
-    print("ON SCROLL")
-    print(time.time())
+    print("ON SCROLL:", datetime.utcnow())
+    log_event(active_window_process())
     # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     # print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 
