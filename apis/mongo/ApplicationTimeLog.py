@@ -53,6 +53,15 @@ class ApplicationTimeLog:
 
         # If this app has been closed already
         if self.open_times[-1][1] is not None:
+            self.open_times.append([timestamp, None])
+
+    def update_is_closed(self, timestamp):
+        # If this app hasn't been open before, do nothing
+        if len(self.open_times) == 0:
+            return
+
+        # If this app is already open
+        if self.open_times[-1][1] is None:
             self.open_times[-1][1] = timestamp
 
     def finalize(self):
