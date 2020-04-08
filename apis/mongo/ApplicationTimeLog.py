@@ -54,6 +54,14 @@ class ApplicationTimeLog:
         # If this app has been closed already
         if self.open_times[-1][1] is not None:
             self.open_times.append([timestamp, None])
+            return
+
+        # If it has been more than thinking time since last open, assume it was closed the last time it was active
+        if self.open_times[-1][0] + timedelta(seconds=self.timeouts['thinking']) < timestamp:
+            # Close the open time
+            self.open_times[-1][1] = self.active_times[-1][1]
+            # Start new interval
+            self.open_times.append([timestamp, None])
 
     def update_is_closed(self, timestamp):
         # If this app hasn't been open before, do nothing

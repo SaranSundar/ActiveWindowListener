@@ -77,13 +77,14 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
     # Iterate through events in order of timestamps
     user_event_index, window_log_index = 0, 0
     while user_event_index < len(user_events) and window_log_index < len(window_log):
-        if user_events[user_event_index]['timestamp'] <= window_log[window_log_index]['timestamp']:
+        if user_events[user_event_index]['timestamp'] < window_log[window_log_index]['timestamp']:
             intervals[user_events[user_event_index]['process_obj']['name']].update_active(
                 user_events[user_event_index]['timestamp'])
             user_event_index += 1
         else:
             curr_log = window_log[window_log_index]
-            open_apps = [curr_log[pid]['process_obj']['name'] for pid in curr_log.keys()]
+            pids = [key for key in curr_log.keys() if key not in ['_id', 'timestamp']]
+            open_apps = [curr_log[pid]['process_obj']['name'] for pid in pids]
             for app in intervals.as_dict():
                 if app in open_apps:
                     intervals[app].update_is_open(curr_log['timestamp'])
@@ -100,7 +101,8 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
     # Iterate through remaining of window log events
     while window_log_index < len(window_log):
         curr_log = window_log[window_log_index]
-        open_apps = [curr_log[pid]['process_obj']['name'] for pid in curr_log.keys()]
+        pids = [key for key in curr_log.keys() if key not in ['_id', 'timestamp']]
+        open_apps = [curr_log[pid]['process_obj']['name'] for pid in pids]
         for app in intervals.as_dict():
             if app in open_apps:
                 intervals[app].update_is_open(curr_log['timestamp'])
@@ -119,7 +121,7 @@ if __name__ == '__main__':
     # now = datetime.utcnow() - timedelta(days=10)
     # tmrw = datetime.utcnow()
     # print(read_events(now.isoformat(), tmrw.isoformat()))
-    info = business_process_info(datetime.utcnow() - timedelta(days=30),
+    info = business_process_info(datetime.utcnow() - timedelta(days=1),
                                  datetime.utcnow() + timedelta(days=1),
                                  5, 15, 60)
     pprint(info)
