@@ -1,7 +1,6 @@
 import os
 import time
 from datetime import datetime
-from pprint import pprint
 
 import psutil
 import win32gui
@@ -16,15 +15,19 @@ def active_window_process():
     :return: The information described above as a dictionary.
     """
 
-    # Get handle of active window
-    hwnd = win32gui.GetForegroundWindow()
-    # Get thread of active window and pid of process responsible for active window
-    tid, pid = win32process.GetWindowThreadProcessId(hwnd)
-    # Generate process object for the found pid
-    proc = psutil.Process(pid).as_dict(attrs=['pid', 'name', 'exe', 'username'])
-    # Create a dictionary for the information found
-    active = {'process_obj': proc, 'window': {'hwnd': hwnd, 'title': win32gui.GetWindowText(hwnd)}}
-    return active
+    try:
+        # Get handle of active window
+        hwnd = win32gui.GetForegroundWindow()
+        # Get thread of active window and pid of process responsible for active window
+        tid, pid = win32process.GetWindowThreadProcessId(hwnd)
+        # Generate process object for the found pid
+        proc = psutil.Process(pid).as_dict(attrs=['pid', 'name', 'exe', 'username'])
+        # Create a dictionary for the information found
+        active = {'process_obj': proc, 'window': {'hwnd': hwnd, 'title': win32gui.GetWindowText(hwnd)}}
+        return active
+
+    except Exception as e:
+        return None
 
 
 def _get_all_open_windows(with_title=True):

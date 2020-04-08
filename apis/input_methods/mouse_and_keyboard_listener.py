@@ -1,9 +1,9 @@
 import logging
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from apis.monitoring_details.win32_window_details import active_window_process
+from apis.monitoring_details.win32_window_details import active_window_process, all_open_windows
 
 if sys.platform in ['Windows', 'win32', 'cygwin']:
     import win32api
@@ -13,7 +13,7 @@ if sys.platform in ['Windows', 'win32', 'cygwin']:
 from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
-from apis.mongo.mongo_client import log_event
+from apis.mongo.mongo_client import log_event, log_processes
 from apis.monitoring_details.active_window_details import \
     get_active_window, get_open_windows_in_task_manager, get_path_from_pid
 
@@ -37,6 +37,7 @@ current_event_type = None
 prev_event_type = None
 active_window_details = None
 active_windows = []
+last_time = datetime.utcnow()
 
 
 def log_window_details():
@@ -133,8 +134,17 @@ def log_window_details():
 
 def set_event_type(event_type_input):
     global current_event_type
+    global last_time
+
     current_event_type = event_types[event_type_input]
-    log_window_details()
+    if datetime.utcnow() - last_time >= timedelta(seconds=2):
+        # log_window_details()
+        payload = active_window_process()
+        if payload is not None:
+            payload['event_type'] = event_type_input
+            log_event(payload)
+        log_processes(all_open_windows())
+        last_time = datetime.utcnow()
 
 
 def parse_window_name_from_details(window_string):
@@ -259,9 +269,9 @@ def read_bitmap_image(bitmap_pickle):  # Takes in bytes
 def on_press(key):
     # t = Thread(target=set_event_type, args=(KEYBOARD_PRESS,))
     # t.start()
-    # set_event_type(KEYBOARD_PRESS)
+    set_event_type(KEYBOARD_PRESS)
     print("ON PRESS:", datetime.utcnow())
-    log_event(active_window_process())
+    # log_event(active_window_process())
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
 
@@ -269,7 +279,7 @@ def on_press(key):
 def on_release(key):
     # t = Thread(target=set_event_type, args=(KEYBOARD_RELEASE,))
     # t.start()
-    # set_event_type(KEYBOARD_RELEASE)
+    set_event_type(KEYBOARD_RELEASE)
     print("ON RELEASE:", datetime.utcnow())
     # logging.info("Key Press: " + str(key))
     # print("Key Press: " + str(key))
@@ -279,10 +289,10 @@ def on_move(x, y):
     pass
     # t = Thread(target=set_event_type, args=(MOUSE_MOVE,))
     # t.start()
-    # set_event_type(MOUSE_MOVE)
+    set_event_type(MOUSE_MOVE)
     print("ON MOVE:", datetime.utcnow())
     # TODO: Limit this to maybe one trigger per second; no reason for 100+ logged events per second
-    log_event(active_window_process())
+    # log_event(active_window_process())
     # time.sleep(5)
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
     # print("Mouse moved to ({0}, {1})".format(x, y))
@@ -292,9 +302,9 @@ def on_click(x, y, button, pressed):
     if pressed:
         # t = Thread(target=set_event_type, args=(MOUSE_CLICK,))
         # t.start()
-        # set_event_type(MOUSE_CLICK)
+        set_event_type(MOUSE_CLICK)
         print("ON CLICK:", datetime.utcnow())
-        log_event(active_window_process())
+        # log_event(active_window_process())
         # logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
         # print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
 
@@ -302,9 +312,9 @@ def on_click(x, y, button, pressed):
 def on_scroll(x, y, dx, dy):
     # t = Thread(target=set_event_type, args=(MOUSE_SCROLL,))
     # t.start()
-    # set_event_type(MOUSE_SCROLL)
+    set_event_type(MOUSE_SCROLL)
     print("ON SCROLL:", datetime.utcnow())
-    log_event(active_window_process())
+    # log_event(active_window_process())
     # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     # print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 

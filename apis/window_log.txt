@@ -221,3 +221,53 @@ Store is now added to the list of open windows
 {'trigger': 'keyboard', 'active_window': {'name': 'PyCharm', 'title': 'ActiveWindowListener [C:\\Users\\saran\\Documents\\PythonProjects\\ActiveWindowListener] - ...\\apis\\input_methods\\test.py - PyCharm'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Microsoft Edge', 'Microsoft Edge Content Process', 'Settings', 'Store'], 'timestamp': '2020-03-05T19:47:08.669686', 'bitmap': '', '_id': ObjectId('5e61573c474a80fa91e5489e')}
 WindowsInternal.ComposableS... is now added to the list of open windows
 {'trigger': 'keyboard', 'active_window': {'name': 'File Explorer', 'title': 'File Explorer'}, 'inactive_windows': ['Application Frame Host', 'Google Chrome', 'Microsoft Edge', 'Microsoft Edge Content Process', 'PyCharm', 'Settings', 'Store', 'WindowsInternal.ComposableS...'], 'timestamp': '2020-03-05T19:47:22.778912', 'bitmap': '', '_id': ObjectId('5e61574a474a80fa91e5489f')}
+Unhandled exception in listener callback
+Traceback (most recent call last):
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\pynput\_util\win32.py", line 382, in _handler
+    converted = self._convert(code, msg, lpdata)
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\pynput\_util\win32.py", line 397, in _convert
+    raise NotImplementedError()
+NotImplementedError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\psutil\_pswindows.py", line 679, in wrapper
+    return fun(self, *args, **kwargs)
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\psutil\_pswindows.py", line 933, in create_time
+    user, system, created = cext.proc_times(self.pid)
+ProcessLookupError: [Errno 3] No such process (originated from OpenProcess)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\psutil\__init__.py", line 373, in _init
+    self.create_time()
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\psutil\__init__.py", line 723, in create_time
+    self._create_time = self._proc.create_time()
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\psutil\_pswindows.py", line 681, in wrapper
+    raise convert_oserror(err, pid=self.pid, name=self._name)
+psutil.NoSuchProcess: psutil.NoSuchProcess process no longer exists (pid=1257895320)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\pynput\_util\__init__.py", line 162, in inner
+    return f(self, *args, **kwargs)
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\pynput\_util\win32.py", line 386, in _handler
+    self._handle(code, msg, lpdata)
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\pynput\mouse\_win32.py", line 186, in _handle
+    self.on_move(data.pt.x, data.pt.y)
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\pynput\_util\__init__.py", line 78, in inner
+    if f(*args) is False:
+  File "C:/Users/Nikhil Gupta/Desktop/ActiveWindowListener/apis/input_methods/mouse_and_keyboard_listener.py", line 286, in on_move
+    set_event_type(MOUSE_MOVE)
+  File "C:/Users/Nikhil Gupta/Desktop/ActiveWindowListener/apis/input_methods/mouse_and_keyboard_listener.py", line 138, in set_event_type
+    payload = active_window_process()
+  File "C:\Users\Nikhil Gupta\Desktop\ActiveWindowListener\apis\monitoring_details\win32_window_details.py", line 24, in active_window_process
+    proc = psutil.Process(pid).as_dict(attrs=['pid', 'name', 'exe', 'username'])
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\psutil\__init__.py", line 346, in __init__
+    self._init(pid)
+  File "C:\Users\Nikhil Gupta\AppData\Local\Programs\Python\Python37\lib\site-packages\psutil\__init__.py", line 386, in _init
+    raise NoSuchProcess(pid, None, msg)
+psutil.NoSuchProcess: psutil.NoSuchProcess no process found with pid 1257895320
