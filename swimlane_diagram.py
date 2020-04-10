@@ -15,7 +15,7 @@ with g.subgraph(name='cluster_0') as c:
     c.node_attr['shape'] = 'box'
     # c.node_attr['fixedsize'] = 'false'
     c.node_attr.update(style='filled')
-    c.edges([('Chrome \n\n Timestamp \n 2020-03-04 \n 08hour 23min 55sec \n\n Duration \n 2 hours', 'PowerShell \n\n Timestamp \n 2020-03-04 \n 10hour 23min 55sec \n\n Duration \n 2 hours'), ('PowerShell \n\n Timestamp \n 2020-03-04 \n 10hour 23min 55sec \n\n Duration \n 2 hours', 'Word')])
+    c.edges([('Chrome \n\n Timestamp \n 2020-03-04 \n 08hour 23min 55sec \n\n Duration \n 2 hours', 'PowerShell \n\n Timestamp \n 2020-03-04 \n 10hour 23min 55sec \n\n Duration \n 2 hours'), ('PowerShell \n\n Timestamp \n 2020-03-04 \n 10hour 23min 55sec \n\n Duration \n 2 hours', 'Word \n\n Timestamp \n 2020-03-04 \n 12hour 23min 55sec \n\n Duration \n 4 hours')])
     c.attr(label="username= " + username + " | MAC= " + mac_addy + " | IP= " + ip_addy)
 
 # with g.subgraph(name='cluster_1') as c:
