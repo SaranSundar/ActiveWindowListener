@@ -8,9 +8,37 @@ class ApplicationTimeLog:
         self.idle_times = []  # During what times is this an idle process
         self.thinking_times = []  # During what times is this a thinking process
         self.open_times = []  # During what times is this process open at all
+        self.mouse_times = []  # During what times is there mouse activity
+        self.kb_times = []  # During what times is there keyboard activity
         self.timeouts = {'active': active, 'idle': idle, 'thinking': thinking}
 
         self.final_stats = {}
+
+    def update_event(self, event, timestamp):
+        timeout = timedelta(seconds=5)
+
+        # Is this a keyboard event?
+        if event.startswith('KEYBOARD'):
+            # if no kb events have been logged
+            if len(self.kb_times) == 0:
+                self.kb_times.append([timestamp, timestamp])
+            # otherwise, check if last interval should be extended
+            elif timestamp - self.kb_times[-1][1] <= timeout:
+                self.kb_times[-1][1] = timestamp
+            # otherwise, start a new interval
+            else:
+                self.kb_times.append([timestamp, timestamp])
+        # This is a mouse event
+        elif event.startswith('MOUSE'):
+            # same logic as keyboard events
+            if len(self.mouse_times) == 0:
+                self.mouse_times.append([timestamp, timestamp])
+            elif timestamp - self.mouse_times[-1][1] <= timeout:
+                self.mouse_times[-1][1] = timestamp
+            else:
+                self.mouse_times.append([timestamp, timestamp])
+        else:
+            print(f'Invalid event type received: {event}')
 
     def update_active(self, timestamp):
         # This application is being opened for the first time or has been closed already
@@ -97,4 +125,16 @@ class ApplicationTimeLog:
         # TODO: edge case of interval starting before start; ending after start
         # TODO: edge case of interval ending before end; ending after end
         return sum([interval[1] - interval[0] for interval in self.idle_times
+                    if interval[0] >= start and interval[1] <= end], timedelta())
+
+    def total_mouse_time(self, start, end):
+        # TODO: edge case of interval starting before start; ending after start
+        # TODO: edge case of interval ending before end; ending after end
+        return sum([interval[1] - interval[0] for interval in self.mouse_times
+                    if interval[0] >= start and interval[1] <= end], timedelta())
+
+    def total_kb_time(self, start, end):
+        # TODO: edge case of interval starting before start; ending after start
+        # TODO: edge case of interval ending before end; ending after end
+        return sum([interval[1] - interval[0] for interval in self.kb_times
                     if interval[0] >= start and interval[1] <= end], timedelta())

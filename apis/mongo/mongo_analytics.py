@@ -81,6 +81,8 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
         if user_events[user_event_index]['timestamp'] < window_log[window_log_index]['timestamp']:
             intervals[user_events[user_event_index]['process_obj']['name']].update_active(
                 user_events[user_event_index]['timestamp'])
+            intervals[user_events[user_event_index]['process_obj']['name']].update_event(
+                user_events[user_event_index]['event_type'], user_events[user_event_index]['timestamp'])
             user_event_index += 1
         else:
             curr_log = window_log[window_log_index]
@@ -125,13 +127,15 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
     schedule = schedule_activities(activities)
     schedule_dict = {}
     for row_num in range(len(schedule)):
-        row = schedule_dict[f'list{row_num+1}'] = []
+        row = schedule_dict[f'list{row_num + 1}'] = []
         for activity in schedule[row_num]:
             row.append({
                 'name': activity[1],
                 'start': activity[0][0].isoformat(),
                 'finish': activity[0][1].isoformat(),
-                'idle_time': intervals[activity[1]].total_idle_time(start, end)
+                'idle_time': f'{intervals[activity[1]].total_idle_time(start, end).total_seconds()}s',
+                'mouse_time': f'{intervals[activity[1]].total_mouse_time(start, end).total_seconds()}s',
+                'kb_time': f'{intervals[activity[1]].total_kb_time(start, end).total_seconds()}s'
             })
     return schedule_dict
 
