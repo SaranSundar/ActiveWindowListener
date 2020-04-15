@@ -92,3 +92,9 @@ class ApplicationTimeLog:
                                                 timedelta()).total_seconds()
         self.final_stats['open_time'] = sum([t2 - t1 for t1, t2 in self.open_times], timedelta()).total_seconds()
         return self.final_stats
+
+    def total_idle_time(self, start, end):
+        # TODO: edge case of interval starting before start; ending after start
+        # TODO: edge case of interval ending before end; ending after end
+        return sum([interval[1] - interval[0] for interval in self.idle_times
+                    if interval[0] >= start and interval[1] <= end], timedelta())

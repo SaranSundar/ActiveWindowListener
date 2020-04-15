@@ -1,3 +1,4 @@
+import heapq
 from datetime import datetime, timedelta
 from pprint import pprint
 
@@ -110,18 +111,80 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
                 intervals[app].update_is_closed(curr_log['timestamp'])
         window_log_index += 1
 
-    # Return results of analysis in the time range provided
-    return {
+    # get results of analysis in the time range provided
+    totals = {
         process: intervals[process].finalize()
         for process in intervals.as_dict().keys()
     }
+
+    # generate "activities" list
+    activities = []
+    for process in intervals.as_dict().keys():
+        activities += [(time, process) for time in intervals[process].open_times]
+
+    schedule = schedule_activities(activities)
+    schedule_dict = {}
+    for row_num in range(len(schedule)):
+        row = schedule_dict[f'list{row_num+1}'] = []
+        for activity in schedule[row_num]:
+            row.append({
+                'name': activity[1],
+                'start': activity[0][0].isoformat(),
+                'finish': activity[0][1].isoformat(),
+                'idle_time': intervals[activity[1]].total_idle_time(start, end)
+            })
+    return schedule_dict
+
+
+def schedule_activities(activities):
+    # sort activities by start time
+    act_start = sorted(activities, key=lambda a: (a[0][0], a[0][1]))
+    # sort activities by finish time
+    act_finish = sorted(activities, key=lambda a: (a[0][1], a[0][0]))
+    # generate list IDs in a heap
+    lists = []
+    num_lists = 0
+    heapq.heapify(lists)
+    # array pointers
+    start, finish = 0, 0
+    # list assignment map
+    assignment = {}
+    # storage list
+    schedule = []
+
+    while finish < len(act_finish):
+        # finishing time needs to be processed
+        if start >= len(act_start) or act_start[start][0][0] >= act_finish[finish][0][1]:
+            # put the list occupied by the process back into the available lists
+            heapq.heappush(lists, assignment[act_finish[finish][1]])
+            # increment finish activity pointer
+            finish += 1
+        else:
+            # no available lists
+            if len(lists) == 0:
+                # add a list
+                num_lists += 1
+                # add the list to queue
+                heapq.heappush(lists, num_lists - 1)
+            # Assign the list
+            chosen_list = heapq.heappop(lists)
+            assignment[act_start[start][1]] = chosen_list
+            # add new list to schedule
+            if chosen_list == len(schedule):
+                schedule.append([])
+            # add new item to existing list to schedule
+            schedule[chosen_list].append(act_start[start])
+            # increment start activity pointer
+            start += 1
+
+    return schedule
 
 
 if __name__ == '__main__':
     # now = datetime.utcnow() - timedelta(days=10)
     # tmrw = datetime.utcnow()
     # print(read_events(now.isoformat(), tmrw.isoformat()))
-    info = business_process_info(datetime.utcnow() - timedelta(days=1),
+    info = business_process_info(datetime.utcnow() - timedelta(days=10),
                                  datetime.utcnow() + timedelta(days=1),
                                  5, 15, 60)
     pprint(info)
