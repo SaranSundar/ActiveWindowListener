@@ -131,11 +131,12 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
         for activity in schedule[row_num]:
             row.append({
                 'name': activity[1],
-                'start': activity[0][0].isoformat(),
-                'finish': activity[0][1].isoformat(),
-                'idle_time': f'{intervals[activity[1]].total_idle_time(start, end).total_seconds()}s',
-                'mouse_time': f'{intervals[activity[1]].total_mouse_time(start, end).total_seconds()}s',
-                'kb_time': f'{intervals[activity[1]].total_kb_time(start, end).total_seconds()}s'
+                'start': activity[0][0],
+                'finish': activity[0][1],
+                'idle_time': intervals[activity[1]].total_idle_time(start, end),
+                'mouse_time': intervals[activity[1]].total_mouse_time(start, end),
+                'kb_time': intervals[activity[1]].total_kb_time(start, end),
+                'duration': activity[0][1] - activity[0][0]
             })
     return schedule_dict
 
