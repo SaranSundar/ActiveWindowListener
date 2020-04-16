@@ -70,6 +70,47 @@ def read_processes(start: datetime, end: datetime):
     return processes
 
 
+def bpt_diagram_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
+    intervals = business_process_info(start, end, active_buf, idle_buf, think_buf)
+    # generate "activities" list
+    activities = []
+    for process in intervals.as_dict().keys():
+        activities += [(time, process) for time in intervals[process].open_times]
+
+    # create schedule
+    schedule = schedule_activities(activities)
+    schedule_dict = {}
+    for row_num in range(len(schedule)):
+        row = schedule_dict[f'list{row_num + 1}'] = []
+        for activity in schedule[row_num]:
+            row.append({
+                'name': activity[1],
+                'start': activity[0][0],
+                'finish': activity[0][1],
+                'idle_time': intervals[activity[1]].total_idle_time(start, end),
+                'mouse_time': intervals[activity[1]].total_mouse_time(start, end),
+                'kb_time': intervals[activity[1]].total_kb_time(start, end),
+                'duration': activity[0][1] - activity[0][0]
+            })
+    return schedule_dict
+
+
+def react_ui_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
+    intervals = business_process_info(start, end, active_buf, idle_buf, think_buf)
+    # compile results of analysis into simple time totals and percentages
+    totals = {
+        process: {
+            "mouse_usage": round(intervals[process].total_mouse_time(start, end).total_seconds() / 60),
+            "keyboard_usage": round(intervals[process].total_kb_time(start, end).total_seconds() / 60),
+            "idle": round(intervals[process].total_idle_time(start, end).total_seconds() / 60),
+            "thinking": round(intervals[process].total_thinking_time(start, end).total_seconds() / 60),
+            "open": round(intervals[process].total_open_time(start, end).total_seconds() / 60)
+        }
+        for process in intervals.as_dict().keys()
+    }
+    return totals
+
+
 def business_process_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
     user_events = read_events(start, end)  # Tells us what the active process/window is
     window_log = read_processes(start, end)  # Tells us what all processes/windows are
@@ -113,32 +154,11 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
                 intervals[app].update_is_closed(curr_log['timestamp'])
         window_log_index += 1
 
-    # get results of analysis in the time range provided
-    totals = {
-        process: intervals[process].finalize()
-        for process in intervals.as_dict().keys()
-    }
+    # Close edge cases with trailing intervals and NoneTypes
+    for process_name in intervals.as_dict().keys():
+        intervals[process_name].finalize()
 
-    # generate "activities" list
-    activities = []
-    for process in intervals.as_dict().keys():
-        activities += [(time, process) for time in intervals[process].open_times]
-
-    schedule = schedule_activities(activities)
-    schedule_dict = {}
-    for row_num in range(len(schedule)):
-        row = schedule_dict[f'list{row_num + 1}'] = []
-        for activity in schedule[row_num]:
-            row.append({
-                'name': activity[1],
-                'start': activity[0][0],
-                'finish': activity[0][1],
-                'idle_time': intervals[activity[1]].total_idle_time(start, end),
-                'mouse_time': intervals[activity[1]].total_mouse_time(start, end),
-                'kb_time': intervals[activity[1]].total_kb_time(start, end),
-                'duration': activity[0][1] - activity[0][0]
-            })
-    return schedule_dict
+    return intervals
 
 
 def schedule_activities(activities):
