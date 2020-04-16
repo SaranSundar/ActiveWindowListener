@@ -30,15 +30,15 @@ def echo_example(socket):
 
 
 def get_data_for_ui():
-    return react_ui_info(datetime.today() - timedelta(days=10),
-                         datetime.today() + timedelta(days=1),
-                         5, 15, 60)
+    return json.dumps(react_ui_info(datetime.today() - timedelta(days=10),
+                                    datetime.today() + timedelta(days=1),
+                                    5, 15, 60), default=str)
 
 
 def get_analysis():
-    return bpt_diagram_info(datetime.today() - timedelta(days=10),
-                            datetime.today() + timedelta(days=1),
-                            5, 15, 60)
+    return json.dumps(bpt_diagram_info(datetime.today() - timedelta(days=10),
+                                       datetime.today() + timedelta(days=1),
+                                       5, 15, 60), default=str)
 
 
 @example_bp.route("/get-long-example")

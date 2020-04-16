@@ -2,6 +2,7 @@ import heapq
 from datetime import datetime, timedelta
 from pprint import pprint
 
+from apis.input_methods.icons_helper import find_icon_from_path
 from apis.mongo.ApplicationTimeLog import ApplicationTimeLog
 from apis.mongo.DefaultDict import DefaultDict
 from apis.mongo.mongo_client import EVENT_DATABASE_NAME, WINDOWS_DATABASE_NAME, get_collection
@@ -90,7 +91,8 @@ def bpt_diagram_info(start: datetime, end: datetime, active_buf: int, idle_buf: 
                 'idle_time': intervals[activity[1]].total_idle_time(start, end),
                 'mouse_time': intervals[activity[1]].total_mouse_time(start, end),
                 'kb_time': intervals[activity[1]].total_kb_time(start, end),
-                'duration': activity[0][1] - activity[0][0]
+                'duration': activity[0][1] - activity[0][0],
+                "icon": intervals[activity[1]].icon
             })
     return schedule_dict
 
@@ -104,7 +106,8 @@ def react_ui_info(start: datetime, end: datetime, active_buf: int, idle_buf: int
             "keyboard_usage": round(intervals[process].total_kb_time(start, end).total_seconds() / 60),
             "idle": round(intervals[process].total_idle_time(start, end).total_seconds() / 60),
             "thinking": round(intervals[process].total_thinking_time(start, end).total_seconds() / 60),
-            "open": round(intervals[process].total_open_time(start, end).total_seconds() / 60)
+            "open": round(intervals[process].total_open_time(start, end).total_seconds() / 60),
+            "icon": intervals[process].icon
         }
         for process in intervals.as_dict().keys()
     }
@@ -124,6 +127,8 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
                 user_events[user_event_index]['timestamp'])
             intervals[user_events[user_event_index]['process_obj']['name']].update_event(
                 user_events[user_event_index]['event_type'], user_events[user_event_index]['timestamp'])
+            intervals[user_events[user_event_index]['process_obj']['name']].icon = find_icon_from_path(
+                user_events[user_event_index]['process_obj']['exe'])
             user_event_index += 1
         else:
             curr_log = window_log[window_log_index]
@@ -140,6 +145,10 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
     while user_event_index < len(user_events):
         intervals[user_events[user_event_index]['process_obj']['name']].update_active(
             user_events[user_event_index]['timestamp'])
+        intervals[user_events[user_event_index]['process_obj']['name']].update_event(
+            user_events[user_event_index]['event_type'], user_events[user_event_index]['timestamp'])
+        intervals[user_events[user_event_index]['process_obj']['name']].icon = find_icon_from_path(
+            user_events[user_event_index]['process_obj']['exe'])
         user_event_index += 1
 
     # Iterate through remaining of window log events

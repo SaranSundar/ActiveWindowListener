@@ -1,12 +1,12 @@
+import glob
 import os
+import pathlib
 import time
-from threading import Thread
 
 import win32api
 import win32con
 import win32gui
 import win32ui
-import glob
 
 
 def save_icon(icon_path, save_path):
@@ -76,11 +76,12 @@ def find_icon_from_path(path):
     path = path[:-3]
     path = path.replace("\\", "-'backslash'-")
     path = path.replace(":", "-'colon'-")
-    for file in os.listdir("./icons"):
+    icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
+    for file in os.listdir(icons_folder):
         if file.startswith(path):
-            print(file)
-            return file  # Returns png filename
+            return os.path.join(icons_folder, file)
     print("EXE icon not found")
+    return ""
 
 
 def parse_exe_name(exe_name):
@@ -89,3 +90,4 @@ def parse_exe_name(exe_name):
 
 
 find__and_save_all_icons()
+# print(find_icon_from_path("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2019.2.3\\bin\\pycharm64.exe"))

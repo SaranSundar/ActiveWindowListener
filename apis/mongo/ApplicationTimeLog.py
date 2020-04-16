@@ -13,6 +13,7 @@ class ApplicationTimeLog:
         self.timeouts = {'active': active, 'idle': idle, 'thinking': thinking}
 
         self.final_stats = {}
+        self.icon = None
 
     def update_event(self, event, timestamp):
         timeout = timedelta(seconds=5)
