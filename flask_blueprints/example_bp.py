@@ -1,10 +1,10 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date, time
 
+import pytz
 from flask import Blueprint
 
 from apis.mongo.mongo_analytics import bpt_diagram_info, react_ui_info
-from apis.mongo.mongo_server import close_server
 
 example_bp = Blueprint('example_bp', __name__)
 example_ws = Blueprint('example_ws', __name__)
@@ -30,14 +30,22 @@ def echo_example(socket):
 
 
 def get_data_for_ui():
-    return json.dumps(react_ui_info(datetime.today() - timedelta(days=10),
-                                    datetime.today() + timedelta(days=1),
+    # TODO: Find timezone automatically
+    tz = pytz.timezone("America/Chicago")
+    midnight_without_tz = datetime.combine(date.today(), time())
+    yesterday_midnight_utc = tz.localize(midnight_without_tz).astimezone(pytz.utc)
+    return json.dumps(react_ui_info(yesterday_midnight_utc,
+                                    yesterday_midnight_utc + timedelta(days=1),
                                     5, 15, 60), default=str)
 
 
 def get_analysis():
-    return json.dumps(bpt_diagram_info(datetime.today() - timedelta(days=10),
-                                       datetime.today() + timedelta(days=1),
+    # TODO: Find timezone automatically
+    tz = pytz.timezone("America/Chicago")
+    midnight_without_tz = datetime.combine(date.today(), time())
+    yesterday_midnight_utc = tz.localize(midnight_without_tz).astimezone(pytz.utc)
+    return json.dumps(bpt_diagram_info(yesterday_midnight_utc,
+                                       yesterday_midnight_utc + timedelta(days=1),
                                        5, 15, 60), default=str)
 
 
@@ -56,9 +64,4 @@ def get_example(parameter):
 
 
 if __name__ == '__main__':
-    from pprint import pprint
-
-    pprint(get_data_for_ui())
-    print("\n")
-    pprint(get_analysis())
-    close_server()
+    pass
