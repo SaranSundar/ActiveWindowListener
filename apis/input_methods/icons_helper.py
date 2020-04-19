@@ -79,7 +79,7 @@ def find_icon_from_path(path):
     icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
     for file in os.listdir(icons_folder):
         if file.startswith(path):
-            return os.path.join(icons_folder, file)
+            return file
     print("EXE icon not found")
     return ""
 
