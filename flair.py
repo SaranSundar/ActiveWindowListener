@@ -50,7 +50,7 @@ def main():
     url, max_wait = 'localhost', 15  # 15 seconds
     link = "http://" + url + ":" + str(port)
     # Starting Server
-    server_thread = Thread(target=run_app, args=(url, port, False))
+    server_thread = Thread(target=run_app, args=(url, port))
     server_thread.daemon = True
     server_thread.start()
     # Waiting for server to load content

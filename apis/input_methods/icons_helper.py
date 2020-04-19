@@ -7,6 +7,7 @@ import win32api
 import win32con
 import win32gui
 import win32ui
+from PIL import Image
 
 
 def save_icon(icon_path, save_path):
@@ -29,7 +30,6 @@ def save_icon(icon_path, save_path):
         hdc.SelectObject(hbmp)
         hdc.DrawIcon((0, 0), large[0])
 
-        from PIL import Image
         bmpstr = hbmp.GetBitmapBits(True)
         img = Image.frombuffer(
             'RGBA',
@@ -43,9 +43,9 @@ def save_icon(icon_path, save_path):
             img.save(save_path)
         return True
     except Exception as e:
+        print("Error:")
+        print(e)
         return False
-        # print("Error:")
-        # print(e)
 
 
 def find__and_save_all_icons():
@@ -89,5 +89,5 @@ def parse_exe_name(exe_name):
     return exe_split[2] + " " + exe_split[-1].split(".exe")[0]
 
 
-find__and_save_all_icons()
+# find__and_save_all_icons()
 # print(find_icon_from_path("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2019.2.3\\bin\\pycharm64.exe"))
