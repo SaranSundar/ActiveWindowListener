@@ -2,14 +2,15 @@
 build/
 dist/
 node_modules/
+react-ui/public/icons
+apis/input_methods/icons
 __pycache__/
 bin/
 out/
-db/
 .idea/
 .vscode/
 
 # Mongo folder
 apis/mongo/mongo.server.log
-
+apis/mongo/db
 apis/input_methods/icons/
