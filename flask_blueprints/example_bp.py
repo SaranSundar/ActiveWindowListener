@@ -29,23 +29,27 @@ def echo_example(socket):
         print("Sent", message)
 
 
-def get_data_for_ui():
+def beginning_of_today():
     # TODO: Find timezone automatically
     tz = pytz.timezone("America/Chicago")
+    # Find timestamp for today's date at 12:00:00 AM
     midnight_without_tz = datetime.combine(date.today(), time())
     yesterday_midnight_utc = tz.localize(midnight_without_tz).astimezone(pytz.utc)
-    return json.dumps(react_ui_info(yesterday_midnight_utc,
-                                    yesterday_midnight_utc + timedelta(days=1),
+    # Convert back to offset-naive timestamps for compatibility
+    return yesterday_midnight_utc.replace(tzinfo=None)
+
+
+def get_data_for_ui():
+    timestamp = beginning_of_today()
+    # Call analytics between timestamps and active/idle/thinking timeouts
+    return json.dumps(react_ui_info(timestamp, timestamp + timedelta(days=1),
                                     5, 15, 60), default=str)
 
 
 def get_analysis():
-    # TODO: Find timezone automatically
-    tz = pytz.timezone("America/Chicago")
-    midnight_without_tz = datetime.combine(date.today(), time())
-    yesterday_midnight_utc = tz.localize(midnight_without_tz).astimezone(pytz.utc)
-    return json.dumps(bpt_diagram_info(yesterday_midnight_utc,
-                                       yesterday_midnight_utc + timedelta(days=1),
+    timestamp = beginning_of_today()
+    # Call analytics between timestamps and active/idle/thinking timeouts
+    return json.dumps(bpt_diagram_info(timestamp, timestamp + timedelta(days=1),
                                        5, 15, 60), default=str)
 
 
