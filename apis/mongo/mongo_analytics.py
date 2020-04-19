@@ -115,8 +115,10 @@ def react_ui_info(start: datetime, end: datetime, active_buf: int, idle_buf: int
 
 
 def business_process_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
-    user_events = read_events(start, end)  # Tells us what the active process/window is
-    window_log = read_processes(start, end)  # Tells us what all processes/windows are
+    # Tells us what the active process/window is, sorted by timestamp
+    user_events = sorted(read_events(start, end), key=lambda e: e['timestamp'])
+    # Tells us what all processes/windows are, sorted by timestamp
+    window_log = sorted(read_processes(start, end), key=lambda e: e['timestamp'])
     intervals = DefaultDict(lambda: ApplicationTimeLog(active_buf, idle_buf, think_buf))
 
     # Iterate through events in order of timestamps
