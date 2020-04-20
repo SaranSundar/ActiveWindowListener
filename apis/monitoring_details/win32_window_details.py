@@ -13,6 +13,11 @@ def active_window_process():
     underlying process' PID, name, executable path, and owner's username. Also
     retrieves the window's handle and the title of the window,
     :return: The information described above as a dictionary.
+
+    TODO: fix crashing
+        sometimes this method tries to find a process with ridiculous PIDs such as big numbers
+        (like 123456789) or negative numbers (like -123456789). They should come from Windows
+        API functions. Not sure how those numbers get here, but they will crash this function.
     """
 
     try:
