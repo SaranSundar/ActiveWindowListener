@@ -36,20 +36,22 @@ def beginning_of_today():
     midnight_without_tz = datetime.combine(date.today(), time())
     yesterday_midnight_utc = tz.localize(midnight_without_tz).astimezone(pytz.utc)
     # Convert back to offset-naive timestamps for compatibility
-    return yesterday_midnight_utc.replace(tzinfo=None)
+    yesterday_midnight_utc = yesterday_midnight_utc.replace(tzinfo=None)
+    # Return the time for 6am
+    return yesterday_midnight_utc + timedelta(hours=6)
 
 
 def get_data_for_ui():
     timestamp = beginning_of_today()
-    # Call analytics between timestamps and active/idle/thinking timeouts
-    return json.dumps(react_ui_info(timestamp, timestamp + timedelta(days=1),
+    # Call analytics between 6am-8pm with active/idle/thinking timeouts
+    return json.dumps(react_ui_info(timestamp, timestamp + timedelta(hours=14),
                                     5, 15, 60), default=str)
 
 
 def get_analysis():
     timestamp = beginning_of_today()
-    # Call analytics between timestamps and active/idle/thinking timeouts
-    return json.dumps(bpt_diagram_info(timestamp, timestamp + timedelta(days=1),
+    # Call analytics between 6am-8pm with active/idle/thinking timeouts
+    return json.dumps(bpt_diagram_info(timestamp, timestamp + timedelta(hours=14),
                                        5, 15, 60), default=str)
 
 
