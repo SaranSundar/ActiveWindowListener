@@ -16,6 +16,7 @@ class ApplicationTimeLog:
         self.icon = None
 
     def update_event(self, event, timestamp):
+        # TODO: make this activity timeout a parameter somewhere
         timeout = timedelta(seconds=5)
 
         # Is this a keyboard event?
@@ -85,12 +86,15 @@ class ApplicationTimeLog:
             self.open_times.append([timestamp, None])
             return
 
-        # If it has been more than thinking time since last open, assume it was closed the last time it was active
-        if self.open_times[-1][0] + timedelta(seconds=self.timeouts['thinking']) < timestamp:
-            # Close the open time
-            self.open_times[-1][1] = self.active_times[-1][1]
-            # Start new interval
-            self.open_times.append([timestamp, None])
+        # If it's still open, do nothing
+
+        # TODO: what if you query over multiple days? app could be open all night
+        # # If it has been more than thinking time since last open, assume it was closed the last time it was active
+        # if self.open_times[-1][0] + timedelta(seconds=self.timeouts['thinking']) < timestamp:
+        #     # Close the open time
+        #     self.open_times[-1][1] = self.active_times[-1][1]
+        #     # Start new interval
+        #     self.open_times.append([timestamp, None])
 
     def update_is_closed(self, timestamp):
         # If this app hasn't been open before, do nothing
