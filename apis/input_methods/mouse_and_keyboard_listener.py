@@ -1,15 +1,10 @@
-import logging
-import sys
-import time
 from datetime import datetime, timedelta
 
-from apis.monitoring_details.win32_window_details import active_window_process, all_open_windows
 from pynput.keyboard import Listener as KeyboardListener
 from pynput.mouse import Listener as MouseListener
 
 from apis.mongo.mongo_client import log_event, log_processes
-from apis.monitoring_details.active_window_details import \
-    get_active_window, get_open_windows_in_task_manager, get_path_from_pid
+from apis.monitoring_details.win32_window_details import active_window_process, all_open_windows
 
 # logging.basicConfig(filename="../window_log.txt", level=logging.DEBUG, format='%(message)s')
 
@@ -32,20 +27,25 @@ prev_event_type = None
 active_window_details = None
 active_windows = []
 last_time = datetime.utcnow()
+min_log_frequency = timedelta(seconds=2)
 
 
 def set_event_type(event_type_input):
     global current_event_type
     global last_time
 
+    # Determine cause of this event
     current_event_type = event_types[event_type_input]
-    if datetime.utcnow() - last_time >= timedelta(seconds=2):
-        # log_window_details()
+    # Do not log if not enough time since last log has elapsed
+    if last_time + min_log_frequency >= datetime.utcnow():
+        # Active window details - what is in the foreground
         payload = active_window_process()
-        if payload is not None:
+        if payload is not None:  # This fails sometimes...
             payload['event_type'] = event_type_input
             log_event(payload)
+        # All window details - what is open on the system
         log_processes(all_open_windows())
+        # Update last time a log was made
         last_time = datetime.utcnow()
 
 
