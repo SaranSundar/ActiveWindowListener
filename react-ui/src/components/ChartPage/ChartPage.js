@@ -72,7 +72,7 @@ class ChartPage extends Component {
             <Grid container direction="row" style={{padding: "5px"}} key={iconName}>
                 <div className="ChartPage-RowBegin">
                     <img style={{width: "50px", height: "50px"}}
-                         src={"icons/C-'colon'--'backslash'-Program Files-'backslash'-JetBrains-'backslash'-PyCharm Community Edition 2020.1-'backslash'-bin-'backslash'-pycharm64.exe.png"}/>
+                         src={"icons/" + iconName}/>
                     <div className="ChartPage-ItemTitle">{iconName}</div>
                 </div>
                 <div className="ChartPage-Row">

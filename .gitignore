@@ -14,3 +14,4 @@ out/
 apis/mongo/mongo.server.log
 apis/mongo/db
 apis/input_methods/icons/
+react-ui/public/icons/

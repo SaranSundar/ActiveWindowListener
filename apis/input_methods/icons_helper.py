@@ -48,8 +48,9 @@ def save_icon(icon_path, save_path):
         return False
 
 
-def find__and_save_all_icons():
+def find__and_save_all_icons(file_path="icons"):
     start_time = time.time()
+    os.makedirs(file_path)
 
     def search_path(pathname):
         for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
@@ -57,7 +58,7 @@ def find__and_save_all_icons():
             encoded_file_path = filename.replace("\\", "-'backslash'-")
             # "Encodes" the file_path so that it can be saved and decoded later
             encoded_file_path = encoded_file_path.replace(":", "-'colon'-")
-            result = save_icon(filename, "./icons/" + encoded_file_path + ".png")
+            result = save_icon(filename, file_path + "/" + encoded_file_path + ".png")
             if result:
                 print("Saved " + name, " path: " + filename)
             else:
@@ -87,7 +88,6 @@ def find_icon_from_path(path):
 def parse_exe_name(exe_name):
     exe_split = exe_name.split("\\")
     return exe_split[2] + " " + exe_split[-1].split(".exe")[0]
-
 
 # find__and_save_all_icons()
 # print(find_icon_from_path("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2019.2.3\\bin\\pycharm64.exe"))
