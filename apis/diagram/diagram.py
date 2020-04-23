@@ -32,20 +32,15 @@ in1 = {'list1': [{'duration': datetime.timedelta(seconds=774, microseconds=70100
             'start': datetime.datetime(2020, 4, 8, 23, 37, 51, 237000)}]}
 
 #  Input 2
-in2 = "nothing"
-# Wifi Info: ['The Wireless AutoConfig Service (wlansvc) is not running.\n']
-# Ethernet Info: ['\n', 'Ethernet \n', 'Type: Dedicated \n', 'Administrative state: Enabled \n', 'Connect state: Connected \n', '\n']
-# Ethernet Connection: Connected             
-# Username: Nikhil Gupta
-# Home Directory: C:\Users\Nikhil Gupta
-# Alt Hostname: DESKTOP-UGO1A4I
-# Hostname: DESKTOP-UGO1A4I
-# IP Address: 169.254.79.192
-# MAC Address: 0x6245b4f758cc
-# MAC Address: 0x6245b4f758cc
-# Formatted MAC address: 62:45:b4:f7:58:cc
-# Hostname by Address: ('DESKTOP-UGO1A4I', [], ['fe80::3ce1:199d:a45d:4fc0'])
-# {'wifi_info': None, 'username': 'Nikhil Gupta', 'homedir': 'C:\\Users\\Nikhil Gupta', 'alt_homedir': 'DESKTOP-UGO1A4I', 'hostname': 'DESKTOP-UGO1A4I', 'ip_address': '169.254.79.192', 'mac_address': '0x6245b4f758cc', 'formatted_mac_address': '0x6245b4f758cc', 'hostname_by_address': ('DESKTOP-UGO1A4I', [], ['fe80::3ce1:199d:a45d:4fc0'])}
+in2 = {'wifi_info': '     agrCtlRSSI: -29\n     agrExtRSSI: 0\n    agrCtlNoise: -91\n    agrExtNoise: 0\n          state: running\n        op mode: station \n     lastTxRate: 144\n        maxRate: 144\nlastAssocStatus: 0\n    802.11 auth: open\n      link auth: wpa2-psk\n          BSSID: da:52:c9:5a:5c:c0\n           SSID: iPhone\n            MCS: 15\n        channel: 6\n', 
+'username': 'atagowani', 
+'homedir': '/Users/atagowani', 
+'alt_homedir': 'Atas-MacBook-Pro.local', 
+'hostname': 'Atas-MacBook-Pro.local', 
+'ip_address': '172.20.10.2', 
+'mac_address': '0xf21898076563', 
+'formatted_mac_address': '0xf21898076563', 
+'hostname_by_address': None}
 
 
 def generateDiagram(app_info, user_info):
@@ -57,10 +52,10 @@ def generateDiagram(app_info, user_info):
   # NOTE: the subgraph name needs to begin with 'cluster' (all lowercase)
   #       so that Graphviz recognizes it as a special cluster subgraph
 
-  username = "saran"
-  mac_addy = "ac:de:48:00:11:22"
-  ip_addy = "192.168.1.67"
-  date = "03/04/2020"
+  username = user_info["username"]
+  mac_addy = user_info["mac_address"]
+  ip_addy = user_info["ip_address"]
+  date = str(datetime.date.today())
 
   with g.subgraph(name='cluster_0') as c:
       c.attr(color='grey11', fontname=fontname)
@@ -90,7 +85,7 @@ def generateDiagram(app_info, user_info):
 
       # Node Edges
       # c.edges([('Cisco WebEx', 'PowerShell'), ('PowerShell', 'Microsoft Word')])
-      # c.attr(label="User= " + username + " | MAC= " + mac_addy + " | IP= " + ip_addy + " | " + date)
+      c.attr(label="User= " + username + " | MAC= " + mac_addy + " | IP= " + ip_addy + " | " + date)
 
       
 
