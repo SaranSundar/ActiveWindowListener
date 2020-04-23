@@ -4,6 +4,7 @@ import signal
 import subprocess
 import sys
 from subprocess import Popen, PIPE
+import shutil
 
 from flask import Flask, render_template
 from flask_cors import CORS
@@ -11,6 +12,8 @@ from flask_sockets import Sockets
 from gevent import pywsgi
 from geventwebsocket.handler import WebSocketHandler
 
+from apis.input_methods.icons_helper import find__and_save_all_icons
+from apis.input_methods.mouse_and_keyboard_listener import start_listeners
 from flask_blueprints.example_bp import example_bp
 from flask_blueprints.example_bp import example_ws
 from flask_blueprints.webview_bp import webview_bp
@@ -90,4 +93,9 @@ if __name__ == '__main__':
         Can be useful for chrome tools debugging. Make sure port number
         is the same as in flair.py
     """
+    shutil.rmtree("apis/input_methods/icons", ignore_errors=True)
+    find__and_save_all_icons("apis/input_methods/icons")
+    shutil.rmtree("react-ui/public/icons", ignore_errors=True)
+    shutil.copytree("apis/input_methods/icons", "react-ui/public/icons")
+    # start_listeners()
     run_app('localhost', port=43968)

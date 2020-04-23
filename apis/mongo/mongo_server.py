@@ -1,3 +1,4 @@
+import ctypes
 import os
 import pathlib
 import subprocess
@@ -6,7 +7,12 @@ import sys
 # Determine whether to use Windows CLI / PowerShell commands or *nix commands
 _windows = sys.platform in ['Windows', 'win32', 'cygwin']
 # Find location of MongoDB daemon process
-_daemon_path = subprocess.check_output(['where' if _windows else 'which', 'mongod']).decode().strip()
+try:
+    _daemon_path = subprocess.check_output(['where' if _windows else 'which', 'mongod']).decode().strip()
+except subprocess.CalledProcessError as err:
+    ctypes.windll.user32.MessageBoxW(0, u'Error: MongoDB installation not found.', u'Business Process Automation', 0)
+    sys.exit(1)
+
 # Define location of configuration file within this folder
 _config_file = os.path.join(pathlib.Path(__file__).parent.absolute(), 'mongoServer.config')
 # Current handle server instance's process

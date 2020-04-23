@@ -23,7 +23,7 @@ class ChartPage extends Component {
     processData = (data) => {
         let rows = [];
         for (let [key, value] of Object.entries(data)) {
-            rows.push(this.createRow(key, "https://icons.iconarchive.com/icons/google/chrome/256/Google-Chrome-icon.png", [value["mouse_usage"], value["keyboard_usage"], value["idle"], value["thinking"]]));
+            rows.push(this.createRow(key, value["icon"], [value["mouse_usage"], value["keyboard_usage"], value["idle"], value["open"]]));
         }
         return rows;
     };
@@ -50,16 +50,16 @@ class ChartPage extends Component {
                 <div className="ChartPage-Row">
                     <div className="ChartPage-ItemPercentsParent">
                         <div className="ChartPage-ItemPercents"
-                             style={{width: "25%", backgroundColor: "#29B6F6"}}>Mouse Usage %
+                             style={{width: "25%", backgroundColor: "#29B6F6"}}>Mouse Usage In Min
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: "25%", backgroundColor: "#F9A825"}}>Keyboard Usage %
+                             style={{width: "25%", backgroundColor: "#F9A825"}}>Keyboard Usage In Min
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: "25%", backgroundColor: "#4CAF50"}}>Idle Time %
+                             style={{width: "25%", backgroundColor: "#4CAF50"}}>Idle Time In Min
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: "25%", backgroundColor: "#f44336"}}>Thinking Time %
+                             style={{width: "25%", backgroundColor: "#f44336"}}>Open Time In Min
                         </div>
                     </div>
                 </div>
@@ -72,22 +72,22 @@ class ChartPage extends Component {
             <Grid container direction="row" style={{padding: "5px"}} key={iconName}>
                 <div className="ChartPage-RowBegin">
                     <img style={{width: "50px", height: "50px"}}
-                         src={iconURL}/>
+                         src={"icons/" + iconName}/>
                     <div className="ChartPage-ItemTitle">{iconName}</div>
                 </div>
                 <div className="ChartPage-Row">
                     <div className="ChartPage-ItemPercentsParent">
                         <div className="ChartPage-ItemPercents"
-                             style={{width: usagePercents[0] + "%", backgroundColor: "#29B6F6"}}>MU {usagePercents[0]}%
+                             style={{width:  "25%", backgroundColor: "#29B6F6"}}>MU {usagePercents[0]}
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: usagePercents[1] + "%", backgroundColor: "#F9A825"}}>KU {usagePercents[1]}%
+                             style={{width: "25%", backgroundColor: "#F9A825"}}>KU {usagePercents[1]}
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: usagePercents[2] + "%", backgroundColor: "#4CAF50"}}>IT {usagePercents[2]}%
+                             style={{width:  "25%", backgroundColor: "#4CAF50"}}>IT {usagePercents[2]}
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: usagePercents[3] + "%", backgroundColor: "#f44336"}}>TT {usagePercents[3]}%
+                             style={{width: "25%", backgroundColor: "#f44336"}}>TT {usagePercents[3]}
                         </div>
                     </div>
                 </div>
