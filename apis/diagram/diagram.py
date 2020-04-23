@@ -67,9 +67,19 @@ def generateDiagram(app_info, user_info):
       c.attr('node', shape='box', style='filled', color="lightskyblue1", fontname=fontname, margin=".15")
       # c.node_attr['fixedsize'] = 'false'
       # c.attr('node', shape='box')
+      edges =  []
 
-      for app in app_info:
-        c.node(app.name, label=app.name + app.duration.hours)
+      for list in app_info:
+        for app in app_info[list]:
+          # print(app["name"])
+          # print("===")
+          c.node(str(app["start"]).replace(':','') + app["name"], label=app["name"] + str(app["duration"]))
+        # print(len(app_info[list]))
+        for i in range(len(app_info[list]) - 1):
+          edges.append((str(app_info[list][i]["start"]).replace(':','') + app_info[list][i]["name"], str(app_info[list][i+1]["start"]).replace(':','') + app_info[list][i+1]["name"]))
+      
+      print(edges)
+      c.edges(edges)  
 
       # Node Definitions
       # c.node('Cisco WebEx', label="Cisco Webex \n\n 8:00 AM - 10:23 AM \n\n Duration \n 2 hours")
