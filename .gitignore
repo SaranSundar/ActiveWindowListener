@@ -14,4 +14,9 @@ out/
 apis/mongo/mongo.server.log
 apis/mongo/db
 apis/input_methods/icons/
+
+# Swimlane BPD Final Files
+bpd
+bpd.pdf
+
 react-ui/public/icons/
