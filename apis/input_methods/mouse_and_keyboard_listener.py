@@ -37,7 +37,7 @@ def set_event_type(event_type_input):
     # Determine cause of this event
     current_event_type = event_types[event_type_input]
     # Do not log if not enough time since last log has elapsed
-    if last_time + min_log_frequency >= datetime.utcnow():
+    if last_time + min_log_frequency <= datetime.utcnow():
         # Active window details - what is in the foreground
         payload = active_window_process()
         if payload is not None:  # This fails sometimes...
