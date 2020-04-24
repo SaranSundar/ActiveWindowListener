@@ -30,6 +30,11 @@ def echo_example(socket):
 
 
 def beginning_of_today():
+    """
+    Constructs a datetime for the current calendar date at 6:00AM.
+    :return: a datetime instance for today at 6:00AM.
+    """
+
     # TODO: Find timezone automatically
     tz = pytz.timezone("America/Chicago")
     # Find timestamp for today's date at 12:00:00 AM
@@ -42,6 +47,11 @@ def beginning_of_today():
 
 
 def get_data_for_ui():
+    """
+    Produces a JSONified version of analytics needed for ReactJS UI component.
+    :return: a dict of necessary process information
+    """
+
     timestamp = beginning_of_today()
     # Call analytics between 6am-8pm with active/idle/thinking timeouts
     return json.dumps(react_ui_info(timestamp, timestamp + timedelta(hours=14),
@@ -49,6 +59,12 @@ def get_data_for_ui():
 
 
 def get_analysis():
+    """
+    Produces a JSONified version of analytics needed for business process template
+    swim lane diagram generation.
+    :return: a dict of a process activity schedule
+    """
+
     timestamp = beginning_of_today()
     # Call analytics between 6am-8pm with active/idle/thinking timeouts
     return json.dumps(bpt_diagram_info(timestamp, timestamp + timedelta(hours=14),

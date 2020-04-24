@@ -16,6 +16,13 @@ class ApplicationTimeLog:
         self.icon = None
 
     def update_event(self, event, timestamp):
+        """
+        Updates interval times for keyboard and mouse usage.
+        :param event: The event type indicator string
+        :param timestamp: The timestamp this event occurred at
+        :return: None
+        """
+
         # TODO: make this activity timeout a parameter somewhere
         timeout = timedelta(seconds=5)
 
@@ -43,6 +50,12 @@ class ApplicationTimeLog:
             print(f'Invalid event type received: {event}')
 
     def update_active(self, timestamp):
+        """
+        Updates interval times for active/idle/thinking time spans.
+        :param timestamp: The timestamp that this process was active at
+        :return: None
+        """
+
         # This application is being opened for the first time or has been closed already
         if len(self.open_times) == 0 or self.open_times[-1][1] is not None:
             self.open_times.append([timestamp, None])
@@ -76,6 +89,12 @@ class ApplicationTimeLog:
             pass
 
     def update_is_open(self, timestamp):
+        """
+        Updates interval times for when this process is open.
+        :param timestamp: The timestamp that this process was active at
+        :return: None
+        """
+
         # If this app hasn't been open before
         if len(self.open_times) == 0:
             self.open_times.append([timestamp, None])
@@ -97,6 +116,12 @@ class ApplicationTimeLog:
         #     self.open_times.append([timestamp, None])
 
     def update_is_closed(self, timestamp):
+        """
+        Updates interval times for when this process is closed.
+        :param timestamp: The timestamp that this process is closed at
+        :return: None
+        """
+
         # If this app hasn't been open before, do nothing
         if len(self.open_times) == 0:
             return
@@ -106,6 +131,11 @@ class ApplicationTimeLog:
             self.open_times[-1][1] = timestamp
 
     def finalize(self):
+        """
+        Closes remaining intervals where an end time was not properly closed.
+        :return: None
+        """
+
         # Close cases where arrays are empty
         if len(self.active_times) == 0:
             self.active_times.append([self.open_times[-1][0], self.open_times[-1][0]])
@@ -127,30 +157,65 @@ class ApplicationTimeLog:
         # return self.final_stats
 
     def total_open_time(self, start, end):
+        """
+        Sums all time intervals this process was open for.
+        :param start: starting timestamp to include in sum
+        :param end: ending timestamp to include in sum
+        :return: a timedelta instance for the total time sum
+        """
+
         # TODO: edge case of interval starting before start; ending after start
         # TODO: edge case of interval ending before end; ending after end
         return sum([interval[1] - interval[0] for interval in self.open_times
                     if interval[0] >= start and interval[1] <= end], timedelta())
 
     def total_thinking_time(self, start, end):
+        """
+        Sums all time intervals this process was categorized as thinking time for.
+        :param start: starting timestamp to include in sum
+        :param end: ending timestamp to include in sum
+        :return: a timedelta instance for the total time sum
+        """
+
         # TODO: edge case of interval starting before start; ending after start
         # TODO: edge case of interval ending before end; ending after end
         return sum([interval[1] - interval[0] for interval in self.thinking_times
                     if interval[0] >= start and interval[1] <= end], timedelta())
 
     def total_idle_time(self, start, end):
+        """
+        Sums all time intervals this process was categorized as idle time for.
+        :param start: starting timestamp to include in sum
+        :param end: ending timestamp to include in sum
+        :return: a timedelta instance for the total time sum
+        """
+
         # TODO: edge case of interval starting before start; ending after start
         # TODO: edge case of interval ending before end; ending after end
         return sum([interval[1] - interval[0] for interval in self.idle_times
                     if interval[0] >= start and interval[1] <= end], timedelta())
 
     def total_mouse_time(self, start, end):
+        """
+        Sums all time intervals this process had active mouse time for.
+        :param start: starting timestamp to include in sum
+        :param end: ending timestamp to include in sum
+        :return: a timedelta instance for the total time sum
+        """
+
         # TODO: edge case of interval starting before start; ending after start
         # TODO: edge case of interval ending before end; ending after end
         return sum([interval[1] - interval[0] for interval in self.mouse_times
                     if interval[0] >= start and interval[1] <= end], timedelta())
 
     def total_kb_time(self, start, end):
+        """
+        Sums all time intervals this process had active keyboard time for.
+        :param start: starting timestamp to include in sum
+        :param end: ending timestamp to include in sum
+        :return: a timedelta instance for the total time sum
+        """
+
         # TODO: edge case of interval starting before start; ending after start
         # TODO: edge case of interval ending before end; ending after end
         return sum([interval[1] - interval[0] for interval in self.kb_times

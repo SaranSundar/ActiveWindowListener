@@ -72,6 +72,17 @@ def read_processes(start: datetime, end: datetime):
 
 
 def bpt_diagram_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
+    """
+    Post-processes the information from business_process_info to provide the information that
+    will appear in generated graphviz swim lane diagrams.
+    :param start: timestamp indicating the earliest event to include from MongoDB
+    :param end: timestamp indicating the latest event to include from MongoDB
+    :param active_buf: grace time (seconds) given between events for a process to be considered active time
+    :param idle_buf: grace time (seconds) given between events for a process to be considered idle time
+    :param think_buf: grace time (seconds) given between events for a process to be considered thinking time
+    :return: a dict of the processes in a schedule with their corresponding information
+    """
+
     intervals = business_process_info(start, end, active_buf, idle_buf, think_buf)
     # generate "activities" list
     activities = []
@@ -80,9 +91,11 @@ def bpt_diagram_info(start: datetime, end: datetime, active_buf: int, idle_buf: 
 
     # create schedule
     schedule = schedule_activities(activities)
+    # convert each list to an equivalent dict
     schedule_dict = {}
     for row_num in range(len(schedule)):
         row = schedule_dict[f'list{row_num + 1}'] = []
+        # information to provide for each scheduled process
         for activity in schedule[row_num]:
             row.append({
                 'name': activity[1],
@@ -94,10 +107,22 @@ def bpt_diagram_info(start: datetime, end: datetime, active_buf: int, idle_buf: 
                 'duration': activity[0][1] - activity[0][0],
                 "icon": intervals[activity[1]].icon
             })
+
     return schedule_dict
 
 
 def react_ui_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
+    """
+    Post-processes the information from business_process_info to provide the information that
+    will appear in the ReactJS UI.
+    :param start: timestamp indicating the earliest event to include from MongoDB
+    :param end: timestamp indicating the latest event to include from MongoDB
+    :param active_buf: grace time (seconds) given between events for a process to be considered active time
+    :param idle_buf: grace time (seconds) given between events for a process to be considered idle time
+    :param think_buf: grace time (seconds) given between events for a process to be considered thinking time
+    :return: a dict with each process name and its associated information to display
+    """
+
     intervals = business_process_info(start, end, active_buf, idle_buf, think_buf)
     # compile results of analysis into simple time totals and percentages
     totals = {
@@ -115,10 +140,22 @@ def react_ui_info(start: datetime, end: datetime, active_buf: int, idle_buf: int
 
 
 def business_process_info(start: datetime, end: datetime, active_buf: int, idle_buf: int, think_buf: int):
+    """
+    Performs a query for all events collected in MongoDB between the indicated start and end
+    times. Performs analysis and compiles events into a series of time intervals based on process name.
+    :param start: timestamp indicating the earliest event to include from MongoDB
+    :param end: timestamp indicating the latest event to include from MongoDB
+    :param active_buf: grace time (seconds) given between events for a process to be considered active time
+    :param idle_buf: grace time (seconds) given between events for a process to be considered idle time
+    :param think_buf: grace time (seconds) given between events for a process to be considered thinking time
+    :return: a DefaultDict pairing each process name to a ApplicationTimeLog tracking the process' time intervals
+    """
+
     # Tells us what the active process/window is, sorted by timestamp
     user_events = sorted(read_events(start, end), key=lambda e: e['timestamp'])
     # Tells us what all processes/windows are, sorted by timestamp
     window_log = sorted(read_processes(start, end), key=lambda e: e['timestamp'])
+    # dict to keep track of information associated with each process
     intervals = DefaultDict(lambda: ApplicationTimeLog(active_buf, idle_buf, think_buf))
 
     # Iterate through events in order of timestamps
@@ -173,6 +210,15 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
 
 
 def schedule_activities(activities):
+    """
+    Implementation of the classic greedy activity scheduling algorithm, packing/scheduling
+    the given activities in as few rooms, or lists, as required.
+    :param activities: a list of tuples, where tuple[0] contains a tuple for start and finish
+    timestamps in datetime format. tuple[1] contains the name of the process we are scheduling.
+    :return: a list of lists describing a schedule with each process timed as compactly as
+    possible without overlapping.
+    """
+
     # sort activities by start time
     act_start = sorted(activities, key=lambda a: (a[0][0], a[0][1]))
     # sort activities by finish time
