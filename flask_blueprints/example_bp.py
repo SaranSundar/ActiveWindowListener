@@ -29,10 +29,11 @@ def echo_example(socket):
         print("Sent", message)
 
 
-def beginning_of_today():
+def time_from_beginning_of_today(offset: timedelta = None):
     """
-    Constructs a datetime for the current calendar date at 6:00AM.
-    :return: a datetime instance for today at 6:00AM.
+    Constructs a datetime for the current calendar date with an optional offset
+    from 12:00AM.
+    :return: a datetime instance for the indicated time
     """
 
     # TODO: Find timezone automatically
@@ -42,8 +43,8 @@ def beginning_of_today():
     yesterday_midnight_utc = tz.localize(midnight_without_tz).astimezone(pytz.utc)
     # Convert back to offset-naive timestamps for compatibility
     yesterday_midnight_utc = yesterday_midnight_utc.replace(tzinfo=None)
-    # Return the time for 6am
-    return yesterday_midnight_utc + timedelta(hours=6)
+    # Account for requested offset
+    return yesterday_midnight_utc + offset if offset is not None else timedelta(seconds=0)
 
 
 def get_data_for_ui():
@@ -52,10 +53,10 @@ def get_data_for_ui():
     :return: a dict of necessary process information
     """
 
-    timestamp = beginning_of_today()
+    start = time_from_beginning_of_today(offset=timedelta(hours=6))  # 6:00AM
+    end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
     # Call analytics between 6am-8pm with active/idle/thinking timeouts
-    return json.dumps(react_ui_info(timestamp, timestamp + timedelta(hours=14),
-                                    5, 15, 60), default=str)
+    return json.dumps(react_ui_info(start, end, 5, 15, 60), default=str)
 
 
 def get_analysis():
@@ -65,10 +66,10 @@ def get_analysis():
     :return: a dict of a process activity schedule
     """
 
-    timestamp = beginning_of_today()
+    start = time_from_beginning_of_today(offset=timedelta(hours=6))  # 6:00AM
+    end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
     # Call analytics between 6am-8pm with active/idle/thinking timeouts
-    return json.dumps(bpt_diagram_info(timestamp, timestamp + timedelta(hours=14),
-                                       5, 15, 60), default=str)
+    return json.dumps(bpt_diagram_info(start, end, 5, 15, 60), default=str)
 
 
 @example_bp.route("/get-long-example")
