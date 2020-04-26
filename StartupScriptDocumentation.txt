@@ -1,0 +1,5 @@
+Run InstallStartupScript.py to install RunCheckScripts.bat on startup.
+
+The batch file RunCheckScripts.bat will run on startup, and when asked to makes changes to your device, should be allowed.
+
+RunCheckScripts.bat periodically checks that the local MongoDB server and keylogger programs are running, and starts them if they are not running.
