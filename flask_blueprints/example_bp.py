@@ -4,7 +4,9 @@ from datetime import datetime, timedelta, date, time
 import pytz
 from flask import Blueprint
 
+from apis.input_methods.diagram import generateDiagram
 from apis.mongo.mongo_analytics import bpt_diagram_info, react_ui_info
+from apis.monitoring_details.user_network_details import get_user_details
 
 example_bp = Blueprint('example_bp', __name__)
 example_ws = Blueprint('example_ws', __name__)
@@ -87,4 +89,4 @@ def get_example(parameter):
 
 
 if __name__ == '__main__':
-    pass
+    generateDiagram(get_analysis(), get_user_details())

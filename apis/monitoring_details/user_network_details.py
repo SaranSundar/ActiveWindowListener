@@ -144,7 +144,6 @@ def get_user_details():
         "formatted_mac_address": get_formatted_mac_address(),
         "hostname_by_address": get_host_name_by_address()
     }
-    print(user_details)
     return user_details
 
 
