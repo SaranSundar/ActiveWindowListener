@@ -57,21 +57,20 @@ def get_data_for_ui():
 
     start = time_from_beginning_of_today(offset=timedelta(hours=6))  # 6:00AM
     end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
-    # Call analytics between 6am-8pm with active/idle/thinking timeouts
+    # Call analytics between 6am-11:59pm with active/idle/thinking timeouts
     return json.dumps(react_ui_info(start, end, 5, 15, 60), default=str)
 
 
 def get_analysis():
     """
-    Produces a JSONified version of analytics needed for business process template
-    swim lane diagram generation.
+    Produces analytics needed for business process template swim lane diagram generation.
     :return: a dict of a process activity schedule
     """
 
     start = time_from_beginning_of_today(offset=timedelta(hours=6))  # 6:00AM
     end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
-    # Call analytics between 6am-8pm with active/idle/thinking timeouts
-    return json.dumps(bpt_diagram_info(start, end, 5, 15, 60), default=str)
+    # Call analytics between 6am-11:59pm with active/idle/thinking timeouts
+    return bpt_diagram_info(start, end, 5, 15, 60)
 
 
 @example_bp.route("/get-long-example")
