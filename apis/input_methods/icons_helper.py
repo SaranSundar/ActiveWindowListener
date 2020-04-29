@@ -55,9 +55,9 @@ def find__and_save_all_icons(file_path="icons"):
     def search_path(pathname):
         for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
             name = parse_exe_name(filename)
-            encoded_file_path = filename.replace("\\", "-'backslash'-")
+            encoded_file_path = filename.replace("\\", "@##")
             # "Encodes" the file_path so that it can be saved and decoded later
-            encoded_file_path = encoded_file_path.replace(":", "-'colon'-")
+            encoded_file_path = encoded_file_path.replace(":", "@;;")
             result = save_icon(filename, file_path + "/" + encoded_file_path + ".png")
             if result:
                 print("Saved " + name, " path: " + filename)
@@ -75,8 +75,8 @@ def find__and_save_all_icons(file_path="icons"):
 
 def find_icon_from_path(path):
     path = path[:-3]
-    path = path.replace("\\", "-'backslash'-")
-    path = path.replace(":", "-'colon'-")
+    path = path.replace("\\", "@##")
+    path = path.replace(":", "@;;")
     icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
     for file in os.listdir(icons_folder):
         if file.startswith(path):
