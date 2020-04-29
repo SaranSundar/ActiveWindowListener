@@ -1,6 +1,10 @@
 cd react-ui
 echo 'Building React App...'
 npm run build
+if [ $? -ne 0 ]; then
+  echo "npm build in react-ui failed"
+  exit 1
+fi
 cd ..
 echo 'Cleaning up old builds...'
 rm -rf dist
