@@ -41,7 +41,7 @@ def save_icon(icon_path, save_path):
         extrema = img.convert("L").getextrema()
         if "Chrome" in icon_path:
             pass
-            #print("TEST")
+            # print("TEST")
         if extrema[1] < 250:
             img.save(save_path)
         return True
@@ -68,8 +68,8 @@ def find__and_save_all_icons(file_path="icons"):
             else:
                 print("Error on " + name, " path: " + file_path + "/" + encoded_file_path)
             print(filename)
-        #print("********************")
-        #print("")
+        # print("********************")
+        # print("")
 
     search_path("C:\\Program Files\\")
     search_path("C:\\Program Files (x86)\\")
@@ -92,7 +92,7 @@ def find_icon_from_path(path):
     for file in os.listdir(icons_folder):
         if file.startswith(path):
             return file
-    #print("EXE icon not found")
+    # print("EXE icon not found")
     return ""
 
 

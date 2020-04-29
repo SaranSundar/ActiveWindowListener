@@ -2,6 +2,7 @@ import datetime
 
 from graphviz import Digraph
 
+
 def generateDiagram(app_info, user_info):
     g = Digraph('G', filename='bpd')
     g.attr(rankdir='TB', size='8,5')
@@ -55,7 +56,7 @@ def generateDiagram(app_info, user_info):
                 else:
                     finalDuration = f'{hours} hrs {minutes} mins {seconds} secs 0 msecs'
 
-                homepath = ("../apis/input_methods/icons/")
+                homepath = "../apis/input_methods/icons/"
                 iconpath = app["icon"]
 
                 if iconpath and iconpath.strip():
@@ -66,7 +67,7 @@ def generateDiagram(app_info, user_info):
                     c.node(str(app["start"]).replace(':', '') + app["name"], '''<<TABLE border="0">
                           <TR><TD fixedsize="true" width="55" height="50" bgcolor="transparent"><IMG SRC="''' + path + '''"/></TD>
                           <TD align="center" valign="middle">''' + app[
-                          "name"] + '''<BR/><BR/>''' + startTime + ' - ' + finishTime + '''<BR/><BR/>Duration<BR/>''' + finalDuration + '''</TD></TR>
+                        "name"] + '''<BR/><BR/>''' + startTime + ' - ' + finishTime + '''<BR/><BR/>Duration<BR/>''' + finalDuration + '''</TD></TR>
                           <TR><TD></TD></TR></TABLE>>''', width='5', height='1.5')
                 else:
                     # Creates the node displaying the app name, start time to end time, and duration
