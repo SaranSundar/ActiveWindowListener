@@ -46,30 +46,23 @@ def save_icon(icon_path, save_path):
             img.save(save_path)
         return True
     except Exception as e:
-        print("Error:")
-        print(e)
+        # print("Error:")
+        # print(e)
         return False
 
 
-def find__and_save_all_icons(file_path="icons"):
+def find_and_save_all_icons(file_path='icons'):
     start_time = time.time()
-    os.makedirs(file_path)
+    if not os.path.isdir(file_path):
+        os.makedirs(file_path)
 
     def search_path(pathname):
         for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
-            name = parse_exe_name(filename)
-            encoded_file_path = filename
-            encoded_file_path = filename.replace("\\", "-{]{-")
-            # "Encodes" the file_path so that it can be saved and decoded later
-            encoded_file_path = encoded_file_path.replace(":", "-(})")
-            result = save_icon(filename, file_path + "/" + encoded_file_path + ".png")
-            if result:
-                print("Saved " + name, " path: " + file_path + "/" + encoded_file_path)
-            else:
-                print("Error on " + name, " path: " + file_path + "/" + encoded_file_path)
-            print(filename)
-        # print("********************")
-        # print("")
+            encoded_file_path = str(hash(filename))
+            save_path = f'{file_path}/{encoded_file_path}.png'
+            result = save_icon(filename, save_path)
+            print('Saved ' if result else 'Error on ' + parse_exe_name(filename))
+            print(f'\tpath: {save_path}\n\tfilename: {filename}')
 
     search_path("C:\\Program Files\\")
     search_path("C:\\Program Files (x86)\\")
@@ -78,9 +71,7 @@ def find__and_save_all_icons(file_path="icons"):
 
 
 def find_icon_from_path(path):
-    path = path[:-3]
-    path = path.replace("\\", "-{]{-")
-    path = path.replace(":", "-(})")
+    path = str(hash(path))
     operating_system = str(platform.system()).lower()
     icon_folder = None
     if getattr(sys, 'frozen', False):
@@ -92,7 +83,6 @@ def find_icon_from_path(path):
     for file in os.listdir(icons_folder):
         if file.startswith(path):
             return file
-    # print("EXE icon not found")
     return ""
 
 
@@ -102,7 +92,5 @@ def parse_exe_name(exe_name):
 
 
 if __name__ == '__main__':
-    find__and_save_all_icons()
-
-# find__and_save_all_icons()
-# print(find_icon_from_path("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2019.2.3\\bin\\pycharm64.exe"))
+    find_and_save_all_icons()
+    print(find_icon_from_path("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2019.2.3\\bin\\pycharm64.exe"))
