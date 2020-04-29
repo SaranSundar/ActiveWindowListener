@@ -9,7 +9,7 @@ bin/
 out/
 .idea/
 .vscode/
-icons/
+static/icons/
 
 # Mongo folder
 apis/mongo/mongo.server.log

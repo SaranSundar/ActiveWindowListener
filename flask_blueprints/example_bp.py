@@ -56,7 +56,7 @@ def get_data_for_ui():
     :return: a dict of necessary process information
     """
 
-    start = time_from_beginning_of_today(offset=timedelta(hours=0))  # 6:00AM
+    start = time_from_beginning_of_today(offset=timedelta(hours=4))  # 4:00AM
     end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
     # Call analytics between 6am-11:59pm with active/idle/thinking timeouts
     return json.dumps(react_ui_info(start, end, 5, 15, 60), default=str)
@@ -68,7 +68,7 @@ def get_analysis():
     :return: a dict of a process activity schedule
     """
 
-    start = time_from_beginning_of_today(offset=timedelta(hours=6))  # 6:00AM
+    start = time_from_beginning_of_today(offset=timedelta(hours=4))  # 4:00AM
     end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
     # Call analytics between 6am-11:59pm with active/idle/thinking timeouts
     return bpt_diagram_info(start, end, 5, 15, 60)

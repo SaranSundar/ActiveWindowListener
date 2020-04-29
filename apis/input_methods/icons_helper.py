@@ -79,7 +79,8 @@ def find_icon_from_path(path):
             static_folder = os.path.join(sys._MEIPASS, 'static', 'icons')
             icons_folder = static_folder
     else:
-        icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
+        # os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
+        icons_folder = os.path.join('static', 'icons')
     for file in os.listdir(icons_folder):
         if file.startswith(path):
             return file
