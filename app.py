@@ -5,6 +5,7 @@ import subprocess
 import sys
 from subprocess import Popen, PIPE
 import shutil
+from threading import Thread
 
 from flask import Flask, render_template
 from flask_cors import CORS
@@ -97,5 +98,8 @@ if __name__ == '__main__':
     find__and_save_all_icons("apis/input_methods/icons")
     shutil.rmtree("react-ui/public/icons", ignore_errors=True)
     shutil.copytree("apis/input_methods/icons", "react-ui/public/icons")
-    # start_listeners()
+
+    t = Thread(target=start_listeners, args=())
+    t.start()
+    print("Listeners started")
     run_app('localhost', port=43968)

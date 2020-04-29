@@ -7,7 +7,8 @@ import win32api
 import win32con
 import win32gui
 import win32ui
-from PIL import Image
+# pip install Pillow did not work well with pyinstaller since the name was PIL for the from, so I just copied the site package folder into here
+from apis.input_methods.PIL import Image
 
 
 def save_icon(icon_path, save_path):

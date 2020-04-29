@@ -5,7 +5,7 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 REQUIRES_PYTHON = '>=3.0.0'
-REQUIRED_DEP = ['flask', 'flask_sockets', 'flask_cors',
+REQUIRED_DEP = ['flask', 'flask_sockets', 'flask_cors'
                 'pythonnet ; sys_platform == "win32"',
                 'pyobjc ; sys_platform == "darwin"',
                 'PyQt5 ; sys_platform == "openbsd6"',]
@@ -30,7 +30,7 @@ APP = ['flair.py']
 OPTIONS = {
     'argv_emulation': False,
     'strip': True,
-    'packages': ['flask', 'werkzeug', 'jinja2', 'gevent', 'geventwebsocket', 'flask_cors', 'pynput', 'pymongo'],
+    'packages': ['flask', 'werkzeug', 'jinja2', 'gevent', 'geventwebsocket', 'flask_cors', 'pynput', 'pymongo', 'graphviz', 'pymongo'],
     'includes': ['WebKit', 'Foundation', 'webview', 'sys', 'subprocess', 'os'],
     'resources': ['./templates', './static'],
 }
