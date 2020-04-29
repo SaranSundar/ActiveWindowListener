@@ -1,14 +1,14 @@
 import glob
 import os
 import pathlib
+import platform
+import sys
 import time
 
 import win32api
 import win32con
 import win32gui
 import win32ui
-# pip install Pillow did not work well with pyinstaller since the name was PIL for the from, so I just copied the site package folder into here
-from apis.input_methods.PIL import Image
 
 
 def save_icon(icon_path, save_path):
@@ -32,6 +32,7 @@ def save_icon(icon_path, save_path):
         hdc.DrawIcon((0, 0), large[0])
 
         bmpstr = hbmp.GetBitmapBits(True)
+        from PIL import Image
         img = Image.frombuffer(
             'RGBA',
             (32, 32),
@@ -39,7 +40,8 @@ def save_icon(icon_path, save_path):
         )
         extrema = img.convert("L").getextrema()
         if "Chrome" in icon_path:
-            print("TEST")
+            pass
+            #print("TEST")
         if extrema[1] < 250:
             img.save(save_path)
         return True
@@ -56,17 +58,18 @@ def find__and_save_all_icons(file_path="icons"):
     def search_path(pathname):
         for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
             name = parse_exe_name(filename)
-            encoded_file_path = filename.replace("\\", "-'backslash'-")
+            encoded_file_path = filename
+            encoded_file_path = filename.replace("\\", "-{]{-")
             # "Encodes" the file_path so that it can be saved and decoded later
-            encoded_file_path = encoded_file_path.replace(":", "-'colon'-")
+            encoded_file_path = encoded_file_path.replace(":", "-(})")
             result = save_icon(filename, file_path + "/" + encoded_file_path + ".png")
             if result:
-                print("Saved " + name, " path: " + filename)
+                print("Saved " + name, " path: " + file_path + "/" + encoded_file_path)
             else:
-                print("Error on " + name, " path: " + filename)
+                print("Error on " + name, " path: " + file_path + "/" + encoded_file_path)
             print(filename)
-        print("********************")
-        print("")
+        #print("********************")
+        #print("")
 
     search_path("C:\\Program Files\\")
     search_path("C:\\Program Files (x86)\\")
@@ -76,19 +79,30 @@ def find__and_save_all_icons(file_path="icons"):
 
 def find_icon_from_path(path):
     path = path[:-3]
-    path = path.replace("\\", "-'backslash'-")
-    path = path.replace(":", "-'colon'-")
-    icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
+    path = path.replace("\\", "-{]{-")
+    path = path.replace(":", "-(})")
+    operating_system = str(platform.system()).lower()
+    icon_folder = None
+    if getattr(sys, 'frozen', False):
+        if "window" in operating_system:
+            static_folder = os.path.join(sys._MEIPASS, 'static', 'icons')
+            icons_folder = static_folder
+    else:
+        icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
     for file in os.listdir(icons_folder):
         if file.startswith(path):
             return file
-    print("EXE icon not found")
+    #print("EXE icon not found")
     return ""
 
 
 def parse_exe_name(exe_name):
     exe_split = exe_name.split("\\")
     return exe_split[2] + " " + exe_split[-1].split(".exe")[0]
+
+
+if __name__ == '__main__':
+    find__and_save_all_icons()
 
 # find__and_save_all_icons()
 # print(find_icon_from_path("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2019.2.3\\bin\\pycharm64.exe"))

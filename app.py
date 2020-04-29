@@ -80,6 +80,14 @@ def kill_port(port):
 
 
 def run_app(url, port):
+    if getattr(sys, 'frozen', False):
+        if "window" in operating_system:
+            pass
+    else:
+        shutil.rmtree("apis/input_methods/icons", ignore_errors=True)
+        find__and_save_all_icons("apis/input_methods/icons")
+        shutil.rmtree("react-ui/public/icons", ignore_errors=True)
+        shutil.copytree("apis/input_methods/icons", "react-ui/public/icons")
     if "darwin" in operating_system:
         kill_port(port)
     server = pywsgi.WSGIServer((url, port), app, handler_class=WebSocketHandler)
@@ -94,11 +102,6 @@ if __name__ == '__main__':
         Can be useful for chrome tools debugging. Make sure port number
         is the same as in flair.py
     """
-    shutil.rmtree("apis/input_methods/icons", ignore_errors=True)
-    find__and_save_all_icons("apis/input_methods/icons")
-    shutil.rmtree("react-ui/public/icons", ignore_errors=True)
-    shutil.copytree("apis/input_methods/icons", "react-ui/public/icons")
-
     t = Thread(target=start_listeners, args=())
     t.start()
     print("Listeners started")

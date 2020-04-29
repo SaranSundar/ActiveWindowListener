@@ -1,6 +1,7 @@
 import ctypes
 import os
 import pathlib
+import platform
 import subprocess
 import sys
 
@@ -32,7 +33,14 @@ def start_server():
     db_path = os.path.join(pathlib.Path(__file__).parent.absolute(), 'db')
     if not os.path.isdir(db_path):
         try:
-            os.mkdir(path=db_path)
+            if getattr(sys, 'frozen', False):
+                operating_system = str(platform.system()).lower()
+                if "window" in operating_system:
+                    # Logic used for packaging app with PyInstaller
+                    db_path = os.path.join(sys._MEIPASS, 'static', 'db')
+                    os.mkdir(path=db_path)
+            else:
+                os.mkdir(path=db_path)
         except OSError:
             raise Exception('Database directory creation failed.')
 

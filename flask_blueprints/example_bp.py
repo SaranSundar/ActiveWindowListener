@@ -27,6 +27,7 @@ def echo_example(socket):
             "Visual Studio": {"mouse_usage": 20, "keyboard_usage": 50, "idle": 10, "thinking": 20}
         }
         response = get_data_for_ui()
+        # response = json.dumps(message, default=str)
         socket.send(response)
         print("Sent", message)
 
@@ -55,7 +56,7 @@ def get_data_for_ui():
     :return: a dict of necessary process information
     """
 
-    start = time_from_beginning_of_today(offset=timedelta(hours=6))  # 6:00AM
+    start = time_from_beginning_of_today(offset=timedelta(hours=0))  # 6:00AM
     end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
     # Call analytics between 6am-8pm with active/idle/thinking timeouts
     return json.dumps(react_ui_info(start, end, 5, 15, 60), default=str)
