@@ -48,7 +48,7 @@ def is_server_running(url, max_wait):
 def main():
     global port
 
-    url, max_wait = 'localhost', 15  # 15 seconds
+    url, max_wait = 'localhost', 90  # 15 seconds
     link = "http://" + url + ":" + str(port)
     # Starting Server
     t = Thread(target=start_listeners, args=())

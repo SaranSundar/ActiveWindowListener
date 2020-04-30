@@ -15,7 +15,13 @@ except subprocess.CalledProcessError as err:
     sys.exit(1)
 
 # Define location of configuration file within this folder
-_config_file = os.path.join(pathlib.Path(__file__).parent.absolute(), 'mongoServer.config')
+_config_file = None
+if getattr(sys, 'frozen', False):
+    operating_system = str(platform.system()).lower()
+    if "window" in operating_system:
+        _config_file = os.path.join(sys._MEIPASS, 'static', 'mongoServer.config')
+else:
+    _config_file = os.path.join(pathlib.Path(__file__).parent.absolute(), 'mongoServer.config')
 # Current handle server instance's process
 _server = None
 
@@ -30,7 +36,14 @@ def start_server():
     global _server
 
     # Check if the 'db' directory exists. If not, make it, so MongoDB starts properly.
-    db_path = os.path.join(pathlib.Path(__file__).parent.absolute(), 'db')
+    db_path = None
+    if getattr(sys, 'frozen', False):
+        operating_system = str(platform.system()).lower()
+        if "window" in operating_system:
+            db_path = os.path.join(sys._MEIPASS, 'static', 'db')
+    else:
+        db_path = os.path.join(pathlib.Path(__file__).parent.absolute(), 'db')
+
     if not os.path.isdir(db_path):
         try:
             if getattr(sys, 'frozen', False):
@@ -45,7 +58,13 @@ def start_server():
             raise Exception('Database directory creation failed.')
 
     if not _server:
-        log_path = os.path.join(pathlib.Path(__file__).parent.absolute(), 'mongo.server.log')
+        log_path = None
+        if getattr(sys, 'frozen', False):
+            operating_system = str(platform.system()).lower()
+            if "window" in operating_system:
+                log_path = os.path.join(sys._MEIPASS, 'static', 'mongo.server.log')
+        else:
+            log_path = os.path.join(pathlib.Path(__file__).parent.absolute(), 'mongo.server.log')
         _server = subprocess.Popen([_daemon_path, '--config', _config_file, '--dbpath', db_path, '--logpath', log_path],
                                    text=True)
 
