@@ -170,14 +170,20 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
                 user_events[user_event_index]['process_obj']['exe'])
             user_event_index += 1
         else:
+            # Convenience variables
             curr_log = window_log[window_log_index]
             pids = [key for key in curr_log.keys() if key not in ['_id', 'timestamp']]
             open_apps = [curr_log[pid]['process_obj']['name'] for pid in pids]
+
+            # App is open. track it as such
+            for app in open_apps:
+                intervals[app].update_is_open(curr_log['timestamp'])
+
+            # Among all tracked apps, update closed apps
             for app in intervals.as_dict():
-                if app in open_apps:
-                    intervals[app].update_is_open(curr_log['timestamp'])
-                else:
+                if app not in open_apps:
                     intervals[app].update_is_closed(curr_log['timestamp'])
+
             window_log_index += 1
 
     # Iterate through remaining of user events
@@ -192,15 +198,19 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
 
     # Iterate through remaining of window log events
     while window_log_index < len(window_log):
+        # Convenience variables
         curr_log = window_log[window_log_index]
         pids = [key for key in curr_log.keys() if key not in ['_id', 'timestamp']]
         open_apps = [curr_log[pid]['process_obj']['name'] for pid in pids]
+
+        # App is open. track it as such
+        for app in open_apps:
+            intervals[app].update_is_open(curr_log['timestamp'])
+
+        # Among all tracked apps, update closed apps
         for app in intervals.as_dict():
-            if app in open_apps:
-                intervals[app].update_is_open(curr_log['timestamp'])
-            else:
+            if app not in open_apps:
                 intervals[app].update_is_closed(curr_log['timestamp'])
-        window_log_index += 1
 
     # Close edge cases with trailing intervals and NoneTypes
     for process_name in intervals.as_dict().keys():
