@@ -23,7 +23,7 @@ def echo_example(socket):
         if message == "GenerateDiagram":
             analysis = get_analysis()
             user_details = get_user_details()
-            generateDiagram(analysis, user_details)
+            generateDiagram(None, user_details)
         else:
             # Fetching UI Data
             print("Received", message)
