@@ -1,6 +1,6 @@
 ## Packages/Requirements
-Python 3.7.6
-Graphviz
+- Python 3.X.X
+- Graphviz 0.13.2
 ## Nodes and Edges
 ### Defining a Node
 ```
