@@ -9,7 +9,8 @@ class ChartPage extends Component {
         super(props);
         this.SERVER_URL = "ws://localhost:43968/example_ws/echo-example";
         this.state = {
-            data: {}
+            data: {},
+            network: {},
         }
     }
 
@@ -17,7 +18,7 @@ class ChartPage extends Component {
         console.log("Data received");
         data = JSON.parse(data);
         console.log(data);
-        this.setState({data: data});
+        this.setState({data: data['ui'], network: data['network']});
     };
 
     processData = (data) => {
