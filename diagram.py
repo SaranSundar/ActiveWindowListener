@@ -4,6 +4,7 @@ import platform
 import sys
 
 from graphviz import Digraph
+from datetime import timedelta
 
 
 def generateDiagram(app_info, user_info):
@@ -41,10 +42,12 @@ def generateDiagram(app_info, user_info):
                 # print(app["name"])
                 # print("===")
 
-                dummyStart = app["start"]
+                # TODO: convert from UTC to local time dynamically instead of hard-coding an offset
+                dummyStart = app["start"] - timedelta(hours=5)
                 startTime = dummyStart.strftime("%I:%M %p")
 
-                dummyFinish = app["finish"]
+                # TODO: convert from UTC to local time dynamically instead of hard-coding an offset
+                dummyFinish = app["finish"] - timedelta(hours=5)
                 finishTime = dummyFinish.strftime("%I:%M %p")
 
                 # Obtains the duration in hours, minutes and seconds format
