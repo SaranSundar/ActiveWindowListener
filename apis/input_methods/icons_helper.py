@@ -80,7 +80,7 @@ def find_icon_from_path(path, icons_folder=""):
             icons_folder = static_folder
     else:
         # os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
-        icons_folder = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..', 'static', 'icons'))
+        icons_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'icons'))
     for file in os.listdir(icons_folder):
         if file == path + ".png":
             return file

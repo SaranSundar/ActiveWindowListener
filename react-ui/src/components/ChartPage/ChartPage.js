@@ -30,7 +30,9 @@ class ChartPage extends Component {
 
     handleOpen = () => {
         console.log("Connected to Server");
-        this.sendMessage("Hello World!");
+        setInterval(() => {
+            this.sendMessage("Fetching UI Data");
+        }, 5000);
     };
 
     handleClose = () => {
@@ -78,16 +80,16 @@ class ChartPage extends Component {
                 <div className="ChartPage-Row">
                     <div className="ChartPage-ItemPercentsParent">
                         <div className="ChartPage-ItemPercents"
-                             style={{width:  "25%", backgroundColor: "#29B6F6"}}>MU {usagePercents[0]}
+                             style={{width:  "25%", backgroundColor: "#29B6F6"}}>{usagePercents[0]}
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: "25%", backgroundColor: "#F9A825"}}>KU {usagePercents[1]}
+                             style={{width: "25%", backgroundColor: "#F9A825"}}>{usagePercents[1]}
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width:  "25%", backgroundColor: "#4CAF50"}}>IT {usagePercents[2]}
+                             style={{width:  "25%", backgroundColor: "#4CAF50"}}>{usagePercents[2]}
                         </div>
                         <div className="ChartPage-ItemPercents"
-                             style={{width: "25%", backgroundColor: "#f44336"}}>TT {usagePercents[3]}
+                             style={{width: "25%", backgroundColor: "#f44336"}}>{usagePercents[3]}
                         </div>
                     </div>
                 </div>
