@@ -3,6 +3,8 @@ import './ChartPage.css';
 import Grid from '@material-ui/core/Grid';
 import Container from "@material-ui/core/Container";
 import WebSocketWrapper from "../WebSocketWrapper/WebSocketWrapper";
+import Button from "@material-ui/core/Button";
+import SaveIcon from '@material-ui/icons/Save';
 
 class ChartPage extends Component {
     constructor(props) {
@@ -119,7 +121,8 @@ class ChartPage extends Component {
                     {/*{this.createRow("Visual Studio", "https://cdn.iconscout.com/icon/free/png-256/visual-studio-569577.png", [20, 50, 10, 20])}*/}
                     {/*{this.createRow("PyCharm", "https://dashboard.snapcraft.io/site_media/appmedia/2017/12/PyCharmEdu256.png", [30, 40, 20, 10])}*/}
                 </div>
-                <Container className="ChartPage-UserDetails">
+                <Grid container direction="row">
+                <div className="ChartPage-UserDetails">
                     <div className="ChartPage-UserDetails-Title">
                         User Details:
                     </div>
@@ -141,8 +144,20 @@ class ChartPage extends Component {
                     <div className="ChartPage-UserDetails-Text">
                         Mac Address: {this.state.network['mac_address']}
                     </div>
-                </Container>
-                {/*<button onClick={() => this.sendMessage("Hello World!")}>Send Message</button>*/}
+                </div>
+                <div className="GenerateDiagram">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        className=""
+                        startIcon={<SaveIcon />}
+                        onClick={() => this.sendMessage("GenerateDiagram")}
+                    >
+                        Generate Business Process Flow
+                    </Button>
+                </div>
+                </Grid>
                 <WebSocketWrapper
                     url={this.SERVER_URL} onMessage={this.handleData}
                     onOpen={this.handleOpen} onClose={this.handleClose}

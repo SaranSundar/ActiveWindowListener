@@ -20,16 +20,22 @@ def echo_example(socket):
         if message is None:
             continue
         message = json.loads(message)
-        print("Received", message)
-        # response = json.dumps(message, default=str)
-        response = {
-            "Google Chrome": {"mouse_usage": 40, "keyboard_usage": 30, "idle": 10, "thinking": 20},
-            "Visual Studio": {"mouse_usage": 20, "keyboard_usage": 50, "idle": 10, "thinking": 20}
-        }
-        response = get_data_for_ui()
-        # response = json.dumps(message, default=str)
-        socket.send(response)
-        print("Sent", message)
+        if message == "GenerateDiagram":
+            analysis = get_analysis()
+            user_details = get_user_details()
+            generateDiagram(analysis, user_details)
+        else:
+            # Fetching UI Data
+            print("Received", message)
+            # response = json.dumps(message, default=str)
+            response = {
+                "Google Chrome": {"mouse_usage": 40, "keyboard_usage": 30, "idle": 10, "thinking": 20},
+                "Visual Studio": {"mouse_usage": 20, "keyboard_usage": 50, "idle": 10, "thinking": 20}
+            }
+            response = get_data_for_ui()
+            # response = json.dumps(message, default=str)
+            socket.send(response)
+            print("Sent", message)
 
 
 def time_from_beginning_of_today(offset: timedelta = None):
