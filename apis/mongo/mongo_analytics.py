@@ -179,6 +179,11 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
             for app in open_apps:
                 intervals[app].update_is_open(curr_log['timestamp'])
 
+            # Update icons
+            for pid in pids:
+                app_name = curr_log[pid]['process_obj']['name']
+                intervals[app_name].icon = find_icon_from_path(curr_log[pid]['process_obj']['exe'])
+
             # Among all tracked apps, update closed apps
             for app in intervals.as_dict():
                 if app not in open_apps:
@@ -206,6 +211,11 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
         # App is open. track it as such
         for app in open_apps:
             intervals[app].update_is_open(curr_log['timestamp'])
+
+        # Update icons
+        for pid in pids:
+            app_name = curr_log[pid]['process_obj']['name']
+            intervals[app_name].icon = find_icon_from_path(curr_log[pid]['process_obj']['exe'])
 
         # Among all tracked apps, update closed apps
         for app in intervals.as_dict():
