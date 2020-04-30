@@ -1,10 +1,24 @@
 import datetime
+import os
+import platform
+import sys
 
 from graphviz import Digraph
 
 
 def generateDiagram(app_info, user_info):
-    g = Digraph('G', filename='bpd')
+    directory = None
+    homepath = None
+    if getattr(sys, 'frozen', False):
+        operating_system = str(platform.system()).lower()
+        if "window" in operating_system:
+            # Logic used for packaging app with PyInstaller
+            directory = os.path.join(sys._MEIPASS, 'static')
+            homepath = os.path.join(sys._MEIPASS, 'static', 'icons')
+    else:
+        directory = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static'))
+        homepath = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static', 'icons'))
+    g = Digraph('G', filename='business_process_diagram', directory=directory)
     g.attr(rankdir='TB', size='8,5')
     fontname = "Helvetica"
 
@@ -56,11 +70,10 @@ def generateDiagram(app_info, user_info):
                 else:
                     finalDuration = f'{hours} hrs {minutes} mins {seconds} secs 0 msecs'
 
-                homepath = "../apis/input_methods/icons/"
                 iconpath = app["icon"]
 
                 if iconpath and iconpath.strip():
-                    path = homepath + iconpath
+                    path = homepath + "\\" + iconpath
 
                     # Creates the node displaying the app name, start time to end time, and duration
                     # along with the app's icon

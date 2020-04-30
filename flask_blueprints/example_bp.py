@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, date, time
 import pytz
 from flask import Blueprint
 
-from apis.input_methods.diagram import generateDiagram
+from diagram import generateDiagram
 from apis.mongo.mongo_analytics import bpt_diagram_info, react_ui_info
 from apis.monitoring_details.user_network_details import get_user_details
 
@@ -21,9 +21,15 @@ def echo_example(socket):
             continue
         message = json.loads(message)
         if message == "GenerateDiagram":
-            analysis = get_analysis()
-            user_details = get_user_details()
-            generateDiagram(None, user_details)
+            try:
+                print("Starting to generate diagram")
+                analysis = get_analysis()
+                user_details = get_user_details()
+                generateDiagram(analysis, user_details)
+                print("Successfully generated diagram")
+            except Exception as e:
+                print(e)
+                print("Failed to generate diagram")
         else:
             # Fetching UI Data
             print("Received", message)

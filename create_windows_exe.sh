@@ -18,6 +18,6 @@ cp apis/mongo/mongoServer.config static/
 cp default.png static/
 echo 'Building exe...'
 # --add-data 'icons/*.png;static/icons'
-pyinstaller  -w --noupx --hidden-import='pkg_resources.py2_warn' --hidden-import='pynput' --add-data "templates;templates" --add-data "static;static" -y flair.py
+pyinstaller  -w -F --noupx --hidden-import='pkg_resources.py2_warn' --hidden-import='pynput' --add-data "templates;templates" --add-data "static;static" -y flair.py
 echo "Flair.exe created. Navigate to dist/ and double click flair.exe or run ./flair.exe in git-bash to launch the application. May take a couple seconds to launch"
 rm -rf *.spec
