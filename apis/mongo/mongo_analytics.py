@@ -241,6 +241,10 @@ def schedule_activities(activities):
     possible without overlapping.
     """
 
+    # Ignore activities under five seconds in duration
+    activities = [activity for activity in activities
+                  if activity[0][1] - activity[0][0] > timedelta(seconds=3)]
+
     # sort activities by start time
     act_start = sorted(activities, key=lambda a: (a[0][0], a[0][1]))
     # sort activities by finish time
@@ -285,12 +289,8 @@ def schedule_activities(activities):
 
 
 if __name__ == '__main__':
-    # now = datetime.utcnow() - timedelta(days=10)
-    # tmrw = datetime.utcnow()
-    # print(read_events(now.isoformat(), tmrw.isoformat()))
-    info = business_process_info(datetime.utcnow() - timedelta(days=10),
-                                 datetime.utcnow() + timedelta(days=1),
-                                 5, 15, 60)
+    info = bpt_diagram_info(datetime.utcnow() - timedelta(hours=12),
+                            datetime.utcnow() + timedelta(days=1),
+                            5, 15, 60)
     pprint(info)
     close_server()
-    pass
