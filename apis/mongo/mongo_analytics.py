@@ -212,6 +212,8 @@ def business_process_info(start: datetime, end: datetime, active_buf: int, idle_
             if app not in open_apps:
                 intervals[app].update_is_closed(curr_log['timestamp'])
 
+        window_log_index += 1
+
     # Close edge cases with trailing intervals and NoneTypes
     for process_name in intervals.as_dict().keys():
         intervals[process_name].finalize()
