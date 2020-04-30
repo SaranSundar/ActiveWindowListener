@@ -34,7 +34,7 @@ class ChartPage extends Component {
         this.sendMessage("Fetching UI Data");
         setInterval(() => {
             this.sendMessage("Fetching UI Data");
-        }, 50000);
+        }, 300000);
     };
 
     handleClose = () => {

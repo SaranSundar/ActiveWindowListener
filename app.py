@@ -82,13 +82,15 @@ def run_app(url, port):
     if getattr(sys, 'frozen', False):
         if "window" in operating_system:
             static_folder_inner = os.path.join(sys._MEIPASS, 'static', 'icons')
+            static_folder_outter = os.path.join(sys._MEIPASS, 'static', 'default.png')
             shutil.rmtree(static_folder_inner, ignore_errors=True)
             find_and_save_all_icons(static_folder_inner)
+            shutil.copy(static_folder_outter, static_folder_inner)
     else:
         shutil.rmtree("static/icons", ignore_errors=True)
         find_and_save_all_icons("static/icons")
-        # shutil.rmtree("react-ui/public/icons", ignore_errors=True)
-        # shutil.copytree("apis/input_methods/icons", "static/icons")
+        shutil.copy("default.png", "static/icons")
+
     if "darwin" in operating_system:
         kill_port(port)
     server = pywsgi.WSGIServer((url, port), app, handler_class=WebSocketHandler)

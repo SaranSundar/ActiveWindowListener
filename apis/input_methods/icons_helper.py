@@ -93,5 +93,5 @@ def parse_exe_name(exe_name):
 
 
 if __name__ == '__main__':
-    find_and_save_all_icons()
+    find_and_save_all_icons(file_path=os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'icons')))
     print(find_icon_from_path("C:\Program Files\JetBrains\PyCharm Community Edition 2020.1\\bin\pycharm64.exe"))

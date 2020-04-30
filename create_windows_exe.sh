@@ -15,6 +15,7 @@ mkdir templates
 cp -r react-ui/build/index.html templates/index.html
 cp -r react-ui/build/static static/
 cp apis/mongo/mongoServer.config static/
+cp default.png static/
 echo 'Building exe...'
 # --add-data 'icons/*.png;static/icons'
 pyinstaller  -w --noupx --hidden-import='pkg_resources.py2_warn' --hidden-import='pynput' --add-data "templates;templates" --add-data "static;static" -y flair.py
