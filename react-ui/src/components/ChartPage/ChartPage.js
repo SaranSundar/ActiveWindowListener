@@ -31,9 +31,10 @@ class ChartPage extends Component {
 
     handleOpen = () => {
         console.log("Connected to Server");
+        this.sendMessage("Fetching UI Data");
         setInterval(() => {
             this.sendMessage("Fetching UI Data");
-        }, 5000);
+        }, 50000);
     };
 
     handleClose = () => {
@@ -123,22 +124,22 @@ class ChartPage extends Component {
                         User Details:
                     </div>
                     <div className="ChartPage-UserDetails-Text">
-                        Username: saran
+                        Username: {this.state.network['username']}
                     </div>
                     <div className="ChartPage-UserDetails-Text">
-                        Home Directory: /Users/saran
+                        Home Directory: {this.state.network['homedir']}
                     </div>
                     <div className="ChartPage-UserDetails-Text">
-                        Wifi SSID: CometNet
+                        Wifi SSID: {this.state.network['wifi_info']}
                     </div>
                     <div className="ChartPage-UserDetails-Text">
-                        Hostname: cometnet-10-21-79-245.utdallas.edu
+                        Hostname: {this.state.network['hostname']}
                     </div>
                     <div className="ChartPage-UserDetails-Text">
-                        IP Address: IP Address: 10.21.79.245
+                        IP Address: {this.state.network['ip_address']}
                     </div>
                     <div className="ChartPage-UserDetails-Text">
-                        Mac Address: 82:b9:15:84:94:01
+                        Mac Address: {this.state.network['mac_address']}
                     </div>
                 </Container>
                 {/*<button onClick={() => this.sendMessage("Hello World!")}>Send Message</button>*/}

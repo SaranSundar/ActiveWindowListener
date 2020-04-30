@@ -25,13 +25,15 @@ def get_wifi_info():
             ethernet_info = os.popen("netsh interface show interface name=\"Ethernet\"").readlines()
             print("Wifi Info: " + str(wifi_info))
             print("Ethernet Info: " + str(ethernet_info))
+            wifi_name = "Cant Find WiFi Name"
             for line in wifi_info:
                 if line.startswith('    State'):
                     print("Wifi Connection: " + (line.split(": ")[1]).split("\n")[0])
                     if line.split(": ")[1] == "connected\n":
                         return_type = 1
                 if line.startswith('    SSID'):
-                    print("Connected to Wifi: " + line.split(": ")[1].split("\n")[0])
+                    wifi_name = line.split(": ")[1].split("\n")[0]
+                    print("Connected to Wifi: " + wifi_name)
             for line in ethernet_info:
                 if line.startswith('   Connect state:'):
                     print("Ethernet Connection: " + line.split(":        ")[1].split("\n")[0])
@@ -40,7 +42,7 @@ def get_wifi_info():
             if return_type == 0:
                 return None
             elif return_type == 1:
-                return wifi_info
+                return wifi_name
             elif return_type == 2:
                 return ethernet_info
         else:
