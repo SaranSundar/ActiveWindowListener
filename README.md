@@ -8,7 +8,7 @@
         * User Path - `C:\Python37, C:\Python37\Scripts`
         * System Path - `C:\Python37, C:\Python37\Scripts`
         
-3. This project uses the Flair framework, so read through all documentation here for installing the pre-req python packages (https://flair-1.gitbook.io/flair/)
+3. This project uses the Flair framework, so read through all documentation [here](https://flair-1.gitbook.io/flair/) for installing the pre-req python packages
 4. This project also uses several other dependencies such as MongoDB, and GraphViz, so install the [Mongo server](https://www.mongodb.com/download-center/community) and [GraphViz](https://graphviz.gitlab.io/_pages/Download/Download_windows.html) choose the msi option
     * Make sure Mongo is added to User path as well
         * User Path - C:\Program Files\MongoDB\Server\4.2\bin
