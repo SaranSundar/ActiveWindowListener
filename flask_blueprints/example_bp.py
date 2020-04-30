@@ -59,7 +59,10 @@ def get_data_for_ui():
     start = time_from_beginning_of_today(offset=timedelta(hours=4))  # 4:00AM
     end = time_from_beginning_of_today(offset=timedelta(hours=24))  # 11:59PM
     # Call analytics between 6am-11:59pm with active/idle/thinking timeouts
-    return json.dumps(react_ui_info(start, end, 5, 15, 60), default=str)
+    ui_data = react_ui_info(start, end, 5, 15, 60)
+    # Call network information
+    network_data = get_user_details()
+    return json.dumps({'ui': ui_data, 'network': network_data}, default=str)
 
 
 def get_analysis():
