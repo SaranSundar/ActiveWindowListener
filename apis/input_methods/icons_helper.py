@@ -71,21 +71,20 @@ def find_and_save_all_icons(file_path='icons'):
     print("--- %s seconds for finding and saving all icons ---" % (end_time - start_time))
 
 
-def find_icon_from_path(path):
+def find_icon_from_path(path, icons_folder=""):
     path = str(hashlib.md5(path.encode()).hexdigest())
     operating_system = str(platform.system()).lower()
-    icon_folder = None
     if getattr(sys, 'frozen', False):
         if "window" in operating_system:
             static_folder = os.path.join(sys._MEIPASS, 'static', 'icons')
             icons_folder = static_folder
     else:
         # os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
-        icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
+        icons_folder = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..', 'static', 'icons'))
     for file in os.listdir(icons_folder):
         if file == path + ".png":
             return file
-    return ""
+    return "default.png"
 
 
 def parse_exe_name(exe_name):
