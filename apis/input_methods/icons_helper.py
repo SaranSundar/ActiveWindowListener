@@ -9,6 +9,7 @@ import win32api
 import win32con
 import win32gui
 import win32ui
+import hashlib
 
 
 def save_icon(icon_path, save_path):
@@ -58,7 +59,7 @@ def find_and_save_all_icons(file_path='icons'):
 
     def search_path(pathname):
         for filename in glob.iglob(pathname + '**/*.exe', recursive=True):
-            encoded_file_path = str(hash(filename))
+            encoded_file_path = str(hashlib.md5(filename.encode()).hexdigest())
             save_path = f'{file_path}/{encoded_file_path}.png'
             result = save_icon(filename, save_path)
             print('Saved ' if result else 'Error on ' + parse_exe_name(filename))
@@ -71,7 +72,7 @@ def find_and_save_all_icons(file_path='icons'):
 
 
 def find_icon_from_path(path):
-    path = str(hash(path))
+    path = str(hashlib.md5(path.encode()).hexdigest())
     operating_system = str(platform.system()).lower()
     icon_folder = None
     if getattr(sys, 'frozen', False):
@@ -80,9 +81,9 @@ def find_icon_from_path(path):
             icons_folder = static_folder
     else:
         # os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
-        icons_folder = os.path.join('static', 'icons')
+        icons_folder = os.path.join(pathlib.Path(__file__).parent.absolute(), 'icons')
     for file in os.listdir(icons_folder):
-        if file.startswith(path):
+        if file == path + ".png":
             return file
     return ""
 
@@ -94,4 +95,4 @@ def parse_exe_name(exe_name):
 
 if __name__ == '__main__':
     find_and_save_all_icons()
-    print(find_icon_from_path("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2019.2.3\\bin\\pycharm64.exe"))
+    print(find_icon_from_path("C:\Program Files\JetBrains\PyCharm Community Edition 2020.1\\bin\pycharm64.exe"))
